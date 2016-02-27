@@ -5,6 +5,7 @@ INC = inc
 CC = cc -pthread
 
 all : program-01 program-02 process
+	@echo "Build completed - Linux Project"
 
 program-01 : program-01.o
 program-02 : program-02.o
@@ -22,3 +23,4 @@ process.o : $(SRC)/process.c $(INC)/process.h
 .PHONY: clean
 clean : 
 	rm -f *.o  program-01 program-02 process
+	@echo "Clean up done - Linux Project"

@@ -5,6 +5,7 @@ INC = inc
 CC = cc
 
 all : main geeksforgeeks
+	@echo "Build completed - Geeks for Geeks Project"
 
 main : main.o
 
@@ -19,3 +20,4 @@ main.o : $(SRC)/main.c $(INC)/main.h
 .PHONY: clean
 clean :
 	rm -f main geeksforgeeks *.o  
+	@echo "Clean up completed - Geeks for Geeks Project"

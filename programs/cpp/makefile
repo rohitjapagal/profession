@@ -4,11 +4,8 @@ SRC = src
 INC = inc
 CC = g++
 
-all : main binarytree vector-test array-test deque-test forward-list-test list-test map-test queue-test set-test stack-test unordered-map-test unordered-set-test
-
-main : main.o
-main.o : $(SRC/main.c) $(INC)/main.h
-	$(CC) $(CFLAGS) $(SRC)/main.c
+all : binary-tree vector-test array-test deque-test forward-list-test list-test map-test queue-test set-test stack-test unordered-map-test unordered-set-test
+	@echo "Build completed - C Plus Plus Project"
 
 vector-test : vector-test.o
 vector-test.o : $(SRC/vector-test.cpp) $(INC)/vector-test.h
@@ -54,10 +51,11 @@ unordered-set-test : unordered-set-test.o
 unordered-set-test.o : $(SRC/unordered-set-test.cpp) $(INC)/unordered-set-test.h
 	$(CC) $(CFLAGS) $(SRC)/unordered-set-test.cpp	
 
-binarytree : binarytree.o
-binarytree.o : $(SRC/binarytree.cpp) $(INC)/binarytree.h
-	$(CC) $(CFLAGS) $(SRC)/binarytree.cpp
+binary-tree : binary-tree.o
+binary-tree.o : $(SRC/binary-tree.cpp) $(INC)/binary-tree.h
+	$(CC) $(CFLAGS) $(SRC)/binary-tree.cpp
 
 .PHONY: clean
 clean : 
-	rm -f main binarytree vectortest *.o  
+	rm -f binary-tree vector-test array-test deque-test forward-list-test list-test map-test queue-test set-test stack-test unordered-map-test unordered-set-test *.o
+	@echo "Clean up completed - C Plus Plus Project"

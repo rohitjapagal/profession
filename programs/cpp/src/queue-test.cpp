@@ -14,3 +14,16 @@
  * \copyright
  *   No part of this should be published in any form without the author permission
  */
+
+#include <iostream>
+#include "../inc/queue-test.h"
+
+using namespace std;
+
+int main (void) {
+
+    cout << "Inside Deque Program" << endl;
+
+    return 0;
+
+}

@@ -5,6 +5,7 @@ INC = inc
 CC = cc
 
 all : main
+	@echo "Build completed - Code Chef Project"
 
 main : main.o
 
@@ -14,3 +15,4 @@ main.o : $(SRC/main.c) $(INC)/main.h
 .PHONY: clean
 clean : 
 	rm -f main *.o  
+	@echo "Clean up completed - Code Chef Project"

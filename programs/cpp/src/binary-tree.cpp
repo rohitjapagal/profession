@@ -17,7 +17,7 @@
 
 #include <iostream>
 #include <string.h>
-#include "../inc/binarytree.h"
+#include "../inc/binary-tree.h"
 
 using namespace std;
 
