@@ -1,0 +1,18 @@
+1. to generate cscope.out file recursively 
+$ cscope -R
+
+2. To use the already existing cscope.out file
+$ cscope -d
+
+3. To include the header, c and cpp file
+$ touch tags.lst
+$ find | grep "\.c$" >> tags.lst
+$ find | grep "\.cpp$" >> tags.lst
+$ find | grep "\.h$" >> tags.lst
+$ cscope -i tags.lst
+$ ctrl + z
+$ cscope -d
+
+4. to quit the cscope window
+$ ctrl + z
+

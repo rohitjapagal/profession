@@ -1,0 +1,44 @@
+SIP - Overview
+--> SIP is a signalling protocol used to create, modify, and terminate a multimedia session over the Internet Protocol.
+
+************************************************************
+SIP - Network Elements
+1. User Agent
+--> An endpoint can initiate, modify, or terminate a session.
+ a. User Agent Client (UAC) - The entity that sends a request and receives a response.
+ b. User Agent Server (UAS) - The entity that receives a request and sends a response.
+
+2. Proxy Server
+-->  takes a request from a user agent and forwards it to another user.
+ a. Stateless Proxy Server 
+ --> It simply forwards the message received. 
+ This type of server does not store any information of 
+ a call or a transaction.
+ b. Stateful Proxy Server
+ --> This type of proxy server keeps track of every request 
+ and response received and can use it in future if required. 
+ It can retransmit the request, if there is no response from the other side in time.
+
+3. Registrar Server
+--> The registrar server accepts registration requests from user agents. 
+
+4. Redirect Server
+--> The redirect server receives requests and looks up the intended recipient 
+of the request in the location database created by the registrar.
+
+5. Location Server
+--> The location server provides information about a caller's possible locations
+to the redirect and proxy servers.
+
+SIP – System Architecture
+                     Transaction User
+                          |
+                     Transaction Layer
+                          |
+                     Transport Layer
+                          |
+                    Syntax and Encoding   
+************************************************************
+************************************************************
+************************************************************
+************************************************************

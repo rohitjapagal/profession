@@ -1,0 +1,342 @@
+
+*******************************************************************************
+Important point
+*******************************************************************************
+--> use malloc, free and new delete in pairs
+--> when delete an array of int use delete [] instead of delete, if we use 
+delete it will delete only the first object in the array.
+--> when a object is created inside a loop then the object is created and 
+deleted for each iteration of the loop
+--> new calls the constructor and delete calls the destructor but malloc and 
+free will not call any.
+--> when an object is passed by value to a func then new object is created 
+inside func parameter and default copy constructor is called
+--> arithmetic operator are left associative and in the order *,/,%,+,-
+--> modulo operator can only be used with integers
+--> assert will be gives the expression, source file name and line number when
+assert condition is satisifed
+--> NDEBUG when placed before #include <assert> or when NDEBUG option is 
+given in makefile , will disable assert
+--> assigment operator has right to left associative 
+--> precedence of bitwise operator is ~, <<, >>, &, ^, | 
+--> relational operators (<,>,<=,>=) are left to right associative and all have
+same precedence
+--> logical operators all have left to right associativity and precedence is 
+!, && and ||
+--> compound assignment operators are +=, -=, *=, /=, %=, >>=, <<=, &=, ^=, !=
+--> Modifiers for data types are signed, unsigned, short and long
+--> strlen func does not include the null terminated char in length
+--> new and delete operator can be overloaded
+--> once a default argument for a function is created and all the other
+arguments following it must be default arguments to the function
+--> default arguments is defined in prototype of function it cannot be defined
+again in function definition
+--> 
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+                         2. A Tour of C++
+*******************************************************************************
+2.1 What is C++ ?
+2.2 Programming Paradigms
+2.3 Procedural Programming
+2.4 Modular Programming
+2.5 Data Abstraction
+2.6 Object-Oriented Programming
+2.7 Generic Programming
+
+2.1 What is C++ ?
+--> C++ is a general-purpose programming language with a bias towards system 
+programming that
+- is a better C,
+- supports data abstraction,
+- supports object-oriented programming, and 
+- supports generic programming.
+
+2.2 Programming Paradigms
+--> Object-oriented programming is a technique for programming - a paradigm for 
+writing "good" programs for a set of problems.
+--> The feature cpp possess are sufficient to support desired programming sytles
+in the desired application areas :
+- All features must be cleanly and elegantly integrated into the language.
+- It must be possible to use features in combination to achieve solutions that
+  would otherwise require extra, separate features.
+- There should be as few spurious and "special purpose" features as possible.
+- All feature's implementation should not impose significant overheads on
+  programs that do not require it.
+- A user should need to know only about the subset of the language explicitly
+  used to write a program.
+
+2.3 Procedural Programming
+2.3.1 Variables and Arithmetic
+2.3.2 Tests and Loops
+2.3.3 Pointers and Arrays
+
+2.4 Modular Programming
+2.4.1 Separate Compilation 
+2.4.2 Exception Handling
+
+2.5 Data Abstraction
+2.5.1 Modules Defining Types
+2.5.2 User-Defined Types
+2.5.3 Concrete Types
+2.5.4 Abstract Types
+2.5.5 Virtual Functions
+
+2.6 Object-Oriented Programming
+2.6.1 Problems with Concerte Types
+2.6.2 Class Hierarchies
+
+2.7 Generic Programming
+2.7.1 Containers
+2.7.2 Generic Algorithms
+
+*******************************************************************************
+                  3. A Tour of the Standard Library
+*******************************************************************************
+3.1 Introduction
+3.2 Hello, World!
+3.3 The Standard Library Namespace 
+3.4 Output
+3.5 Strings
+3.6 Input
+3.7 Containers
+3.8 Algorithms
+3.9 Math
+3.10 Standard Library Facilities
+
+3.1 Introduction
+
+3.2 Hello, World!
+
+3.3 The Standard Library Namespace 
+
+3.4 Output
+
+3.5 Strings
+3.5.1 C-Style Strings
+
+3.6 Input
+
+3.7 Containers
+3.7.1 Vector
+3.7.2 Range Checking
+3.7.3 List
+3.7.4 Map
+3.7.5 Standard Containers
+
+3.8 Algorithms
+3.8.1 Use of Iterators
+3.8.2 Iterator Types
+3.8.3 Iterators and I/O
+3.8.4 Traversals and Predicates
+3.8.5 Algorithms using Member Functions
+3.8.6 Standard Library Algorithms
+
+3.9 Math
+3.9.1 Complex Numbers
+3.9.2 Vector Arithmetic
+3.9.3 Basic Numeric Support
+
+3.10 Standard Library Facilities
+
+*******************************************************************************
+                      4. Types and Declartions
+*******************************************************************************
+4.1 Types
+4.2 Booleans
+4.3 Character Types
+4.4 Integer Types
+4.5 Floating-Point Types
+4.6 Sizes
+4.7 Void 
+4.8 Enumerations
+4.9 Declarations
+
+4.1 Types
+4.1.1 Fundamental Types
+
+4.2 Booleans
+
+4.3 Character Types
+4.3.1 Character Literals
+
+4.4 Integer Types
+4.4.1 Integer Literals
+
+4.5 Floating-Point Types
+4.5.1 Floating-Point Literals
+
+4.6 Sizes
+
+4.7 Void 
+
+4.8 Enumerations
+
+4.9 Declarations
+4.9.1 The Structure of a Declaration
+4.9.2 Declaring Multiple Names
+4.9.3 Names
+4.9.4 Scope
+4.9.5 Initialization
+4.9.6 Objects and Lvalues
+
+*******************************************************************************
+                   5. Pointers, Arrays and Structures
+*******************************************************************************
+5.1 Pointers
+5.2 Arrays
+5.3 Pointers into Arrays
+5.4 Constants
+5.5 References
+5.6 Pointer to Void
+5.7 Structures
+
+
+5.1 Pointers
+5.1.1 Zero
+
+5.2 Arrays
+5.2.1 Array Initializers
+5.2.2 String Literals
+
+5.3 Pointers into Arrays
+5.3.1 Navigating Arrays
+
+5.4 Constants
+5.4.1 Pointers and Constants
+
+5.5 References
+
+5.6 Pointer to Void
+
+5.7 Structures
+5.7.1 Type Equivalence
+
+
+*******************************************************************************
+                      6. Expressions and Statements
+*******************************************************************************
+
+
+*******************************************************************************
+                             7. Functions
+*******************************************************************************
+
+
+*******************************************************************************
+                      8. Namespaces and Exceptions
+*******************************************************************************
+
+
+
+*******************************************************************************
+                      9. Source Files and Programs
+*******************************************************************************
+
+
+*******************************************************************************
+                                 10. Classes 
+*******************************************************************************
+
+
+*******************************************************************************
+                        11. Operator Overloading
+*******************************************************************************
+
+
+*******************************************************************************
+                             12. Derived Class
+*******************************************************************************
+
+
+*******************************************************************************
+                               13. Templates
+*******************************************************************************
+
+
+*******************************************************************************
+                           14. Exception Handling
+*******************************************************************************
+
+
+*******************************************************************************
+                           15. Class Hierarchies
+*******************************************************************************
+
+
+*******************************************************************************
+                  16. Library Organization and Containers
+*******************************************************************************
+
+
+*******************************************************************************
+                        17. Standard Containers
+*******************************************************************************
+
+
+*******************************************************************************
+                  18. Algorithms and Function Objects
+*******************************************************************************
+
+*******************************************************************************
+                     19. Iterators and Allocators
+*******************************************************************************
+
+
+*******************************************************************************
+                                20. Strings
+*******************************************************************************
+
+
+*******************************************************************************
+                             21. Streams
+*******************************************************************************
+
+
+*******************************************************************************
+                              22. Numerics
+*******************************************************************************
+
+
+*******************************************************************************
+                        23. Development and Design
+*******************************************************************************
+
+
+*******************************************************************************
+                      24. Design and Programming
+*******************************************************************************
+
+
+*******************************************************************************
+                          25. Roles of Classes
+*******************************************************************************
+
+
+*******************************************************************************
+                         A.The C++ Grammar
+*******************************************************************************
+
+
+*******************************************************************************
+                             B. Compatibility
+*******************************************************************************
+
+
+*******************************************************************************
+                           C. Technicalities
+*******************************************************************************
+
+
+*******************************************************************************
+                               D. Locales
+*******************************************************************************
+
+
+*******************************************************************************
+                 E. Standard Library Exception Safety
+*******************************************************************************
+
+

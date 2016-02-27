@@ -1,0 +1,511 @@
+******************************************************************
+    complete command line option list of each valgrind tools
+******************************************************************
+1. Using and understanding the Valgrind core
+******************************************************************
+--> main command
+ --> [valgrind-options] --> core command line options
+  --> Tool-selection Option
+  --> Basic Option
+  --> Error-related Options
+  --> malloc-related Options
+  --> Uncommon Options
+  --> Debugging Options
+  --> Setting Default Options
+  --> Support for Threads
+  --> Handling of Signals
+  
+--> main command 
+valgrind [valgrind-options] your-prog [your-prog-options]
+
+--> [valgrind-options] --> core command line options
+ A. Tool-selection Option
+ --tool=<toolname> [default: memcheck] 
+ 
+Different tools are 
+  1. memcheck
+  2. cachegrind
+  3. callgrind
+  4. helgrind
+  5. drd
+  6. massif
+  7. exp-dhat
+  8. exp-sgcheck
+  9. exp-bbv
+  10. lackey
+  11. null
+ 
+ B. Basic Options
+   01. -h --help
+   02. --help-debug
+   03. --version
+   04. -q, --quiet
+   05. -v, --verbose
+   06. --trace-children=<yes|no> [default: no]
+   07. --trace-children-skip=patt1,patt2,...
+   08. --trace-children-skip-by-arg=patt1,patt2,... 
+   09. --child-silent-after-fork=<yes|no> [default: no] 
+   10. --vgdb=<no|yes|full> [default: yes] 
+   11. --vgdb-error=<number> [default: 999999999] 
+   12. --vgdb-stop-at=<set> [default: none]
+   13. --track-fds=<yes|no> [default: no] 
+   14. --time-stamp=<yes|no> [default: no] 
+   15. --log-fd=<number> [default: 2, stderr]
+   16. --log-socket=<ip-address:port-number> 
+   
+ C. Error-related Options
+   01. --xml=<yes|no> [default: no] 
+   02. --xml-fd=<number> [default: -1, disabled] 
+   03. --xml-file=<filename> 
+   04. --xml-socket=<ip-address:port-number> 
+   05. --xml-user-comment=<string> 
+   06. --demangle=<yes|no> [default: yes] 
+   07. --num-callers=<number> [default: 12] 
+   08.  --unw-stack-scan-thresh=<number> [default: 0] , --unw-stack-scan-frames=<number> [default: 5] 
+   09. --error-limit=<yes|no> [default: yes] 
+   10. --error-exitcode=<number> [default: 0]
+   11. --error-markers=<begin>,<end> [default: none]
+   12. --sigill-diagnostics=<yes|no> [default: yes] 
+   13. --show-below-main=<yes|no> [default: no] 
+   14. --show-below-main=<yes|no> [default: no] 
+   15. --fullpath-after=<string> [default: don't show source paths] 
+   16. --extra-debuginfo-path=<path> [default: undefined and unused] 
+   17. --debuginfo-server=ipaddr:port [default: undefined and unused]
+   18. --allow-mismatched-debuginfo=no|yes [no] 
+   19. --suppressions=<filename> [default: $PREFIX/lib/valgrind/default.supp] 
+   20. --gen-suppressions=<yes|no|all> [default: no] 
+   21. --input-fd=<number> [default: 0, stdin] 
+   22. --dsymutil=no|yes [yes] 
+   23. --max-stackframe=<number> [default: 2000000] 
+   24. --main-stacksize=<number> [default: use current 'ulimit' value] 
+   25. --max-threads=<number> [default: 500] 
+   
+ D. malloc-related Options
+   01. --alignment=<number> [default: 8 or 16, depending on the platform] 
+   02. --redzone-size=<number> [default: depends on the tool] 
+   
+ E. Uncommon Options
+   01. --smc-check=<none|stack|all|all-non-file> [default: all-non-file for x86/amd64/s390x, stack for other archs] 
+   02. --read-inline-info=<yes|no> [default: see below] 
+   03. --read-var-info=<yes|no> [default: no] 
+   04. --vgdb-poll=<number> [default: 5000] 
+   05. --vgdb-shadow-registers=no|yes [default: no] 
+   06. --vgdb-prefix=<prefix> [default: /tmp/vgdb-pipe] 
+   07. --run-libc-freeres=<yes|no> [default: yes] 
+   08. --sim-hints=hint1,hint2,... 
+   09. --fair-sched=<no|yes|try> [default: no]
+   10. --kernel-variant=variant1,variant2,...
+   11. --merge-recursive-frames=<number> [default: 0] 
+   12. --num-transtab-sectors=<number> [default: 6 for Android platforms, 16 for all others]
+   13. --avg-transtab-entry-size=<number> [default: 0, meaning use tool provided default] 
+   14. --aspace-minaddr=<address> [default: depends on the platform] 
+   15. --valgrind-stacksize=<number> [default: 1MB] 
+   16. --show-emwarns=<yes|no> [default: no] 
+   17. --require-text-symbol=:sonamepatt:fnnamepatt
+   18. --soname-synonyms=syn1=pattern1,syn2=pattern2,...
+   
+ F. Debugging Options
+   01. --vgdb=yes
+   02. --vgdb=full
+   
+ G. Setting Default Options
+   01. ~/.valgrindrc
+   02. $VALGRIND_OPTS
+   03. ./.valgrindrc
+   
+ H. Support for Threads
+   01. --fair-sched
+   
+ J. Handling of Signals
+   01. --vex-iropt-register-updates=allregs-at-mem-access
+   02. --vex-iropt-register-updates=allregs-at-each-insn
+
+******************************************************************
+2. Using and understanding the Valgrind core : Advanced Topics
+******************************************************************
+
+
+******************************************************************
+3. Memcheck : a memory error detector
+******************************************************************
+valgind --tool=memcheck <Command-Line Options>
+
+Memcheck Command-Line Options
+ 01. --leak-check=<no|summary|yes|full> [default: summary] 
+ 02. --leak-resolution=<low|med|high> [default: high] 
+ 03. --show-leak-kinds=<set> [default: definite,possible] 
+ 04. --errors-for-leak-kinds=<set> [default: definite,possible] 
+ 05. --leak-check-heuristics=<set> [default: all] 
+ 06. --show-reachable=<yes|no> , --show-possibly-lost=<yes|no> 
+ 07. --undef-value-errors=<yes|no> [default: yes] 
+ 08. --track-origins=<yes|no> [default: no] 
+ 09. --partial-loads-ok=<yes|no> [default: yes]
+ 10. --expensive-definedness-checks=<yes|no> [default: no] 
+ 11. --keep-stacktraces=alloc|free|alloc-and-free|alloc-then-free|none [default: alloc-and-free] 
+ 12. --freelist-vol=<number> [default: 20000000] 
+ 13. --freelist-big-blocks=<number> [default: 1000000] 
+ 14. --workaround-gcc296-bugs=<yes|no> [default: no] 
+ 15. --show-mismatched-frees=<yes|no> [default: yes] 
+ 16. --ignore-ranges=0xPP-0xQQ[,0xRR-0xSS] 
+ 17. --malloc-fill=<hexnumber> 
+ 18. --free-fill=<hexnumber> 
+ 
+******************************************************************
+3. Cachegrind : a cache and branch-prediction profiler
+******************************************************************
+valgrind --tool=cachegrind <Command-line Options>
+
+ A. Cachegrind Command-line Options
+ B. cg_annotate Command-line Options
+ C. cg_merge Command-line Options
+ D. cg_diff Command-line Options
+ 
+ A. Cachegrind Command-line Options
+  01. --I1=<size>,<associativity>,<line size> 
+  02. --D1=<size>,<associativity>,<line size> 
+  03. --LL=<size>,<associativity>,<line size> 
+  04. --cache-sim=no|yes [yes] 
+  05. --branch-sim=no|yes [no] 
+  06. --cachegrind-out-file=<file> 
+  
+ B. cg_annotate Command-line Options
+  01. -h --help 
+  02. --version 
+  03. --show=A,B,C [default: all, using order in cachegrind.out.<pid>] 
+  04. --sort=A,B,C [default: order in cachegrind.out.<pid>]
+  05. --threshold=X [default: 0.1%] 
+  06. --auto=<no|yes> [default: no] 
+  07. --context=N [default: 8] 
+  08. -I<dir> --include=<dir> [default: none]
+  
+ C. cg_merge Command-line Options
+  01. -o outfile
+  
+ D. cg_diff Command-line Options
+  01. -h --help 
+  02. --version 
+  03. --mod-filename=<expr> [default: none]
+  04. --mod-funcname=<expr> [default: none]
+  
+******************************************************************
+4. Callgrind : a call-graph generating cache and branch-prediction profiler
+******************************************************************
+valgrind --tool=callgrind <Command-line Options>
+
+A. Callgrind Command-line Options
+    a. Dump creation options
+    b. Activity options
+    d. Data collection options
+    e. Cost entity separation options
+    f. Simulation options
+    g. Cache simulation options
+
+B. Callgrind Monitor Commands
+C. Callgrind specific client requests
+D. callgrind_annotate Command-line Options
+E. callgrind_control Command-line Options
+
+A. Callgrind Command-line Options
+    a. Dump creation options
+     01. --callgrind-out-file=<file> 
+     02. --dump-line=<no|yes> [default: yes] 
+     03. --dump-instr=<no|yes> [default: no]
+     04. --compress-strings=<no|yes> [default: yes] 
+     05. --compress-pos=<no|yes> [default: yes]
+     06. --combine-dumps=<no|yes> [default: no] 
+     
+    b. Activity options
+     01. --dump-every-bb=<count> [default: 0, never] 
+     02. --dump-before=<function> 
+     03. --zero-before=<function> 
+     04. --dump-after=<function> 
+     
+    d. Data collection options
+     01. --instr-atstart=<yes|no> [default: yes] 
+     02. --collect-atstart=<yes|no> [default: yes]
+     03. --toggle-collect=<function> 
+     04. --collect-jumps=<no|yes> [default: no] 
+     05. --collect-systime=<no|yes> [default: no] 
+     06. --collect-bus=<no|yes> [default: no] 
+     
+    e. Cost entity separation options
+     01. --separate-threads=<no|yes> [default: no] 
+     02. --separate-callers=<callers> [default: 0] 
+     03. --separate-callers<number>=<function>
+     04. --separate-recs=<level> [default: 2]
+     05. --separate-recs<number>=<function> 
+     06. --skip-plt=<no|yes> [default: yes]
+     07. --skip-direct-rec=<no|yes> [default: yes] 
+     08. --fn-skip=<function> 
+     
+    f. Simulation options
+     01. --cache-sim=<yes|no> [default: no]
+     02. --branch-sim=<yes|no> [default: no]
+     
+    g. Cache simulation options
+     01. --simulate-wb=<yes|no> [default: no] 
+     02. --simulate-hwpref=<yes|no> [default: no] 
+     03. --cacheuse=<yes|no> [default: no] 
+     04. --I1=<size>,<associativity>,<line size> 
+     05. --D1=<size>,<associativity>,<line size>
+     06. --LL=<size>,<associativity>,<line size>
+
+B. Callgrind Monitor Commands
+ 01. dump [<dump_hint>]
+ 02. zero
+ 03. instrumentation [on|off]
+ 04. status
+ 
+C. Callgrind specific client requests
+ 01. CALLGRIND_DUMP_STATS
+ 02. CALLGRIND_DUMP_STATS_AT(string)
+ 03. CALLGRIND_ZERO_STATS
+ 04. CALLGRIND_TOGGLE_COLLECT
+ 05. CALLGRIND_START_INSTRUMENTATION
+ 06. CALLGRIND_STOP_INSTRUMENTATION
+ 
+D. callgrind_annotate Command-line Options
+ 01. -h --help
+ 02. --version
+ 03. --show=A,B,C [default: all]
+ 04. --sort=A,B,C
+ 05. --threshold=<0--100> [default: 99%] 
+ 06. --auto=<yes|no> [default: no] 
+ 07. --context=N [default: 8] 
+ 08. --inclusive=<yes|no> [default: no] 
+ 09. --tree=<none|caller|calling|both> [default: none]
+ 10. -I, --include=<dir> 
+ 
+E. callgrind_control Command-line Options
+ 01. -h --help
+ 02. --version
+ 03. -l --long
+ 04. -s --stat
+ 05. -b --back
+ 06. -e [A,B,...] (default: all)
+ 07. --dump[=<desc>] (default: no description)
+ 08. -z --zero
+ 09. -k --kill
+ 10. --instr=<on|off>
+ 11. --vgdb-prefix=<prefix>
+
+******************************************************************
+5. Helgrind : a thread error detector
+******************************************************************
+valgrind --tool=helgrind <Command-line Options>
+
+ A. Helgrind Command-line Options
+ B. Helgrind Monitor Commands
+ C. Helgrind Client Requests
+ 
+ A. Helgrind Command-line Options
+  01. --free-is-write=no|yes [default: no] 
+  02. --track-lockorders=no|yes [default: yes] 
+  03. --history-level=none|approx|full [default: full] 
+  04. --conflict-cache-size=N [default: 1000000]
+  05. --check-stack-refs=no|yes [default: yes] 
+  06. --ignore-thread-creation=<yes|no> [default: no]
+  
+ B. Helgrind Monitor Commands
+  01. info locks [lock_addr]
+  02. accesshistory <addr> [<len>]
+  
+ C. Helgrind Client Requests
+  01. VALGRIND_HG_CLEAN_MEMORY
+  02. ANNOTATE_HAPPENS_BEFORE
+  03. ANNOTATE_HAPPENS_AFTER
+  04. ANNOTATE_NEW_MEMORY
+  05. ANNOTATE_RWLOCK_CREATE
+  06. ANNOTATE_RWLOCK_DESTROY
+  07. ANNOTATE_RWLOCK_ACQUIRED
+  08. ANNOTATE_RWLOCK_RELEASED
+
+******************************************************************
+6. DRD : a thread error detector
+******************************************************************
+valgrind --tool=drd <Command-line Options>
+
+  A. DRD Command-line Options
+   01. --check-stack-var=<yes|no> [default: no]
+   02. --exclusive-threshold=<n> [default: off]
+   03. --join-list-vol=<n> [default: 10]
+   04. --first-race-only=<yes|no> [default: no] 
+   05. --free-is-write=<yes|no> [default: no] 
+   06. --report-signal-unlocked=<yes|no> [default: yes] 
+   07. --segment-merging=<yes|no> [default: yes]
+   08. --segment-merging-interval=<n> [default: 10]
+   09. --shared-threshold=<n> [default: off]
+   10. --show-confl-seg=<yes|no> [default: yes]
+   11. --show-stack-usage=<yes|no> [default: no]
+   12. --ignore-thread-creation=<yes|no> [default: no]
+   13. --trace-addr=<address> [default: none]
+   14. --ptrace-addr=<address> [default: none]
+   15. --trace-alloc=<yes|no> [default: no]
+   16. --trace-barrier=<yes|no> [default: no]
+   17. --trace-cond=<yes|no> [default: no]
+   18. --trace-fork-join=<yes|no> [default: no]
+   19. --trace-hb=<yes|no> [default: no]
+   20. --trace-mutex=<yes|no> [default: no]
+   21. --trace-rwlock=<yes|no> [default: no]
+   22. --trace-semaphore=<yes|no> [default: no]
+   
+******************************************************************
+7. Massif : a heap profiler
+******************************************************************
+valgrind --tool=massif <Command-line Options>
+
+  A. Massif Command-line Options
+   01. --heap=<yes|no> [default: yes] 
+   02. --heap-admin=<size> [default: 8] 
+   03. --stacks=<yes|no> [default: no] 
+   04. --pages-as-heap=<yes|no> [default: no] 
+   05. --depth=<number> [default: 30] 
+   06. --alloc-fn=<name> 
+   07. --ignore-fn=<name> 
+   08. --threshold=<m.n> [default: 1.0]
+   09. --peak-inaccuracy=<m.n> [default: 1.0] 
+   10. --time-unit=<i|ms|B> [default: i]
+   11. --detailed-freq=<n> [default: 10] 
+   12. --max-snapshots=<n> [default: 100] 
+   13. --massif-out-file=<file> [default: massif.out.%p] 
+   
+  B. Massif Monitor Commands
+   01. snapshot [<filename>]
+   02. detailed_snapshot [<filename>]
+   03. all_snapshots [<filename>]
+   
+  C. Massif Client Requests
+   01. VALGRIND_MALLOCLIKE_BLOCK 
+   02. VALGRIND_FREELIKE_BLOCK
+   
+  D. ms_print Command-line Options
+   01. -h --help 
+   02. --version 
+   03. --threshold=<m.n> [default: 1.0]
+   04. --x=<4..1000> [default: 72]
+   05. --y=<4..1000> [default: 20] 
+   
+******************************************************************
+8. DHAT : a dynamic heap analysing tool
+******************************************************************
+valgrind --tool=dhat <Command-line Options>
+
+  DHAT Command-line Options
+   01. --show-top-n=<number> [default: 10] 
+   02. --sort-by=<string> [default: max-bytes-live] 
+   
+******************************************************************
+9. SGCheck : an experimental status and global array overrun detector
+******************************************************************
+valgrind --tool=sgcheck <Command-line Options>
+
+  SGCheck Command-line Options
+   - no command line option now
+
+******************************************************************
+10. BBV : an experimental basic block vector generation tool
+******************************************************************
+valgrind --tool=bbv <Command-line Options>
+
+  BBV Command-line Options
+   01. --bb-out-file=<name> [default: bb.out.%p] 
+   02. --pc-out-file=<name> [default: pc.out.%p] 
+   03. --interval-size=<number> [default: 100000000] 
+   04. --instr-count-only [default: no] 
+
+******************************************************************
+11. Lackey : an example tool
+******************************************************************
+valgrind --tool=lackey <Command-line Options>
+
+  Lackey Command-line Options
+   01. --basic-counts=<no|yes> [default: yes] 
+   02. --detailed-counts=<no|yes> [default: no] 
+   03. --trace-mem=<no|yes> [default: no] 
+   04. --trace-superblocks=<no|yes> [default: no] 
+   05. --fnname=<name> [default: main] 
+
+******************************************************************
+12. Nulgrind : the minimal Valgrind tool
+******************************************************************
+valgrind --tool=null
+
+******************************************************************
+1. Introduction
+******************************************************************
+
+
+******************************************************************
+2. Using and understanding the Valgrind core
+******************************************************************
+
+
+******************************************************************
+3. Using and understanding the Valgrind core : Advanced Topics
+******************************************************************
+
+
+******************************************************************
+4. Memcheck : a memory error detector
+******************************************************************
+
+
+******************************************************************
+5. Cachegrind : a cache and branch-prediction profiler
+******************************************************************
+
+
+******************************************************************
+6. Callgrind : a call-graph generating cache and branch-prediction profiler
+******************************************************************
+
+
+******************************************************************
+7. Helgrind : a thread error detector
+******************************************************************
+
+
+******************************************************************
+8. DRD : a thread error detector
+******************************************************************
+
+
+******************************************************************
+9. Massif : a heap profiler
+******************************************************************
+
+
+******************************************************************
+10. DHAT : a dynamic heap analysing tool
+******************************************************************
+
+
+******************************************************************
+11. SGCheck : an experimental status and global array overrun detector
+******************************************************************
+
+
+******************************************************************
+12. BBV : an experimental basic block vector generation tool
+******************************************************************
+
+
+******************************************************************
+13. Lackey : an example tool
+******************************************************************
+
+******************************************************************
+14. Nulgrind : the minimal Valgrind tool
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************
+******************************************************************

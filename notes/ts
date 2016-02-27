@@ -1,0 +1,10 @@
+CLI commands
+1. What is the use of startup script
+- The startup commands run automatically and places the CM in "operational mode".
+
+2. What will happen when we do not use the automatic startup script 
+- The CM will not be placed in "operational mode". To bring the CM to the test mode the startup script have to be disabled.
+
+3. What will happen when we enable and disable DOCSIS mode
+
+Downstream is 24 channels but only 8 channels have value and other 16 have freq as zero. 

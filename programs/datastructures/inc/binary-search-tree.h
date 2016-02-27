@@ -1,0 +1,5 @@
+#ifndef __BINARYSEARCHTREE_H__
+
+#define __BINARYSEARCHTREE_H__
+
+#endif /*__BINARYTREESEARCH_H__*/

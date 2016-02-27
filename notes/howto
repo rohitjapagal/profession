@@ -1,0 +1,28 @@
+1. How to create another account in ubuntu
+sudo adduser <UserName>
+$ sudo adduser guest
+
+2. How to add the root user in ubuntu
+
+3. How to change the password of an account in ubuntu
+sudo passwd <Username>
+$ sudo passwd guest
+
+4. create a directory
+mkdir <DirectoryName>
+$ mkdir test
+
+5. remove a directory
+rmdir <DirectoryName>
+$ rmdir test
+
+6. copy a file
+cp <source file> <destination file>
+$ cp source.txt destination.txt
+
+7. rename a file
+mv <source file> <destination file>
+$ mv source.txt destination.txt
+
+8.   
+

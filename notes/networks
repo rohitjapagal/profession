@@ -1,0 +1,187 @@
+********************************************************************
+SNMP - Simple Network Management Protocol
+********************************************************************
+--> SNMP
+- A protocol used to configure, monitor and receive alerts from
+ network managed devices.
+
+--> SNMP Manager
+- Can query managed devices for information, set specific parameters
+  on the managed devices, and receive notifications send by the 
+  managed devices.
+
+--> SNMP Agent
+- A managed devices that can be queried and have parameters set by
+  an SNMP Manager and can also send notifications of specific events
+  to an SNMP Manager.
+
+--> Management Information Base (MIB)
+ - A hierarchical database in a managed device containing variables
+   specific to that device, which can be provided to or configured 
+   from an SNMP Manager.
+   
+--> Object Identifier (OID)
+ - A component of a MIB containing a collection of variables, which 
+   can be queried by or configured from an SNMP manager.
+   
+--> TRAP Notification
+ - A notification send from an SNMP Agent to an SNMP Manager, which 
+   notifies the SNMP Manager about an event that occurred on the 
+   managed device.
+********************************************************************
+Few Important terms
+1. Inbound Snopping
+2. Outbound Snopping
+3. Inbound Alternate snoops
+4. Outbound Aternate snoops
+5. 
+********************************************************************
+1. Ping packet
+********************************************************************
+protocol : ICMP
+filter for wireshark : ip.addr == 10.232.229.13
+
+********************************************************************
+class of IP address
+1. class A - 0  
+- total ip is 2^31 
+- 1 bit for class type + 7 bits for network id + 24 bits for host id 
+- range is 1-126 (only first octect is taken)
+- 2^7 is 128  networks of class A 
+- one network has 2^24 ip address is present
+
+2. class B - 1 0   
+- total ip is 2^30 
+- 2 bit for class type + 14 bits for network id + 16 bits for host id 
+- range is 128 to 191 (only first octect is taken)
+- 2^14 is 16834 networks of class B 
+- one network has 2^16 ip address is present
+
+3. class C - 1 1 0     
+- total ip is 2^29 
+- 3 bit for class type + 21 bits for network id + 8 bits for host id 
+- range is 192-223 (only first octect is taken)
+- 2^21 is appro 2 million networks of class C 
+- one network has 2^8 ip address is present
+
+4. class D - 1 1 1 0
+- total ip is 2^28 
+- no separation of network id and host id 
+- range is 224 to 239
+
+5. class E - 1 1 1 1 0
+- total ip is 2^27 
+- no separation of network id and host id 
+- range of 240 to 255
+
+********************************************************************
+--> casting 
+- sending a packet from one host to another host
+- two types are unicast and broadcast
+- broadcast is of two types -- limited(send message within same host) 
+  and direct broadcasting (send message from one network from one host to all the host in another network)
+- limited broadcast address is 255:255:255:255
+- directed broadcast is valid network id + all ones in host id part
+
+--> subnetting
+- dividing a big network into smaller network for maintainance and security issues
+
+
+********************************************************************
+IPv6 Tutorial
+********************************************************************
+Lesson 1 
+- Introduction to IPv6
+Lesson 2
+- IPv6 Protocol for the Window .NET Server Family
+Lesson 3
+- IPv6 Addressing
+Lesson 4
+- IPv6 Header
+Lesson 5
+- ICMPv6
+Lesson 6
+- Neighbor Discovery
+Lesson 7
+- Multicast Listener Discovery
+Lesson 8
+- Address Autoconfiguration
+Lesson 9
+- IPv6 and name resolution
+Lesson 10
+- IPv6 Routing
+Lesson 11
+- Coexitence and Migration
+Lesson 12
+- IPv6 Mobility
+
+Lesson 1 
+--> Introduction to IPv6
+- Limitations of IPv4 and modern day internet
+- Features of IPv6 
+- Differences between IPv4 and IPv6
+- IPv6 terminology 
+- case for IPv6 deployment
+
+@ Limitations of IPv4 and modern day internet
+- Exponential growth of the internet and the impending exhaustion of the IPv4 address space
+- Growth of the internet and the ability of internet backbone routers to maintain large routing tables
+- Need for simpler configuration
+- Requirement for security at the IP level
+- Need for better support for real-time delivery of data - also called as quality of service(QoS)
+@ Features of IPv6 
+@ Differences between IPv4 and IPv6
+@ IPv6 terminology 
+@ case for IPv6 deployment
+
+
+Lesson 2
+--> IPv6 Protocol for the Window .NET Server Family
+
+Lesson 3
+--> IPv6 Addressing
+
+Lesson 4
+--> IPv6 Header
+
+Lesson 5
+--> ICMPv6
+
+Lesson 6
+--> Neighbor Discovery
+
+Lesson 7
+--> Multicast Listener Discovery
+
+Lesson 8
+--> Address Autoconfiguration
+
+Lesson 9
+--> IPv6 and name resolution
+
+Lesson 10
+--> IPv6 Routing
+
+Lesson 11
+--> Coexitence and Migration
+
+Lesson 12
+--> IPv6 Mobility
+
+
+
+
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+********************************************************************
+

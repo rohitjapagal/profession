@@ -1,0 +1,18 @@
+1. How to build a ctags
+go to the directory where you want the tag to be build
+$ cd <folder>
+$ ctags -R *
+
+2. To search for a particular tag 
+$ vim -t <tag>
+
+3. How to set the path of the tags in vim
+set tags=/path/to/dir
+
+4. To go the definition of tag
+  ctrl + ]
+
+5. To go back to the previous window of tag
+ctrl + T
+
+6. 

@@ -1,0 +1,50 @@
+*********************************************************************
+Introduction - UML
+--> Unified Modelling Language (UML)
+--> A graphical way of describing a software system
+--> UML Sketching( just to explain to normal person 
+who do not have any idea about programming) 
+Vs UML Blueprint (Detailed explantion of how system 
+works especially for programmers and designers.
+--> Development Process
+ 1. Waterfall 
+  - Analysis, Design, Code and Testing
+ 2. Iterative (Most common)
+  - Solve in pieces
+--> UML Planning Process
+ 1. Predictive Planning (Plan everything at very beginning)
+ 2. Adaptive Planning (Agile Development)
+*********************************************************************
+Different types of UML diagrams
+1. Use Case Diagrams
+2. Activity Diagrams
+3. Class Diagrams
+4. Sequence Diagrams
+5. Communication Diagrams
+6. Timing Diagrams
+7. Component Diagrams
+8. State Machine Diagrams
+9. Deployment Diagrams
+*********************************************************************
+1. Use Case Diagrams
+- List of steps needs to follow to reach a goal
+- Define what is required and how those requirements are met.
+- Do not try to write code in a Use case diagram.
+
+*********************************************************************
+2. Activity Diagrams
+*********************************************************************
+3. Class Diagrams
+*********************************************************************
+4. Sequence Diagrams
+*********************************************************************
+5. Communication Diagrams
+*********************************************************************
+6. Timing Diagrams
+*********************************************************************
+7. Component Diagrams
+*********************************************************************
+8. State Machine Diagrams
+*********************************************************************
+9. Deployment Diagrams
+*********************************************************************

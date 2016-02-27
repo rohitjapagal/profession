@@ -1,0 +1,11 @@
+1. vim 
+
+2. emacs 
+
+3. git 
+sudo apt-get install git-core
+
+4. scummVm
+
+5. standard C++
+sudo apt-get install lib32stdc++6 

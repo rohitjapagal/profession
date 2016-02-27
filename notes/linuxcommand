@@ -1,0 +1,90 @@
+1. How redirect the output to file
+$ program [arguments...] 2>&1 | tee outfile
+
+3. How to replace a word in every line at the beginning in VI editor
+- open the file
+- press ESC
+- %s!^!< string name>
+
+4. How to install *.bundle file
+$ sudo sh *filename*.bundle
+
+5. To send a email through shell script
+echo 'Message body goes here' | mail -s 'subject line goes here' rangarajan.rajendiran@arris.com
+
+6. To send a email through shell script with attachment
+
+7. How to change the mouse setting to basic in ubuntu
+sudo nano /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash psmouse.proto=bare"
+sudo update-grub
+
+8. find a file in a folder
+find . -name <file-name> --> case sensitive 
+find . -iname <file-name>  --> case insensitive
+
+9. Installations
+--> to install git
+$ sudo apt-get install git
+--> install vim
+$ sudo apt-get install vim
+
+
+10. user account related commands in ubuntu
+--> to enable
+$ su -i
+--> set password to root account 
+$ passwd root
+--> to disable root account
+$ sudo passwd -dl root
+--> to list the users account in the ubuntu
+$ cut -d: -f1 /etc/passwd
+--> to add a user
+$ sudo adduser new_username
+or
+$ sudo useradd new_username
+--> to delete user
+$ sudo userdel username
+--> to modify username 
+$ usermod -l new_username old_username
+--> to change the password of user
+$ sudo passwd username
+--> 
+
+13. to change the passwd of existing account
+
+14. to install update from terminal
+--> Fetches the list of available updates
+$ sudo apt-get update        
+
+--> Strictly upgrades the current packages
+$ sudo apt-get upgrade  
+
+--> Installs updates (new ones)
+$ sudo apt-get dist-upgrade  
+
+--> update the latest version of ubuntu
+$ do-release-upgrade
+
+15. Important tools to install on newly install ubuntu
+#git
+sudo apt-get install git
+
+#vim
+sudo apt-get install vim
+
+#gdb
+sudo apt-get install gdb
+
+#valgrind
+sudo apt-get install valgrind
+
+#
+
+************************************************************
+how to compile linux kernel
+************************************************************
+1. download the kernel source code from https://www.kernel.org/
+2. go to terminal 
+$ mkdir kernelBuild
+$ cd 

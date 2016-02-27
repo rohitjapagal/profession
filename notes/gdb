@@ -1,0 +1,1149 @@
+****************************************************************************
+
+****************************************************************************
+A. Invocation: Getting in and out of gdb
+  01. Invoking GDB: How to start gdb
+  02. Quitting GDB: How to quit gdb
+  03. Shell Commands: How to use shell commands inside gdb
+  04. Logging Output: How to log gdb's output to a file 
+    
+B. Commands: gdb commands
+  01. Command Syntax: How to give commands to gdb
+  02. Completion: Command completion
+  03. Help: How to ask gdb for help  
+  
+C. Running: Running programs under gdb
+  01. Compilation: Compiling for debugging
+  02. Starting: Starting your program
+  03. Arguments: Your program's arguments
+  04. Environment: Your program's environment
+  05. Working Directory: Your program's working directory
+  06. Input/Output: Your program's input and output
+  07. Attach: Debugging an already-running process
+  08. Kill Process: Killing the child process
+  09. Inferiors and Programs: Debugging multiple inferiors and programs
+  10. Threads: Debugging programs with multiple threads
+  11. Forks: Debugging forks
+  12. Checkpoint/Restart: Setting a bookmark to return to later 
+  
+D. Stopping: Stopping and continuing
+  01. Breakpoints: Breakpoints, watchpoints, and catchpoints
+  02. Continuing and Stepping: Resuming execution
+  03. Skipping Over Functions and Files Skipping over functions and files
+  04. Signals: Signals
+  05. Thread Stops: Stopping and starting multi-thread programs 
+  
+E. Reverse Execution: Running programs backward
+
+F. Process Record and Replay: Recording inferior's execution and replaying it
+
+G. Stack: Examining the stack
+  01. Frames: Stack frames
+  02. Backtrace: Backtraces
+  03. Selection: Selecting a frame
+  04. Frame Info: Information on a frame
+  05. Frame Filter Management: Managing frame filters 
+  
+H. Source: Examining source files
+  01. List: Printing source lines
+  02. Specify Location: How to specify code locations
+  03. Edit: Editing source files
+  04. Search: Searching source files
+  05. Source Path: Specifying source directories
+  06. Machine Code: Source and machine code 
+  
+I. Data: Examining data
+
+J. Optimized Code: Debugging optimized code
+  01. Inline Functions: How gdb presents inlining
+  02. Tail Call Frames: gdb analysis of jumps to functions 
+  
+K. Macros: Preprocessor Macros
+
+L. Tracepoints: Debugging remote targets non-intrusively
+  01. Set Tracepoints
+  02. Analyze Collected Data
+  03. Tracepoint Variables
+  04. Trace Files 
+  
+M. Overlays: Debugging programs that use overlays
+  01. How Overlays Work: A general explanation of overlays.
+  02. Overlay Commands: Managing overlays in gdb.
+  03. Automatic Overlay Debugging: gdb can find out which overlays are mapped by asking the inferior.
+  04. Overlay Sample Program: A sample program using overlays. 
+  
+N. Languages: Using gdb with different languages
+  01. Setting: Switching between source languages
+  02. Show: Displaying the language
+  03. Checks: Type and range checks
+  04. Supported Languages: Supported languages
+  05. Unsupported Languages: Unsupported languages 
+  
+O. Symbols: Examining the symbol table
+
+P. Altering: Altering execution
+  01. Assignment: Assignment to variables
+  02. Jumping: Continuing at a different address
+  03. Signaling: Giving your program a signal
+  04. Returning: Returning from a function
+  05. Calling: Calling your program's functions
+  06. Patching: Patching your program
+  07. Compiling and Injecting Code: Compiling and injecting code in gdb 
+  
+Q. GDB Files: gdb files
+R. Targets: Specifying a debugging target
+S. Remote Debugging: Debugging remote programs
+T. Configurations: Configuration-specific information
+U. Controlling GDB: Controlling gdb
+V. Extending GDB: Extending gdb
+W. Interpreters: Command Interpreters
+X. TUI: gdb Text User Interface
+Y. Emacs: Using gdb under gnu Emacs
+Z. GDB/MI: gdb's Machine Interface.
+1A. Annotations: gdb's annotation interface.
+1B. JIT Interface: Using the JIT debugging interface.
+1C. In-Process Agent: In-Process Agent
+1D. GDB Bugs: Reporting bugs in gdb
+1E. Command Line Editing: Command Line Editing
+1F. Using History Interactively: Using History Interactively
+1G. In Memoriam: In Memoriam
+1H. Formatting Documentation: How to format and print gdb documentation
+1I. Installing GDB: Installing GDB
+1J. Maintenance Commands: Maintenance Commands
+1K. Remote Protocol: GDB Remote Serial Protocol
+1L. Agent Expressions: The GDB Agent Expression Mechanism
+1M. Target Descriptions: How targets can describe themselves to gdb
+1N. Operating System Information: Getting additional information from the operating system
+1O. Trace File Format: GDB trace file format
+1P. Index Section Format: .gdb_index section format
+1Q. Man Pages: Manual pages
+1R. Copying: GNU General Public License says how you can copy and share GDB
+1S. GNU Free Documentation License: The license for this documentation
+1T. Concept Index: Index of gdb concepts
+1U. Command and Variable Index: Index of gdb commands, variables, functions, and Python data types 
+
+
+
+****************************************************************************
+--> compiling for debugging
++g option in makefile
+
+--> starting your program
+$ run
+$ start
+$ set exec-wrapper wrapper
+$ show exec-wrapper
+$ unset exec-wrapper
+$ set disable-randomization
+$ set disable-randomization on
+$ set disable-randomization off
+$ show disable-randomization
+
+--> your program's arguments
+$ set args 
+$ show args
+
+--> your program's environment
+$ path directory
+$ show paths
+$ show environment [varname]
+$ set environment varname[=value]
+$ unset environment varname
+
+--> your program's working directory
+$ cd directory
+$ pwd
+
+--> your program's input and output 
+$ info terminal
+$ run > outfile
+$ set inferior-tty /dev/ttyb
+$ show inferior-tty
+
+--> debugging an already-running process
+$ attach process-id
+$ detach
+
+--> killing a child process
+$ kill
+
+--> debugging multiple inferiors and programs
+$ info inferiors
+$ inferior infno
+$ add-inferior [-copies n] [-exec executable]
+$ clone-inferior [-copies n] [infno]
+$ remove-inferior infno
+$ detach inferior infno
+$ kill inferior infno
+$ set print inferior-events
+$ set print inferior-events on
+$ set print inferior-events off
+$ show print inferior-events 
+$ maint info program-spaces
+
+--> debugging programs with multiple threads
+$ info threads
+$ thread [threadno]
+$ thread apply [threadno] [all] command
+$ set print thread-events
+$ set print thread-events on
+$ set print thread-events off
+$ show print thread-events
+$ set libthread-db-search-path [path]
+$ show libthread-db-search-path
+
+--> debugging fork
+$ set follow-fork-mode [mode]
+$ show follow-fork-mode
+$ set detach-on-fork [mode]
+$ show detach-on-fork
+$ set follow-exec-mode [mode]
+
+--> settings a bookmark to return to later
+$ checkpoint
+$ info checkpoints
+$ restart [checkpoint-id]
+$ delete checkpoint [checkpoint-id]
+
+--> stopping and continuing
+$ info program
+
+--> setting breakpoints
+$ break [location]
+$ break
+$ break ... if [cond]
+$ tbreak args
+$ hbreak args
+$ thbreak args
+$ rbreak regex
+$ rbreak .
+$ info breakpoints [n]
+$ info break [n]
+$ info watchpoints [n]
+$ set breakpoint pending auto
+$ set breakpoint pending on
+$ set breakpoint pending off 
+$ show breakpoint pending
+$ set breakpoint auto-hw on
+$ set breakpoint auto-hw off 
+$ set breakpoint always-inserted off
+$ set breakpoint always-inserted on
+$ set breakpoint always-inserted auto
+
+--> setting watchpoints
+$ 
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+
+
+
+1. compile a program with gdb flag
+cc -g <file name> -o <executable name>
+$ cc -g pointer.c -o pointer
+
+2. run a gdb with graphic option
+gdb --tui <executable name>
+$ gdb --tui pointer
+
+3. few commands
+
+--> b main - Puts a breakpoint at the beginning of the program
+
+--> b - Puts a breakpoint at the current line
+
+--> b N - Puts a breakpoint at line N
+
+--> b +N - Puts a breakpoint N lines down from the current line
+
+--> b fn - Puts a breakpoint at the beginning of function "fn"
+
+--> d N - Deletes breakpoint number N
+
+--> info break - list breakpoints
+
+--> r - Runs the program until a breakpoint or error
+
+--> c - Continues running the program until the next breakpoint or error
+
+--> f - Runs until the current function is finished
+
+--> s - Runs the next line of the program
+
+--> s N - Runs the next N lines of the program
+
+--> n - Like s, but it does not step into functions
+
+--> u N - Runs until you get N lines in front of the current line
+
+--> p var - Prints the current value of the variable "var"
+
+--> bt - Prints a stack trace
+
+--> u - Goes up a level in the stack
+
+--> d - Goes down a level in the stack
+
+--> q - Quits gdb
+*******************************************************************************
+2. Getting In and Out of Gdb
+*******************************************************************************
+1. start gdb 
+$ gdb
+
+2. Exit gdb 
+$ q
+$ Ctrl + d
+
+3. start gdb with a program
+$ gdb <program>
+
+4. start a program with an executable and a core file
+$ gdb <program> <executable>
+
+5. specify a process id as second argument 
+$ gdb <program> <process id>
+
+6. specify command line arguments to an executable program
+$ gdb --arg <program> <arguments>
+
+7. gdb help
+$ gdb -help
+
+*******************************************************************************
+3. gdb Commands
+*******************************************************************************
+3.1 Command Syntax 
+3.2 Command Completion
+3.3 Getting Help
+
+3.1 Command Syntax 
+3.2 Command Completion
+3.3 Getting Help
+
+*******************************************************************************
+4. Running Programs Under gdb
+*******************************************************************************
+4.1 Compiling for Debugging
+4.2 Starting your Program
+4.3 Your Program’s Arguments
+4.4 Your Program’s Environment
+4.5 Your Program’s Working Directory
+4.6 Your Program’s Input and Output
+4.7 Debugging an Already-running Process
+4.8 Killing the Child Process
+4.9 Debugging Multiple Inferiors and Programs
+4.10 Debugging Programs with Multiple Threads
+4.11 Debugging Forks 
+4.12 Setting a Bookmark to Return to Later
+4.12.1 A Non-obvious Benefit of Using Checkpoints
+
+4.1 Compiling for Debugging
+4.2 Starting your Program
+4.3 Your Program’s Arguments
+4.4 Your Program’s Environment
+4.5 Your Program’s Working Directory
+4.6 Your Program’s Input and Output
+4.7 Debugging an Already-running Process
+4.8 Killing the Child Process
+4.9 Debugging Multiple Inferiors and Programs
+4.10 Debugging Programs with Multiple Threads
+4.11 Debugging Forks 
+4.12 Setting a Bookmark to Return to Later
+4.12.1 A Non-obvious Benefit of Using Checkpoints
+
+*******************************************************************************
+5. Stopping and Continuing
+*******************************************************************************
+5.1 Breakpoints, Watchpoints, and Catchpoints
+5.1.1 Setting Breakpoints
+5.1.2 Setting Watchpoints
+5.1.3 Setting Catchpoints
+5.1.4 Deleting Breakpoints
+5.1.5 Disabling Breakpoints
+5.1.6 Break Conditions
+5.1.7 Breakpoint Command Lists
+5.1.8 “Cannot insert breakpoints”
+5.1.9 “Breakpoint address adjusted...”
+5.2 Continuing and Stepping
+5.3 Signals
+5.4 Stopping and Starting Multi-thread Programs
+5.4.1 All-Stop Mode
+5.4.2 Non-Stop Mode
+5.4.3 Background Execution
+5.4.4 Thread-Specific Breakpoints
+5.4.5 Interrupted System Calls
+
+5.1 Breakpoints, Watchpoints, and Catchpoints
+5.1.1 Setting Breakpoints
+5.1.2 Setting Watchpoints
+5.1.3 Setting Catchpoints
+5.1.4 Deleting Breakpoints
+5.1.5 Disabling Breakpoints
+5.1.6 Break Conditions
+5.1.7 Breakpoint Command Lists
+5.1.8 “Cannot insert breakpoints”
+5.1.9 “Breakpoint address adjusted...”
+5.2 Continuing and Stepping
+5.3 Signals
+5.4 Stopping and Starting Multi-thread Programs
+5.4.1 All-Stop Mode
+5.4.2 Non-Stop Mode
+5.4.3 Background Execution
+5.4.4 Thread-Specific Breakpoints
+5.4.5 Interrupted System Calls
+
+*******************************************************************************
+6. Running programs backward
+*******************************************************************************
+
+
+*******************************************************************************
+7. Recording Inferior’s Execution and Replaying It
+*******************************************************************************
+
+
+*******************************************************************************
+8. Examining the Stack
+*******************************************************************************
+8.1 Stack Frames
+8.2 Backtraces
+8.3 Selecting a Frame
+8.4 Information About a Frame
+
+8.1 Stack Frames
+8.2 Backtraces
+8.3 Selecting a Frame
+8.4 Information About a Frame
+
+*******************************************************************************
+9. Examining Source Files
+*******************************************************************************
+9.1 Printing Source Lines
+9.2 Specifying a Location
+9.3 Editing Source Files
+9.3.1 Choosing your Editor
+9.4 Searching Source Files
+9.5 Specifying Source Directories
+9.6 Source and Machine Code
+
+
+9.1 Printing Source Lines
+9.2 Specifying a Location
+9.3 Editing Source Files
+9.3.1 Choosing your Editor
+9.4 Searching Source Files
+9.5 Specifying Source Directories
+9.6 Source and Machine Code
+
+*******************************************************************************
+10. Examining Data
+*******************************************************************************
+10.1 Expressions
+10.2 Ambiguous Expressions
+10.3 Program Variables
+10.4 Artificial Arrays
+10.5 Output Formats
+10.6 Examining Memory
+10.7 Automatic Display
+10.8 Print Settings
+10.9 Value History
+10.10 Convenience Variables
+10.11 Registers
+10.12 Floating Point Hardware
+10.13 Vector Unit
+10.14 Operating System Auxiliary Information
+10.15 Memory Region Attributes
+10.15.1 Attributes
+10.15.1.1 Memory Access Mode
+10.15.1.2 Memory Access Size
+10.15.1.3 Data Cache
+10.15.2 Memory Access Checking
+10.16 Copy Between Memory and a File
+10.17 How to Produce a Core File from Your Program
+10.18 Character Sets
+10.19 Caching Data of Remote Targets
+10.20 Search Memory
+
+
+10.1 Expressions
+10.2 Ambiguous Expressions
+10.3 Program Variables
+10.4 Artificial Arrays
+10.5 Output Formats
+10.6 Examining Memory
+10.7 Automatic Display
+10.8 Print Settings
+10.9 Value History
+10.10 Convenience Variables
+10.11 Registers
+10.12 Floating Point Hardware
+10.13 Vector Unit
+10.14 Operating System Auxiliary Information
+10.15 Memory Region Attributes
+10.15.1 Attributes
+10.15.1.1 Memory Access Mode
+10.15.1.2 Memory Access Size
+10.15.1.3 Data Cache
+10.15.2 Memory Access Checking
+10.16 Copy Between Memory and a File
+10.17 How to Produce a Core File from Your Program
+10.18 Character Sets
+10.19 Caching Data of Remote Targets
+10.20 Search Memory
+
+*******************************************************************************
+11. Debugging Optimized Code
+*******************************************************************************
+11.1 Inline Functions
+
+11.1 Inline Functions
+
+*******************************************************************************
+12. C Preprocessor Macros
+*******************************************************************************
+
+
+*******************************************************************************
+13. Tracepoints
+*******************************************************************************
+13.1 Commands to Set Tracepoints
+13.1.1 Create and Delete Tracepoints
+13.1.2 Enable and Disable Tracepoints
+13.1.3 Tracepoint Passcounts
+13.1.4 Tracepoint Conditions
+13.1.5 Trace State Variables
+13.1.6 Tracepoint Action Lists
+13.1.7 Listing Tracepoints
+13.1.8 Starting and Stopping Trace Experiments
+13.2 Using the Collected Data
+13.2.1 tfind n
+13.2.2 tdump
+13.2.3 save-tracepoints filename
+13.3 Convenience Variables for Tracepoints
+13.4 Using Trace Files
+
+
+13.1 Commands to Set Tracepoints
+13.1.1 Create and Delete Tracepoints
+13.1.2 Enable and Disable Tracepoints
+13.1.3 Tracepoint Passcounts
+13.1.4 Tracepoint Conditions
+13.1.5 Trace State Variables
+13.1.6 Tracepoint Action Lists
+13.1.7 Listing Tracepoints
+13.1.8 Starting and Stopping Trace Experiments
+13.2 Using the Collected Data
+13.2.1 tfind n
+13.2.2 tdump
+13.2.3 save-tracepoints filename
+13.3 Convenience Variables for Tracepoints
+13.4 Using Trace Files
+
+*******************************************************************************
+14. Debugging Programs That Use Overlays
+*******************************************************************************
+14.1 How Overlays Work
+14.2 Overlay Commands
+14.3 Automatic Overlay Debugging
+14.4 Overlay Sample Program
+
+
+14.1 How Overlays Work
+14.2 Overlay Commands
+14.3 Automatic Overlay Debugging
+14.4 Overlay Sample Program
+
+
+*******************************************************************************
+15. Using gdb with Different Languages
+*******************************************************************************
+15.1 Switching Between Source Languages
+15.1.1 List of Filename Extensions and Languages
+15.1.2 Setting the Working Language
+15.1.3 Having gdb Infer the Source Language
+15.2 Displaying the Language
+15.3 Type and Range Checking
+15.3.1 An Overview of Type Checking
+15.3.2 An Overview of Range Checking
+15.4 Supported Languages
+15.4.1 C and C++
+15.4.1.1 C and C++ Operators
+15.4.1.2 C and C++ Constants
+15.4.1.3 C++ Expressions
+15.4.1.4 C and C++ Defaults
+15.4.1.5 C and C++ Type and Range Checks
+15.4.1.6 gdb and C
+15.4.1.7 gdb Features for C++
+15.4.1.8 Decimal Floating Point format
+15.4.2 Objective-C
+15.4.2.1 Method Names in Commands
+15.4.2.2 The Print Command With Objective-C
+15.4.3 Fortran
+15.4.3.1 Fortran Operators and Expressions
+15.4.3.2 Fortran Defaults
+15.4.3.3 Special Fortran Commands
+15.4.4 Pascal
+15.4.5 Modula-2
+15.4.5.1 Operators
+15.4.5.2 Built-in Functions and Procedures
+15.4.5.3 Constants
+15.4.5.4 Modula-2 Types
+15.4.5.5 Modula-2 Defaults
+15.4.5.6 Deviations from Standard Modula-2
+15.4.5.7 Modula-2 Type and Range Checks
+15.4.5.8 The Scope Operators :: and . 
+15.4.5.9 gdb and Modula-2
+15.4.6 Ada
+15.4.6.1 Introduction
+15.4.6.2 Omissions from Ada
+15.4.6.3 Additions to Ada
+15.4.6.4 Stopping at the Very Beginning
+15.4.6.5 Extensions for Ada Tasks : : : : : : : : : : : : : : : : : : : : : : : : : 169
+15.4.6.6 Tasking Support when Debugging Core Files : : : : : : 172
+15.4.6.7 Known Peculiarities of Ada Mode : : : : : : : : : : : : : : : : : 172
+15.5 Unsupported Languages : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : 173
+
+*******************************************************************************
+16. Examining the Symbol Table
+*******************************************************************************
+
+
+*******************************************************************************
+17. Altering Execution
+*******************************************************************************
+
+
+*******************************************************************************
+18. gdb Files
+*******************************************************************************
+
+*******************************************************************************
+19. Specifying a Debugging Target
+*******************************************************************************
+
+
+*******************************************************************************
+20. Debugging Remote Programs
+*******************************************************************************
+
+
+*******************************************************************************
+21. Configuration-Specific Information
+*******************************************************************************
+
+
+*******************************************************************************
+22. Controlling gdb
+*******************************************************************************
+
+
+
+*******************************************************************************
+23. Extending gdb
+*******************************************************************************
+
+
+*******************************************************************************
+24. Command Interpreters
+*******************************************************************************
+
+
+
+*******************************************************************************
+25. gdb Text User Interface
+*******************************************************************************
+
+
+*******************************************************************************
+26. Using gdb under gnu Emacs
+*******************************************************************************
+
+
+
+*******************************************************************************
+27. The gdb/mi Interface
+*******************************************************************************
+
+
+
+*******************************************************************************
+28. gdb Annotations
+*******************************************************************************
+
+
+
+*******************************************************************************
+29. JIT Compilation Interface
+*******************************************************************************
+
+
+*******************************************************************************
+30. Reporting Bugs in gdb
+*******************************************************************************
+
+
+*******************************************************************************
+31. Command Line Editing
+*******************************************************************************
+
+
+*******************************************************************************
+32. Using History Interactively
+*******************************************************************************
+
+
+
+*******************************************************************************
+33. Formatting Documentation
+*******************************************************************************
+
+
+*******************************************************************************
+34. Installing gdb
+*******************************************************************************
+
+
+*******************************************************************************
+35. Maintenance Commands
+*******************************************************************************
+
+
+
+*******************************************************************************
+35. 
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************
+*******************************************************************************

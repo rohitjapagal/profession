@@ -1,0 +1,63 @@
+1.Create branch
+ct mkbrtype <branch name>
+
+2.Checkout file
+ct co -unr -nc <filename>
+
+3.clearcase version
+ct -ver
+
+4.update the current view with latest code
+ct update
+
+5. To list checkout files in the view
+cleartool lsco -rec -cview
+ct lsco -avobs -cview
+
+6. To undo a checked out file
+ct unco file-name
+
+7. To add a new element in the vob
+a. first check out the directory in which file have to be added
+ct co -nc <dir>
+b. change to the checked out dir
+cd <dir>
+c. make a backup of the elements
+mv <filename> <filename_bak>
+d. create a new elements
+ct mkelem <filename>
+e. copy the backed up element into the newly created element
+cp <filename_bak> <filename>
+f. to re check if the new element is created properly
+ct ls <filename>
+
+8. To check-in with comments in file
+ct lsco -cview -avobs | ct ci -cfile ~/comment.txt `awk '{ print $(5) }' | sed -e 's/^\"*//' -e 's/ *\"$//'` --for checkin
+
+9. to check the version of element
+ct ls <Filename>
+ct lsvtree <Filename@@branch>
+
+10. How to see the diff in vnc tool for clearcase
+ct diff -pred -serial_format filename –for command line diff
+
+12. to change the permission of a file
+ct protect -chmod 555 <filename>
+
+13. to check-in the file
+ct ci <file name>
+
+14. view check-out file in dir recursively
+ct lsco -rec -cview
+
+15. How to remove all private files in the view
+ct lsp -other | xargs rm -rf
+
+16. To remove an element from vob
+a. check out the dir in which the element is present
+ct co -unr -nc <folder name>
+b. delete the element
+ct rmelem <file name>
+
+17. how to rename a branch
+cleartool rename brtype:oldBranch@vob newBranch

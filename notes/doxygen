@@ -1,0 +1,186 @@
+How to generate the documentation of the code
+
+1. Creating a configuration file
+$ doxygen -g <config-filename>
+
+2. after editing the config file, run the doxygen
+$ doxygen <config-filename>
+
+3. Some of the important tags used in doxygen
+--> \a - 
+--> \arg
+--> \author
+--> \b
+--> \brief
+--> \bug
+--> \class
+--> \copyright
+--> \date
+--> \def
+--> \details
+--> \enum
+--> \example
+--> \exception
+--> \extends
+--> \file
+--> \fn
+--> \headerfile
+--> \implements
+--> \interface
+--> \line
+--> \mainpage
+--> \manonly
+--> \memberof
+--> \name
+--> \namespace
+--> \note
+--> \overload
+--> \package
+--> \page
+--> \param
+--> \post
+--> \pre 
+--> \private
+--> \privatesection
+--> \protected
+--> \protectedsection
+--> \protocol
+--> \public
+--> \publicsection
+--> \pure
+--> \ref
+--> \remark
+--> \result
+--> \return
+--> \returns
+--> \retval
+--> \startuml
+--> \struct
+--> \tableofcontents
+--> \throw
+--> \todo
+--> \tparam
+--> \typedef
+--> \union
+--> \var
+--> \version
+--> \warning
+--> 
+******************************************************************
+How to edit the config file
+    PROJECT_NAME = "Project XXX" - Specify a project name.
+    OUTPUT_DIRECTORY = documents - Specify a documentation directory for the processed results.
+    FULL_PATH_NAMES = NO - Looks cleaner this way. Set to YES for code which has a sensible path hierarchy.
+    JAVADOC_AUTOBRIEF = YES - Don't need explicit "brief" tag
+    HIDE_UNDOC_CLASSES = NO - I let doxygen document everything
+    GENERATE_LATEX = NO - I use HTML docs and have no need for Latex
+    TAB_SIZE = 4 - Default is 8
+    OPTIMIZE_OUTPUT_FOR_C = YES - For C and C++ source code
+    BUILTIN_STL_SUPPORT = YES - Only available in newer versions of dOxygen
+    EXTRACT_ALL = YES
+    EXTRACT_LOCAL_CLASSES = YES
+    RECURSIVE = YES - Search subdirectories
+    SOURCE_BROWSER = YES - List source files
+    ALPHABETICAL_INDEX = YES - Generate alphabetic index of classes, structs, unions
+    GENERATE_TREEVIEW = YES - Generate side panel nav tree (html frame)
+    TEMPLATE_RELATIONS = YES - Show inheritance relationship for templates
+    SEARCHENGINE = YES - Creates local search facility.
+    FILE_PATTERNS = *.cc *.h *.cpp *.hpp - specify file suffixes to document. I leave it blank to take the default.
+    REFERENCED_BY_RELATION = YES - document all entities associated with functions documented
+******************************************************************
+If generating an HTML file, add:
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_FILE_EXTENSION    = .html
+HTML_HEADER            =
+HTML_FOOTER            =
+HTML_STYLESHEET        =
+HTML_ALIGN_MEMBERS     = YES
+DISABLE_INDEX          = NO
+*************************************************************************************
+If generating an RTF file, add: 
+GENERATE_RTF           = YES
+RTF_OUTPUT             = rtf
+COMPACT_RTF            = NO
+RTF_HYPERLINKS         = NO
+RTF_STYLESHEET_FILE    =
+RTF_EXTENSIONS_FILE    =
+****************************************************************************************
+Generate UML class diagrams:
+CLASS_DIAGRAMS         = YES
+HAVE_DOT               = YES
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+GROUP_GRAPHS           = YES
+UML_LOOK               = NO
+TEMPLATE_RELATIONS     = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+GRAPHICAL_HIERARCHY    = YES
+DIRECTORY_GRAPH        = YES
+DOT_MULTI_TARGETS      = YES
+
+Graphviz RPMs are available from http://pkgs.repoforge.org/graphviz/
+****************************************************************************************
+Some of the template for doxygen 
+1. include or source file header
+/**
+ * \file   binary-tree.h
+ * \author Rangarajan R 
+ * \date   January, 2016
+ * \brief  
+ *   Brief description of file.
+ *
+ * \details 
+ *   Detailed description of file.
+ *
+ * \note
+ *   The notes for this file.
+ *
+ * \copyright
+ *   No part of this should be published in any form without the author permission
+ */
+ 
+ #ifdef __cplusplus
+extern "C" {
+#endif
+
+/* File foo.  */
+#ifndef __EXIT_SYSTEM_H__
+#define __EXIT_SYSTEM_H__
+   
+     
+#endif /* __EXIT_SYSTEM_H__ */
+
+#ifdef __cplusplus
+}
+#endif
+ 
+ 2. function header
+ /**
+ * \fn    Example function
+ * \brief   Example actions available.
+ * \details 
+ *   Detailed description of func provides certain actions as an example.
+ *
+ * \param [in] repeat  Number of times to do nothing.
+ *
+ * \retval TRUE   Successfully did nothing.
+ * \retval FALSE  Oops, did something.
+ *
+ */
+ 
+  2. class header
+ /**
+ * \class    Example class
+ * \brief   Example actions available.
+ * \details 
+ *   Detailed description of class as an example.
+ *
+ *
+ */
+
+****************************************************************************************
+****************************************************************************************

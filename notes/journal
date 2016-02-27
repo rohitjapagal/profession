@@ -1,0 +1,28 @@
+Bullets helps you organise your enteries into three categories : Tasks, Events
+and Notes.
+
+******************************************************************************
+                                    TASKS
+******************************************************************************
+Tasks are represented by a simple dot "." and include any kind of actionable
+items and it has additional three states.
+
+. x --> Task Complete
+. > --> Task Migrated
+. < --> Task Scheduled
+
+******************************************************************************
+                                   EVENTS
+******************************************************************************
+Events are represented by an "O". Events are date related enteries that can
+either be scheduled or logged after they occur.
+
+******************************************************************************
+                                   NOTES
+******************************************************************************
+Notes are represented with a dash "-". Notes includes : facts, ideas, thoughts
+and observations. Notes are entries that you want to remember, but aren't
+immediately or necessarily actionable.
+
+******************************************************************************
+******************************************************************************

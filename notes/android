@@ -1,0 +1,11 @@
+How to install android
+1. Make sure bin is your home directory
+$ mkdir ~/bin
+$ PATH=~/bin:$PATH
+
+2. download repo tool and make sure that it is executable
+$ curl https://storage.googleapis.com/git-repo-downloads/repo
+>~/bin/repo
+$ chmod a+x ~/bin/repo
+
+added for seeing change in github

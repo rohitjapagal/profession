@@ -1,0 +1,67 @@
+Part 1 - Networking Basics
+Module 1 - Networking Concepts
+
+--> The Purpose of Networks
+ - Network is all about making connection
+
+--> Common Network Components
+ - Client : How the user interfaces with the network
+ - File Server : A computer that shares the hard drive with clients
+ - Server, 
+ - Router : router makes routing decision based on logical address
+ - Switch : a layer two device  
+
+--> legacy network components
+ - hub, media access unit(MAU), bridge
+
+--> hub
+ - interconnects clients, servers and other network devices
+ - does not make forwarding decisions
+ - also known as "bit spitter"
+ - used in ethernet networks
+ - one collision domain (only one packet at the network)
+ - one broadcast domain
+
+--> MAU
+ - interconnects clients, servers and other network devices
+ - does not make forwarding decisions
+ - used in token ring networks
+ - collision domains don't apply here
+ - one broadcast domain
+
+ --> bridge
+  - separates networks into collision domains
+  - makes forwarding decisions based on MAC addresses
+  - the predecessor to the ethernet switch
+  - if bridge has two ports then it has two collision domains
+  - one broadcast domain
+
+ --> network media
+  - coaxial cable, twisted pair, fiber optics
+
+ --> coaxial cable
+  - used in 10BASE2 and 10BASE5 ethernet networks
+  - 50 ohms of impedence
+
+ --> twisted pair
+  - the twists in the wire protect the inner conductor from electro-magnetic
+  interference (EMI)
+  - shielded and unshielded options
+  - most common media type found in modern LANs
+  - TIA/EIA-568 standard - 1991 : defined colour coding for wiring an RJ-45 jack
+  - TIA/EIA is a standard body -  Telecommunication Industry
+  Association/Electronic Industries Alliance
+  - TIA/EIA-568 B standard in 2001 is an updated version to 1991 standard
+  - category      common use
+       3       PBX and 10BASE-T
+       5       100BASE-TX
+       5e      1000BASE-T
+       6       1000BASE-T
+       6e      10GBASE-T
+  - RJ-45 connects has 8 pin but ethernet uses only four pin (1,2,3 and 6)
+  - crossover cables
+  - media-dependent interface crossover (MDIX) - can reverse a port's transmit
+  and receive pairs as needed
+  
+ --> fiber optics
+ -  

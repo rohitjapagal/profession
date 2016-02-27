@@ -1,0 +1,57 @@
+some of the few commands
+
+--> to clear the terminal screen
+$ clear
+
+--> to show the username 
+$ who am i
+
+--> to show the calender
+$ cal
+$ cal 7 2006
+$ cal feb 2033
+
+--> to show the date
+$ date
+
+--> to create empty file
+$ touch <file name>
+
+--> to create directory 
+$ mkdir <folder name>
+
+--> to create a file and write from terminal
+$ cat > filename
+
+--> to exit cat
+ctrl + D
+
+--> to view the file
+$ cat < filename
+
+--> to merge two file
+$ cat <file 1> <file 2> > <merged file>
+
+--> to create hard link
+$ ln <old link path or file> <new link path or file>
+
+--> to create soft link
+$ ln -s <old link path or file> <new link path or file>
+
+--> change the file permission
+4 - read, 2 - write, 1- execute
+$ chmod <user permission> <group permission> <world permission>
+
+--> information about computer
+$ uname -a
+
+--> to show the kind of file
+$ file *
+
+--> to know the number of line, words and size of a file
+$ wc <filename>
+
+--> to sort the file content
+$ sort <filename>
+
+--> 

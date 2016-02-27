@@ -1,0 +1,955 @@
+****************************************************************
+****************************************************************
+**************************************************
+Hands On: C Programming and
+Unix Application Design:
+UNIX System Calls and Subroutines using C
+**************************************************
+Chapter 1
+C/C++ Program Compilation
+
+Chapter 2
+C Basics
+
+Chapter 3
+Conditionals
+
+Chapter 4
+Looping and Iteration
+
+Chapter 5
+Arrays and Strings
+
+Chapter 6
+Functions
+
+Chapter 7
+Further Data Types
+
+Chapter 8
+Pointers
+
+Chapter 9
+Dynamic Memory Allocation
+and Dynamic Structures
+
+Chapter 10
+Advanced Pointer Topics
+
+Chapter 11
+Low Level Operators and Bit
+Fields
+
+Chapter 12
+The C Preprocessor
+
+Chapter 13
+C, UNIX and Standard Libraries
+
+Chapter 14
+Integer Functions, Random
+Number, String Conversion,
+Searching and Sorting:
+<stdlib.h>
+
+Chapter 15
+Mathematics: <math.h>
+
+Chapter 16
+Input and Output
+(I/O):stdio.h
+
+Chapter 17
+String Handling: <string.h>
+
+Chapter 18
+File Access and Directory
+System Calls
+
+Chapter 19
+Time Functions
+
+Chapter 20
+Process Control:
+<stdlib.h>,<unistd.h>
+
+Chapter 21
+Interprocess Communication
+(IPC), Pipes
+
+Chapter 22
+IPC:Interrupts and Signals:
+<signal.h>
+
+Chapter 23
+IPC:Message
+Queues:<sys/msg.h>
+
+Chapter 24
+IPC:Semaphores
+
+Chapter 25
+IPC:Shared Memory
+
+Chapter 26
+IPC:Sockets
+
+Chapter 27
+Threads: Basic Theory and
+Libraries
+
+Chapter 28
+Further Threads
+Programming:Thread
+Attributes (POSIX)
+
+Chapter 29
+Further Threads
+Programming:Synchronization
+
+Chapter 30
+Thread programming examples
+
+Chapter 31
+Remote Procedure Calls (RPC)
+
+Chapter 32
+Protocol Compiling and Lower
+Level RPC Programming
+
+Chapter 33
+Writing Larger Programs
+
+Chapter 34
+Further Reading, Information
+and References
+**************************************************
+Chapter 1
+C/C++ Program Compilation
+**************************************************
+Exercise 1.1 
+Enter, compile and run the following program:
+main()
+{ int i;
+printf("\t Number \t\t Square of Number\n\n");
+for (i=0; i<=25;++i)
+printf("\t %d \t\t\t %d \n",i,i*i);
+}
+
+Exercise 1.2 
+The following program uses the math library. Enter compile 
+and run it correctly.
+#include <math.h>
+main()
+{ int i;
+printf("\t Number \t\t Square Root of Number\n\n");
+for (i=0; i<=360; ++i)
+printf("\t %d \t\t\t %d \n",i, sqrt((double) i));
+}
+Exercise 1.3 
+Look in /lib and /usr/lib and see what libraries are available.
+- Use the man command to get details of library functions
+- Explore the libraries to see what each contains by running the command
+ar t libfile.
+
+Exercise 1.4 
+Look in /usr/include and see what header files are available.
+Use the more or cat commands to view these text les
+- Explore the header les to see what each contains, note the include,
+dene, type denitions and function prototypes declared in them
+Exercise 1.5 Suppose you have a C program whose main function is in
+main.c and has other functions in the les input.c and output.c:
+ What command(s) would you use on your system to compile and link
+this program?
+ How would you modify the above commands to link a library called
+process1 stored in the standard system library directory?
+ How would you modify the above commands to link a library called
+process2 stored in your home directory?
+ Some header les need to be read and have been found to located in
+a header subdirectory of your home directory and also in the current
+working directory. How would you modify the compiler commands to
+account for this?
+Exercise 1.6 Suppose you have a C program composed of several separate
+les, and they include one another as shown below:
+File Include Files
+main.c stdio.h, process1.h
+input.c stdio.h, list.h
+output.c stdio.h
+process1.c stdio.h, process1.h
+process2.c stdio.h, list.h
+ Which les have to recompiled after you make changes to process1.c?
+ Which les have to recompiled after you make changes to process1.h?
+ Which les have to recompiled after you make changes to list.h?
+****************************************************************
+Chapter 2
+C Basics
+****************************************************************
+Exercise 2.3 Write a program that works out the largest and smallest values
+from a set of 10 inputted numbers.
+Exercise 2.4 Write a program to read a \
+oat" representing a number of
+degrees Celsius, and print as a \
+oat" the equivalent temperature in degrees
+Fahrenheit. Print your results in a form such as
+100.0 degrees Celsius converts to 212.0 degrees Fahrenheit.
+Exercise 2.5 Write a program to print several lines (such as your name and
+address). You may use either several printf instructions, each with a newline
+character in it, or one printf with several newlines in the string.
+Exercise 2.6 Write a program to read a positive integer at least equal to 3,
+and print out all possible permutations of three positive integers less or equal
+to than this value.
+Exercise 2.7 Write a program to read a number of units of length (a 
+oat)
+and print out the area of a circle of that radius. Assume that the value of
+pi is 3.14159 (an appropriate declaration will be given you by ceilidh { select
+setup).
+Your output should take the form: The area of a circle of radius ... units
+is .... units.
+If you want to be clever, and have looked ahead in the notes, print the
+message Error: Negative values not permitted. if the input value is negative.
+Exercise 2.8 Given as input a 
+oating (real) number of centimeters, print
+out the equivalent number of feet (integer) and inches (
+oating, 1 decimal),
+with the inches given to an accuracy of one decimal place.
+Assume 2.54 centimeters per inch, and 12 inches per foot.
+If the input value is 333.3, the output format should be:
+333.3 centimeters is 10 feet 11.2 inches.
+Exercise 2.9 Given as input an integer number of seconds, print as output
+the equivalent time in hours, minutes and seconds. Recommended output
+format is something like
+7322 seconds is equivalent to 2 hours 2 minutes 2 seconds.
+Exercise 2.10 Write a program to read two integers with the following sig-
+nicance.
+The rst integer value represents a time of day on a 24 hour clock, so
+that 1245 represents quarter to one mid-day, for example.
+The second integer represents a time duration in a similar way, so that
+345 represents three hours and 45 minutes.
+This duration is to be added to the rst time, and the result printed out
+in the same notation, in this case 1630 which is the time 3 hours and 45
+minutes after 12.45.
+Typical output might be Start time is 1415. Duration is 50. End time is
+1505.
+There are a few extra marks for spotting.
+Start time is 2300. Duration is 200. End time is 100.
+****************************************************************
+Chapter 3
+Conditionals
+****************************************************************
+Exercise 3.1 Write a program to read two characters, and print their value
+when interpreted as a 2-digit hexadecimal number. Accept upper case letters
+for values from 10 to 15.
+Exercise 3.2 Read an integer value. Assume it is the number of a month
+of the year; print out the name of that month.
+Exercise 3.3 Given as input three integers representing a date as day, month,
+year, print out the number day, month and year for the following day's date.
+Typical input: 28 2 1992 Typical output: Date following 28:02:1992 is
+29:02:1992
+Exercise 3.4 Write a program which reads two integer values. If the rst is
+less than the second, print the message up. If the second is less than the rst,
+print the message down If the numbers are equal, print the message equal If
+there is an error reading the data, print a message containing the word Error
+and perform exit( 0 );
+****************************************************************
+Chapter 4
+Looping and Iteration
+****************************************************************
+Exercise 4.1 Write a program to read in 10 numbers and compute the av-
+erage, maximum and minimum values.
+Exercise 4.2 Write a program to read in numbers until the number -999 is
+encountered. The sum of all number read until this point should be printed
+out.
+Exercise 4.3 Write a program which will read an integer value for a base,
+then read a positive integer written to that base and print its value.
+Read the second integer a character at a time; skip over any leading non-
+valid (i.e. not a digit between zero and \base-1") characters, then read valid
+characters until an invalid one is encountered.
+Input Output
+========== ======
+10 1234 1234
+8 77 63 (the value of 77 in base 8, octal)
+2 1111 15 (the value of 1111 in base 2, binary)
+The base will be less than or equal to 10.
+Exercise 4.4 Read in three values representing respectively
+a capital sum (integer number of pence),
+a rate of interest in percent (
+oat),
+and a number of years (integer).
+Compute the values of the capital sum with compound interest added over
+the given period of years. Each year's interest is calculated as
+interest = capital * interest rate / 100;
+and is added to the capital sum by
+capital += interest;
+Print out money values as pounds (pence / 100.0) accurate to two decimal
+places.
+Print out a 
+oating value for the value with compound interest for each
+year up to the end of the period.
+Print output year by year in a form such as:
+Original sum 30000.00 at 12.5 percent for 20 years
+Year Interest Sum
+----+-------+--------
+1 3750.00 33750.00
+2 4218.75 37968.75
+3 4746.09 42714.84
+4 5339.35 48054.19
+5 6006.77 54060.96
+6 6757.62 60818.58
+7 7602.32 68420.90
+8 8552.61 76973.51
+9 9621.68 86595.19
+10 10824.39 97419.58
+Exercise 4.5 Read a positive integer value, and compute the following se-
+quence: If the number is even, halve it; if it's odd, multiply by 3 and add 1.
+Repeat this process until the value is 1, printing out each value. Finally print
+out how many of these operations you performed.
+Typical output might be:
+Inital value is 9
+Next value is 28
+Next value is 14
+Next value is 7
+Next value is 22
+Next value is 11
+Next value is 34
+Next value is 17
+Next value is 52
+Next value is 26
+Next value is 13
+Next value is 40
+Next value is 20
+Next value is 10
+Next value is 5
+Next value is 16
+Next value is 8
+Next value is 4
+Next value is 2
+Final value 1, number of steps 19
+If the input value is less than 1, print a message containing the word Error
+and perform an
+exit( 0 );
+Exercise 4.6 Write a program to count the vowels and letters in free text
+given as standard input. Read text a character at a time until you encounter
+end-of-data.
+Then print out the number of occurrences of each of the vowels a, e, i, o
+and u in the text, the total number of letters, and each of the vowels as an
+integer percentage of the letter total.
+Suggested output format is:
+Numbers of characters:
+a 3 ; e 2 ; i 0 ; o 1 ; u 0 ; rest 17
+Percentages of total:
+a 13%; e 8%; i 0%; o 4%; u 0%; rest 73%
+Read characters to end of data using a construct such as
+char ch;
+while(
+( ch = getchar() ) >= 0
+) {
+/* ch is the next character */ ....
+}
+to read characters one at a time using getchar() until a negative value is
+returned.
+Exercise 4.7 Read a le of English text, and print it out one word per line,
+all punctuation and non-alpha characters being omitted.
+For end-of-data, the program loop should read until getchar() delivers a
+value <= 0. When typing input, end the data by typing the end-of-le char-
+acter, usually control-D. When reading from a le, getchar() will deliver a
+negative value when it encounters the end of the le.
+Typical output might be
+Read
+a
+file
+of
+English
+text
+and
+print
+it
+out
+one
+etc.
+
+****************************************************************
+Chapter 5
+Arrays and Strings
+****************************************************************
+Exercise 5.1 Write a C program to read through an array of any type. Write
+a C program to scan through this array to nd a particular value.
+Exercise 5.2 Read ordinary text a character at a time from the program's
+standard input, and print it with each line reversed from left to right. Read
+until you encounter end-of-data (see below).
+You may wish to test the program by typing
+prog5rev | prog5rev
+to see if an exact copy of the original input is recreated.
+To read characters to end of data, use a loop such as either
+char ch;
+while( ch = getchar(), ch >= 0 ) /* ch < 0 indicates end-of-data */
+or
+char ch;
+while( scanf( "%c", &ch ) == 1 ) /* one character read */
+Exercise 5.3 Write a program to read English text to end-of-data (type
+control-D to indicate end of data at a terminal, see below for detecting it),
+and print a count of word lengths, i.e. the total number of words of length 1
+which occurred, the number of length 2, and so on.
+Dene a word to be a sequence of alphabetic characters. You should allow
+for word lengths up to 25 letters.
+Typical output should be like this:
+length 1 : 10 occurrences
+length 2 : 19 occurrences
+length 3 : 127 occurrences
+length 4 : 0 occurrences
+length 5 : 18 occurrences
+....
+To read characters to end of data see above question.
+****************************************************************
+Chapter 6
+Functions
+****************************************************************
+Exercise 6.1 Write a function \replace" which takes a pointer to a string
+as a parameter, which replaces all spaces in that string by minus signs, and
+delivers the number of spaces it replaced.
+Thus
+char *cat = "The cat sat";
+n = replace( cat );
+should set
+cat to "The-cat-sat"
+and
+n to 2.
+Exercise 6.2 Write a program which will read in the source of a C program
+from its standard input, and print out all the starred items in the follow-
+ing statistics for the program (all as integers). (Note the comment on tab
+characters at the end of this specication.)
+Print out the following values:
+Lines:
+* The total number of lines
+* The total number of blank lines
+(Any lines consisting entirely of white space should be
+considered as blank lines.)
+The percentage of blank lines (100 * blank_lines / lines)
+Characters:
+* The total number of characters after tab expansion
+* The total number of spaces after tab expansion
+* The total number of leading spaces after tab expansion
+(These are the spaces at the start of a line, before any visible
+character; ignore them if there are no visible characters.)
+The average number of
+characters per line
+characters per line ignoring leading spaces
+leading spaces per line
+spaces per line ignoring leading spaces
+Comments:
+* The total number of comments in the program
+* The total number of characters in the comments in the program
+excluding the "/*" and "*/" thenselves
+The percentage of number of comments to total lines
+The percentage of characters in comments to characters
+Identifiers:
+We are concerned with all the occurrences of "identifiers" in the
+program where each part of the text starting with a letter,
+and continuing with letter, digits and underscores is considered
+to be an identifier, provided that it is not
+in a comment,
+or in a string,
+or within primes.
+Note that
+"abc\"def"
+the internal escaped quote does not close the string.
+Also, the representation of the escape character is
+'\\'
+and of prime is
+'\''
+Do not attempt to exclude the fixed words of the language,
+treat them as identifiers. Print
+* The total number of identifier occurrences.
+* The total number of characters in them.
+The average identifier length.
+Indenting:
+* The total number of times either of the following occurs:
+a line containing a "}" is more indented than the preceding line
+a line is preceded by a line containing a "{" and is less
+indented than it.
+The "{" and "}" must be ignored if in a comment or string or
+primes, or if the other line involved is entirely comment.
+A single count of the sum of both types of error is required.
+NOTE: All tab characters ('') on input should be interpreted as multiple
+spaces using the rule:
+"move to the next modulo 8 column"
+where the first column is numbered column 0.
+col before tab | col after tab
+---------------+--------------
+0 | 8
+1 | 8
+7 | 8
+8 | 16
+9 | 16
+15 | 16
+16 | 24
+To read input a character at a time the skeleton has code incorporated to read
+a line at a time for you using
+char ch;
+ch = getchar();
+Which will deliver each character exactly as read. The getline() function
+then puts the line just read in the global array of characters linec(), null
+terminated, and delivers the length of the line, or a negative value if end of
+data has been encountered.
+You can then look at the characters just read with (for example)
+switch( linec[0] ) {
+case ' ': /* space ..... */
+break;
+case '\t': /* tab character .... */
+break;
+case '\n': /* newline ... */
+break;
+....
+} /* end switch */
+End of data is indicated by scanf NOT delivering the value 1.
+Your output should be in the following style:
+Total lines 126
+Total blank lines 3
+Total characters 3897
+Total spaces 1844
+Total leading spaces 1180
+Total comments 7
+Total chars in comments 234
+Total number of identifiers 132
+Total length of identifiers 606
+Total indenting errors 2
+You may gather that the above program (together with the unstarred items)
+forms the basis of part of your marking system! Do the easy bits rst, and
+leave it at that if some aspects worry you. Come back to me if you think my
+solution (or the specication) is wrong! That is quite possible!
+Exercise 6.3 It's rates of pay again!
+Loop performing the following operation in your program:
+Read two integers, representing a rate of pay (pence per hour) and a
+number of hours. Print out the total pay, with hours up to 40 being paid at
+basic rate, from 40 to 60 at rate-and-a-half, above 60 at double-rate. Print
+the pay as pounds to two decimal places.
+Terminate the loop when a zero rate is encountered. At the end of the
+loop, print out the total pay.
+The code for computing the pay from the rate and hours is to be written
+as a function.
+The recommended output format is something like:
+Pay at 200 pence/hr for 38 hours is 76.00 pounds
+Pay at 220 pence/hr for 48 hours is 114.40 pounds
+Pay at 240 pence/hr for 68 hours is 206.40 pounds
+Pay at 260 pence/hr for 48 hours is 135.20 pounds
+Pay at 280 pence/hr for 68 hours is 240.80 pounds
+Pay at 300 pence/hr for 48 hours is 156.00 pounds
+Total pay is 928.80 pounds
+The \program features" checks that explicit values such as 40 and 60 appear
+only once, as a #define or initialised variable value. This represents good
+programming practice.
+****************************************************************
+Chapter 7
+Further Data Types
+****************************************************************
+Exercise 7.1 Write program using enumerated types which when given to-
+day's date will print out tomorrow's date in the for 31st January, for example.
+Exercise 7.2 Write a simple database program that will store a persons de-
+tails such as age, date of birth, address etc.
+
+
+****************************************************************
+Chapter 8
+Pointers
+****************************************************************
+Exercise 8.1 Write a C program to read through an array of any type using
+pointers. Write a C program to scan through this array to nd a particular
+value.
+Exercise 8.2 Write a program to nd the number of times that a given
+word(i.e. a short string) occurs in a sentence (i.e. a long string!).
+Read data from standard input. The rst line is a single word, which
+is followed by general text on the second line. Read both up to a newline
+character, and insert a terminating null before processing.
+Typical output should be:
+The word is "the".
+The sentence is "the cat sat on the mat".
+The word occurs 2 times.
+Exercise 8.3 Write a program that takes three variable (a, b, b) in as sep-
+arate parameters and rotates the values stored so that value a goes to be, b,
+to c and c to a.
+****************************************************************
+Chapter 9
+Dynamic Memory Allocation
+and Dynamic Structures
+****************************************************************
+Exercise 9.1 Write a program that reads a number that says how many
+integer numbers are to be stored in an array, creates an array to t the exact
+size of the data and then reads in that many numbers into the array.
+Exercise 9.2 Write a program to implement the linked list as described in
+the notes above.
+Exercise 9.3 Write a program to sort a sequence of numbers using a binary
+tree (Using Pointers). A binary tree is a tree structure with only two (pos-
+sible) branches from each node (Fig. 9.1). Each branch then represents a
+false or true decision. To sort numbers simply assign the left branch to take
+numbers less than the node number and the right branch any other number
+(greater than or equal to). To obtain a sorted list simply search the tree in a
+depth rst fashion.
+Your program should: Create a binary tree structure. Create routines for
+loading the tree appropriately. Read in integer numbers terminated by a zero.
+Sort numbers into numeric ascending order. Print out the resulting ordered
+values, printing ten numbers per line as far as possible.
+Typical output should be
+The sorted values are:
+2 4 6 6 7 9 10 11 11 11
+15 16 17 18 20 20 21 21 23 24
+27 28 29 30
+
+****************************************************************
+Chapter 10
+Advanced Pointer Topics
+****************************************************************
+Exercise 10.1 Write a program last that prints the last n lines of its text
+input. By default n should be 5, but your program should allow an optional
+argument so that
+last -n
+prints out the last n lines, where n is any integer. Your program should
+make the best use of available storage. (Input of text could be by reading a
+le specied from the command or reading a le from standard input)
+Exercise 10.2 Write a program that sorts a list of integers in ascending
+order. However if a -r 
+ag is present on the command line your program
+should sort the list in descending order. (You may use any sorting routine
+you wish)
+Exercise 10.3 Write a program that reads the following structure and sorts
+the data by keyword using qsort
+typedef struct {
+char keyword[10];
+int other_data;
+} Record;
+Exercise 10.4 An insertion sort is performed by adding values to an array
+one by one. The rst value is simply stored at the beginning of the array.
+Each subsequent value is added by nding its ordered position in the array,
+moving data as needed to accommodate the value and inserting the value in
+this position.
+Write a function called insort that performs this task and behaves in the
+same manner as qsort, i.e it can sort an array by a key value of any type
+and it has similar prototyping.
+****************************************************************
+Chapter 11
+Low Level Operators and Bit
+Fields
+****************************************************************
+Exercise 11.1 Write a function that prints out an 8-bit (unsigned char)
+number in binary format.
+Exercise 11.2 Write a function setbits(x,p,n,y) that returns x with the n
+bits that begin at position p set to the rightmost n bits of an unsigned char
+variable y (leaving other bits unchanged).
+E.g. if x = 10101010 (170 decimal) and y = 10100111 (167 decimal) and
+n = 3 and p = 6 say then you need to strip o 3 bits of y (111) and put them
+in x at position 10xxx010 to get answer 10111010.
+Your answer should print out the result in binary form (see Exercise 11.1
+although input can be in decimal form.
+Your output should be like this:
+x = 10101010 (binary)
+y = 10100111 (binary)
+setbits n = 3, p = 6 gives x = 10111010 (binary)
+Exercise 11.3 Write a function that inverts the bits of an unsigned char x
+and stores answer in y.
+Your answer should print out the result in binary form (see Exercise 11.1
+although input can be in decimal form.
+Your output should be like this:
+x = 10101010 (binary)
+x inverted = 01010101 (binary)
+Exercise 11.4 Write a function that rotates (NOT shifts) to the right by
+n bit positions the bits of an unsigned char x.ie no bits are lost in this process.
+Your answer should print out the result in binary form (see Exercise 11.1
+although input can be in decimal form.
+Your output should be like this:
+x = 10100111 (binary)
+x rotated by 3 = 11110100 (binary)
+Note: All the functions developed should be as concise as possible
+
+****************************************************************
+Chapter 12
+The C Preprocessor
+****************************************************************
+Exercise 12.1 Dene a preprocessor macro swap(t, x, y) that will swap
+two arguments x and y of a given type t.
+Exercise 12.2 Dene a preprocessor macro to select:
+ the least signicant bit from an unsigned char
+ the nth (assuming least signicant is 0) bit from an unsigned char.
+
+****************************************************************
+Chapter 13
+C, UNIX and Standard Libraries
+****************************************************************
+
+****************************************************************
+Chapter 14
+Integer Functions, Random
+Number, String Conversion,
+Searching and Sorting:
+<stdlib.h>
+****************************************************************
+Exercise 14.1 Write a program that simulates throwing a six sided die
+Exercise 14.2 Write a program that simulates the UK National lottery by
+selecting six dierent whole numbers in the range 1 { 49.
+Exercise 14.3 Write a program that read a number from command line in-
+put and generates a random 
+oating point number in the range 0 { the input
+number.
+
+****************************************************************
+Chapter 15
+Mathematics: <math.h>
+****************************************************************
+
+
+****************************************************************
+Chapter 16
+Input and Output
+(I/O):stdio.h
+****************************************************************
+Exercise 16.1 Write a program to copy one named le into another named
+le. The two le names are given as the rst two arguments to the program.
+Copy the le a block (512 bytes) at a time.
+Check: that the program has two arguments
+or print "Program need two arguments"
+that the first name file is readable
+or print "Cannot open file .... for reading"
+that the second file is writable
+or print "Cannot open file .... for writing"
+Exercise 16.2 Write a program last that prints the last n lines of a text
+le, by n and the le name should be specied form command line input. By
+default n should be 5, but your program should allow an optional argument
+so that
+last -n file.txt
+prints out the last n lines, where n is any integer. Your program should
+make the best use of available storage.
+Exercise 16.3 Write a program to compare two les and print out the lines
+where they dier. Hint: look up appropriate string and le handling library
+routines. This should not be a very long program.
+****************************************************************
+Chapter 17
+String Handling: <string.h>
+****************************************************************
+Exercise 17.1 Write a function similar to strlen that can handle untermi-
+nated strings. Hint: you will need to know and pass in the length of the
+string.
+Exercise 17.2 Write a function that returns true if an input string is a
+palindrome of each other. A palindrome is a word that reads the same back-
+wards as it does forwards e.g ABBA.
+Exercise 17.3 Suggest a possible implementation of the strtok() function:
+1. using other string handling functions.
+2. from rst pointer principles
+How is the storage of the tokenised string achieved?
+Exercise 17.4 Write a function that converts all characters of an input
+string to upper case characters.
+Exercise 17.5 Write a program that will reverse the contents stored in mem-
+ory in bytes. That is to say if we have n bytes in memory byte n becomes
+byte 0, byte n 􀀀 1 becomes byte 1 etc.
+****************************************************************
+Chapter 18
+File Access and Directory
+System Calls
+****************************************************************
+Exercise 18.1 Write a C program to emulate the ls -l UNIX command
+that prints all les in a current directory and lists access privileges etc. DO
+NOT simply exec ls -l from the program.
+Exercise 18.2 Write a program to print the lines of a le which contain a
+word given as the program argument (a simple version of grep UNIX utility).
+Exercise 18.3 Write a program to list the les given as arguments, stopping
+every 20 lines until a key is hit.(a simple version of more UNIX utility)
+Exercise 18.4 Write a program that will list all les in a current directory
+and all les in subsequent sub directories.
+Exercise 18.5 Write a program that will only list subdirectories in alpha-
+betical order.
+Exercise 18.6 Write a program that shows the user all his/her C source pro-
+grams and then prompts interactively as to whether others should be granted
+read permission; if armative such permission should be granted.
+Exercise 18.7 Write a program that gives the user the opportunity to re-
+move any or all of the les in a current working directory. The name of the
+le should appear followed by a prompt as to whether it should be removed.
+****************************************************************
+Chapter 19
+Time Functions
+****************************************************************
+Exercise 19.1 Write a C program that times a fragment of code in millisec-
+onds.
+Exercise 19.2 Write a C program to produce a series of 
+oating point ran-
+dom numbers in the ranges (a) 0.0 - 1.0 (b) 0.0 - n where n is any 
+oating
+point value. The seed should be set so that a unique sequence is guaranteed.
+
+****************************************************************
+Chapter 20
+Process Control:
+<stdlib.h>,<unistd.h>
+****************************************************************
+Exercise 20.1 Use popen() to pipe the rwho (UNIX command) output into
+more (UNIX command) in a C program.
+
+****************************************************************
+Chapter 21
+Interprocess Communication
+(IPC), Pipes
+****************************************************************
+Exercise 21.1 Setup a two-way pipe between parent and child processes in
+a C program. i.e. both can send and receive signals.
+
+****************************************************************
+Chapter 22
+IPC:Interrupts and Signals:
+<signal.h>
+****************************************************************
+
+
+****************************************************************
+Chapter 23
+IPC:Message
+Queues:<sys/msg.h>
+****************************************************************
+Exercise 23.1 Write a 2 programs that will both send and messages and
+construct the following dialog between them
+ (Process 1) Sends the message "Are you hearing me?"
+ (Process 2) Receives the message and replies "Loud and Clear".
+ (Process 1) Receives the reply and then says "I can hear you too".
+Exercise 23.2 Compile the programs msgget.c, msgctl.c and msgop.c
+and then
+ investigate and understand fully the operations of the 
+ags (access, cre-
+ation etc. permissions) you can set interactively in the programs.
+ Use the programs to:
+{ Send and receive messages of two dierent message types.
+{ Place several messages on the queue and inquire about the state
+of the queue with msgctl.c. Add/delete a few messages (using
+msgop.c and perform the inquiry once more.
+{ Use msgctl.c to alter a message on the queue.
+{ Use msgctl.c to delete a message from the queue.
+Exercise 23.3 Write a server program and two client programs so that the
+server can communicate privately to each client individually via a single mes-
+sage queue.
+Exercise 23.4 Implement a blocked or synchronous method of message pass-
+ing using signal interrupts.
+
+****************************************************************
+Chapter 24
+IPC:Semaphores
+****************************************************************
+Exercise 24.1 Write 2 programs that will communicate both ways (i.e
+each process can read and write) when run concurrently via semaphores.
+Exercise 24.2 Modify the semaphore.c program to handle synchronous semaphore
+communication semaphores.
+Exercise 24.3 Write 3 programs that communicate together via semaphores
+according to the following specications:
+sem server.c | a program that can communicate independently (on dier-
+ent semaphore tracks) with two clients programs.
+sem client1.c | a program that talks to sem server.c on one track.
+sem client2.c | a program that talks to sem server.c on another track to
+sem client1.c.
+Exercise 24.4 Compile the programs semget.c, semctl.c and semop.c
+and then
+ investigate and understand fully the operations of the 
+ags (access, cre-
+ation etc. permissions) you can set interactively in the programs.
+ Use the prgrams to:
+{ Send and receive semaphores of 3 dierent semaphore tracks.
+{ Inquire about the state of the semaphore queue with semctl.c.
+Add/delete a few semaphores (using semop.c and perform the in-
+quiry once more.
+{ Use semctl.c to alter a semaphore on the queue.
+{ Use semctl.c to delete a semaphore from the queue.
+
+****************************************************************
+Chapter 25
+IPC:Shared Memory
+****************************************************************
+Exercise 25.1 Write 2 programs that will communicate via shared memory
+and semaphores. Data will be exchanged via memory and semaphores will be
+used to synchronise and notify each process when operations such as memory
+loaded and memory read have been performed.
+Exercise 25.2 Compile the programs shmget.c, shmctl.c and shmop.c
+and then
+ investigate and understand fully the operations of the 
+ags (access, cre-
+ation etc. permissions) you can set interactively in the programs.
+ Use the prgrams to:
+{ Exchange data between two processe running as shmop.c.
+{ Inquire about the state of shared memory with shmctl.c.
+{ Use semctl.c to lock a shared memory segment.
+{ Use semctl.c to delete a shared memory segment.
+Exercise 25.3 Write 2 programs that will communicate via mapped mem-
+ory.
+
+****************************************************************
+Chapter 26
+IPC:Sockets
+****************************************************************
+Exercise 26.1 Congure the above socket server.c and socket client.c
+programs for you system and compile and run them. You will need to set up
+socket ADDRESS denition.
+
+****************************************************************
+Chapter 27
+Threads: Basic Theory and
+Libraries
+****************************************************************
+
+
+****************************************************************
+Chapter 28
+Further Threads
+Programming:Thread
+Attributes (POSIX)
+****************************************************************
+
+
+
+****************************************************************
+Chapter 29
+Further Threads
+Programming:Synchronization
+****************************************************************
+
+
+
+****************************************************************
+Chapter 30
+Thread programming examples
+****************************************************************
+
+
+
+****************************************************************
+Chapter 31
+Remote Procedure Calls (RPC)
+****************************************************************
+Exercise 31.1 Compile and run the remote directory example rls.c etc.
+Run both the client and server locally and if possible over a network.
+
+
+****************************************************************
+Chapter 32
+Protocol Compiling and Lower
+Level RPC Programming
+****************************************************************
+Exercise 32.1 Use rpcgen the generate and compile the rprintmsg listing
+example given in this chapter.
+Exercise 32.2 Use rpcgen the generate and compile the dir listing example
+given in this chapter.
+Exercise 32.3 Develop a Remote Procedure Call suite of programs that en-
+ables a user to search for specic les or ltererd les in a remote directory.
+That is to say you can search for a named le e.g. le.c or all les named
+*.c or even *.x.
+Exercise 32.4 Develop a Remote Procedure Call suite of programs that en-
+ables a user to grep les remotely. You may use code developed previously
+or unix system calls to implement grep.
+Exercise 32.5 Develop a Remote Procedure Call suite of programs that en-
+ables a user to list the contents of a named remote les.
+
+****************************************************************
+Chapter 33
+Writing Larger Programs
+****************************************************************
+
+
+
+****************************************************************
+Chapter 34
+Further Reading, Information
+and References
+****************************************************************
+
+
+****************************************************************
+****************************************************************

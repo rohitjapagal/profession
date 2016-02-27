@@ -1,0 +1,710 @@
+--> Process:
+- An executing instance of a program is called a process.
+- Some operating systems use the term ‘task‘ to refer to a 
+  program that is being executed.
+- A process is always stored in the main memory also termed 
+  as the primary memory or random access memory.
+- Therefore, a process is termed as an active entity. 
+  It disappears if the machine is rebooted.
+- Several process may be associated with a same program.
+- On a multiprocessor system, multiple processes can be 
+  executed in parallel.
+- On a uni-processor system, though true parallelism is not 
+  achieved, a process scheduling algorithm is applied and the 
+  processor is scheduled to execute each process one at a time 
+  yielding an illusion of concurrency.
+- Example: Executing multiple instances of the ‘Calculator’ program. 
+  Each of the instances are termed as a process.
+
+--> Thread:
+- A thread is a subset of the process.
+- It is termed as a ‘lightweight process’, since it is similar to a 
+  real process but executes within the context of a process and shares 
+  the same resources allotted to the process by the kernel.
+- Usually, a process has only one thread of control – one set of 
+  machine instructions executing at a time.
+- A process may also be made up of multiple threads of execution 
+  that execute instructions concurrently.
+- Multiple threads of control can exploit the true parallelism 
+  possible on multiprocessor systems.
+- On a uni-processor system, a thread scheduling algorithm is applied 
+  and the processor is scheduled to run each thread one at a time.
+- All the threads running within a process share the same address space, 
+  file descriptors, stack and other process related attributes.
+- Since the threads of a process share the same memory, synchronizing the 
+  access to the shared data withing the process gains unprecedented importance.
+
+**********************************************************
+                  PROCESSES
+**********************************************************
+1. Creating Process - fork and exec
+Code :
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+/* Spawn a child process running a new program. PROGRAM is the name
+of the program to run; the path will be searched for this program.
+ARG_LIST is a NULL-terminated list of character strings to be
+passed as the program’s argument list. Returns the process ID of
+the spawned process. */
+int spawn (char* program, char** arg_list)
+{
+pid_t child_pid;
+/* Duplicate this process. */
+child_pid = fork ();
+if (child_pid != 0)
+/* This is the parent process. */
+return child_pid;
+else {
+/* Now execute PROGRAM, searching for it in the path. */
+execvp (program, arg_list);
+/* The execvp function returns only if an error occurs. */
+fprintf (stderr, “an error occurred in execvp\n”);
+abort ();
+}
+}
+int main ()
+{
+/* The argument list to pass to the “ls” command. */
+char* arg_list[] = {
+“ls”, /* argv[0], the name of the program. */
+“-l”,
+“/”,
+NULL /* The argument list must end with a NULL. */
+};
+/* Spawn a child process running the “ls” command. Ignore the
+returned child process ID. */
+spawn (“ls”, arg_list);
+printf (“done with main program\n”);
+return 0;
+}
+---------------------------------------------------------
+2. Signals - signal handler
+Code :
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+sig_atomic_t sigusr1_count = 0;
+void handler (int signal_number)
+{
+++sigusr1_count;
+}
+int main ()
+{
+struct sigaction sa;
+memset (&sa, 0, sizeof (sa));
+sa.sa_handler = &handler;
+sigaction (SIGUSR1, &sa, NULL);
+/* Do some lengthy stuff here. */
+/* ... */
+printf (“SIGUSR1 was raised %d times\n”, sigusr1_count);
+return 0;
+}
+---------------------------------------------------------
+3. Process Termination - wait system call
+Code :
+int main ()
+{
+int child_status;
+/* The argument list to pass to the “ls” command. */
+char* arg_list[] = {
+“ls”, /* argv[0], the name of the program. */
+“-l”,
+“/”,
+NULL /* The argument list must end with a NULL. */
+};
+/* Spawn a child process running the “ls” command. Ignore the
+returned child process ID. */
+spawn (“ls”, arg_list);
+/* Wait for the child process to complete. */
+wait (&child_status);
+if (WIFEXITED (child_status))
+printf (“the child process exited normally, with exit code %d\n”,
+WEXITSTATUS (child_status));
+else
+printf (“the child process exited abnormally\n”);
+return 0;
+}
+---------------------------------------------------------
+4. Zombie Processes
+Code :
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+int main ()
+{
+pid_t child_pid;
+/* Create a child process. */
+child_pid = fork ();
+if (child_pid > 0) {
+/* This is the parent process. Sleep for a minute. */
+sleep (60);
+}
+else {
+/* This is the child process. Exit immediately. */
+exit (0);
+}
+return 0;
+}
+---------------------------------------------------------
+5. Cleaning up children by Handling SIGCHLD
+Code :
+#include <signal.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+sig_atomic_t child_exit_status;
+void clean_up_child_process (int signal_number)
+{
+/* Clean up the child process. */
+int status;
+wait (&status);
+/* Store its exit status in a global variable. */
+child_exit_status = status;
+}
+int main ()
+{
+/* Handle SIGCHLD by calling clean_up_child_process. */
+struct sigaction sigchld_action;
+memset (&sigchld_action, 0, sizeof (sigchld_action));
+sigchld_action.sa_handler = &clean_up_child_process;
+sigaction (SIGCHLD, &sigchld_action, NULL);
+/* Now do things, including forking a child process. */
+/* ... */
+return 0;
+}
+----------------------------------------------------------
+**********************************************************
+                        THREADS
+**********************************************************
+1. Create a thread
+Code :
+#include <pthread.h>
+#include <stdio.h>
+/* Prints x’s to stderr. The parameter is unused. Does not return. */
+void* print_xs (void* unused)
+{
+while (1)
+fputc (‘x’, stderr);
+return NULL;
+}
+/* The main program. */
+int main ()
+{
+pthread_t thread_id;
+/* Create a new thread. The new thread will run the print_xs
+function. */
+pthread_create (&thread_id, NULL, &print_xs, NULL);
+/* Print o’s continuously to stderr. */
+while (1)
+fputc (‘o’, stderr);
+return 0;
+}
+----------------------------------------------------------
+2. Create two threads
+Code :
+#include <pthread.h>
+#include <stdio.h>
+/* Parameters to print_function. */
+struct char_print_parms
+{
+/* The character to print. */
+char character;
+/* The number of times to print it. */
+int count;
+};
+/* Prints a number of characters to stderr, as given by PARAMETERS,
+which is a pointer to a struct char_print_parms. */
+void* char_print (void* parameters)
+{
+/* Cast the cookie pointer to the right type. */
+struct char_print_parms* p = (struct char_print_parms*) parameters;
+int i;
+for (i = 0; i < p->count; ++i)
+fputc (p->character, stderr);
+return NULL;
+}
+/* The main program. */
+int main ()
+{
+pthread_t thread1_id;
+pthread_t thread2_id;
+struct char_print_parms thread1_args;
+struct char_print_parms thread2_args;
+/* Create a new thread to print 30,000 ’x’s. */
+thread1_args.character = ’x’;
+thread1_args.count = 30000;
+pthread_create (&thread1_id, NULL, &char_print, &thread1_args);
+/* Create a new thread to print 20,000 o’s. */
+thread2_args.character = ’o’;
+thread2_args.count = 20000;
+pthread_create (&thread2_id, NULL, &char_print, &thread2_args);
+return 0;
+}
+----------------------------------------------------------
+3.  Joining threads
+int main ()
+{
+pthread_t thread1_id;
+pthread_t thread2_id;
+struct char_print_parms thread1_args;
+struct char_print_parms thread2_args;
+/* Create a new thread to print 30,000 x’s. */
+thread1_args.character = ’x’;
+thread1_args.count = 30000;
+pthread_create (&thread1_id, NULL, &char_print, &thread1_args);
+/* Create a new thread to print 20,000 o’s. */
+thread2_args.character = ’o’;
+thread2_args.count = 20000;
+pthread_create (&thread2_id, NULL, &char_print, &thread2_args);
+/* Make sure the first thread has finished. */
+pthread_join (thread1_id, NULL);
+/* Make sure the second thread has finished. */
+pthread_join (thread2_id, NULL);
+/* Now we can safely return. */
+return 0;
+}
+----------------------------------------------------------
+4. Compute Prime Numbers in a Thread
+Code :
+#include <pthread.h>
+#include <stdio.h>
+/* Compute successive prime numbers (very inefficiently). Return the
+Nth prime number, where N is the value pointed to by *ARG. */
+void* compute_prime (void* arg)
+{
+int candidate = 2;
+int n = *((int*) arg);
+while (1) {
+int factor;
+int is_prime = 1;
+/* Test primality by successive division. */
+for (factor = 2; factor < candidate; ++factor)
+if (candidate % factor == 0) {
+is_prime = 0;
+break;
+}
+/* Is this the prime number we’re looking for? */
+if (is_prime) {
+if (--n == 0)
+/* Return the desired prime number as the thread return value. */
+return (void*) candidate;
+}
+++candidate;
+}
+return NULL;
+}
+int main ()
+{
+pthread_t thread;
+int which_prime = 5000;
+int prime;
+/* Start the computing thread, up to the 5,000th prime number. */
+pthread_create (&thread, NULL, &compute_prime, &which_prime);
+/* Do some other work here... */
+/* Wait for the prime number thread to complete, and get the result. */
+pthread_join (thread, (void*) &prime);
+/* Print the largest prime it computed. */
+printf(“The %dth prime number is %d.\n”, which_prime, prime);
+return 0;
+}
+----------------------------------------------------------
+5. Skeleton Program That Creates a Detached Thread
+Code :
+#include <pthread.h>
+void* thread_function (void* thread_arg)
+{
+/* Do work here... */
+}
+int main ()
+{
+pthread_attr_t attr;
+pthread_t thread;
+pthread_attr_init (&attr);
+pthread_attr_setdetachstate (&attr, PTHREAD_CREATE_DETACHED);
+pthread_create (&thread, &attr, &thread_function, NULL);
+pthread_attr_destroy (&attr);
+/* Do work here... */
+/* No need to join the second thread. */
+return 0;
+}
+----------------------------------------------------------
+6. Protect a Bank Transaction with a Critical Section
+Code :
+#include <pthread.h>
+#include <stdio.h>
+#include <string.h>
+/* An array of balances in accounts, indexed by account number. */
+float* account_balances;
+/* Transfer DOLLARS from account FROM_ACCT to account TO_ACCT. Return
+0 if the transaction succeeded, or 1 if the balance FROM_ACCT is
+too small. */
+int process_transaction (int from_acct, int to_acct, float dollars)
+{
+int old_cancel_state;
+/* Check the balance in FROM_ACCT. */
+if (account_balances[from_acct] < dollars)
+return 1;
+/* Begin critical section. */
+pthread_setcancelstate (PTHREAD_CANCEL_DISABLE, &old_cancel_state);
+/* Move the money. */
+account_balances[to_acct] += dollars;
+account_balances[from_acct] -= dollars;
+/* End critical section. */
+pthread_setcancelstate (old_cancel_state, NULL);
+return 0;
+}
+----------------------------------------------------------
+7. Per-Thread Log Files Implemented with Thread-Specific Data
+Code :
+#include <malloc.h>
+#include <pthread.h>
+#include <stdio.h>
+/* The key used to associate a log file pointer with each thread. */
+static pthread_key_t thread_log_key;
+/* Write MESSAGE to the log file for the current thread. */
+void write_to_thread_log (const char* message)
+{
+FILE* thread_log = (FILE*) pthread_getspecific (thread_log_key);
+fprintf (thread_log, “%s\n”, message);
+}
+/* Close the log file pointer THREAD_LOG. */
+void close_thread_log (void* thread_log)
+{
+fclose ((FILE*) thread_log);
+}
+void* thread_function (void* args)
+{
+char thread_log_filename[20];
+FILE* thread_log;
+/* Generate the filename for this thread’s log file. */
+sprintf (thread_log_filename, “thread%d.log”, (int) pthread_self ());
+/* Open the log file. */
+thread_log = fopen (thread_log_filename, “w”);
+/* Store the file pointer in thread-specific data under thread_log_key. */
+pthread_setspecific (thread_log_key, thread_log);
+write_to_thread_log (“Thread starting.”);
+/* Do work here... */
+return NULL;
+}
+int main ()
+{
+int i;
+pthread_t threads[5];
+/* Create a key to associate thread log file pointers in
+thread-specific data. Use close_thread_log to clean up the file
+pointers. */
+pthread_key_create (&thread_log_key, close_thread_log);
+/* Create threads to do the work. */
+for (i = 0; i < 5; ++i)
+pthread_create (&(threads[i]), NULL, thread_function, NULL);
+/* Wait for all threads to finish. */
+for (i = 0; i < 5; ++i)
+pthread_join (threads[i], NULL);
+return 0;
+}
+----------------------------------------------------------
+8. Program Fragment Demonstrating a Thread
+Cleanup Handler
+Code :
+#include <malloc.h>
+#include <pthread.h>
+/* Allocate a temporary buffer. */
+void* allocate_buffer (size_t size)
+{
+return malloc (size);
+}
+/* Deallocate a temporary buffer. */
+void deallocate_buffer (void* buffer)
+{
+free (buffer);
+}
+void do_some_work ()
+{
+/* Allocate a temporary buffer. */
+void* temp_buffer = allocate_buffer (1024);
+/* Register a cleanup handler for this buffer, to deallocate it in
+case the thread exits or is cancelled. */
+pthread_cleanup_push (deallocate_buffer, temp_buffer);
+/* Do some work here that might call pthread_exit or might be
+cancelled... */
+/* Unregister the cleanup handler. Because we pass a nonzero value,
+this actually performs the cleanup by calling
+deallocate_buffer. */
+pthread_cleanup_pop (1);
+}
+----------------------------------------------------------
+9. Implementing Safe Thread Exit with C++ Exceptions
+Code :
+#include <pthread.h>
+class ThreadExitException
+{
+public:
+/* Create an exception-signaling thread exit with RETURN_VALUE. */
+ThreadExitException (void* return_value)
+: thread_return_value_ (return_value)
+{
+}
+/* Actually exit the thread, using the return value provided in the
+constructor. */
+void* DoThreadExit ()
+{
+pthread_exit (thread_return_value_);
+}
+private:
+/* The return value that will be used when exiting the thread. */
+void* thread_return_value_;
+};
+void do_some_work ()
+{
+while (1) {
+/* Do some useful things here... */
+if (should_exit_thread_immediately ())
+throw ThreadExitException (/* thread’s return value = */ NULL);
+}
+}
+void* thread_function (void*)
+{
+try {
+do_some_work ();
+}
+catch (ThreadExitException ex) {
+/* Some function indicated that we should exit the thread. */
+ex.DoThreadExit ();
+}
+return NULL;
+}
+----------------------------------------------------------
+10. Thread Function to Process Jobs from the Queue
+Code :
+#include <malloc.h>
+struct job {
+/* Link field for linked list. */
+struct job* next;
+/* Other fields describing work to be done... */
+};
+/* A linked list of pending jobs. */
+struct job* job_queue;
+/* Process queued jobs until the queue is empty. */
+void* thread_function (void* arg)
+{
+while (job_queue != NULL) {
+/* Get the next available job. */
+struct job* next_job = job_queue;
+/* Remove this job from the list. */
+job_queue = job_queue->next;
+/* Carry out the work. */
+process_job (next_job);
+/* Clean up. */
+free (next_job);
+}
+return NULL;
+}
+----------------------------------------------------------
+11. Job Queue Thread Function, Protected by a Mutex
+Code :
+#include <malloc.h>
+#include <pthread.h>
+struct job {
+/* Link field for linked list. */
+struct job* next;
+/* Other fields describing work to be done... */
+};
+/* A linked list of pending jobs. */
+struct job* job_queue;
+/* A mutex protecting job_queue. */
+pthread_mutex_t job_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+/* Process queued jobs until the queue is empty. */
+void* thread_function (void* arg)
+{
+while (1) {
+struct job* next_job;
+/* Lock the mutex on the job queue. */
+pthread_mutex_lock (&job_queue_mutex);
+/* Now it’s safe to check if the queue is empty. */
+if (job_queue == NULL)
+next_job = NULL;
+else {
+/* Get the next available job. */
+next_job = job_queue;
+/* Remove this job from the list. */
+job_queue = job_queue->next;
+}
+/* Unlock the mutex on the job queue because we’re done with the
+queue for now. */
+pthread_mutex_unlock (&job_queue_mutex);
+/* Was the queue empty? If so, end the thread. */
+if (next_job == NULL)
+break;
+/* Carry out the work. */
+process_job (next_job);
+/* Clean up. */
+free (next_job);
+}
+return NULL;
+}
+----------------------------------------------------------
+12. Job Queue Controlled by a Semaphore
+Code :
+#include <malloc.h>
+#include <pthread.h>
+#include <semaphore.h>
+struct job {
+/* Link field for linked list. */
+struct job* next;
+/* Other fields describing work to be done... */
+};
+/* A linked list of pending jobs. */
+struct job* job_queue;
+/* A mutex protecting job_queue. */
+pthread_mutex_t job_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+/* A semaphore counting the number of jobs in the queue. */
+sem_t job_queue_count;
+/* Perform one-time initialization of the job queue. */
+void initialize_job_queue ()
+{
+/* The queue is initially empty. */
+job_queue = NULL;
+/* Initialize the semaphore which counts jobs in the queue. Its
+initial value should be zero. */
+sem_init (&job_queue_count, 0, 0);
+}
+/* Process queued jobs until the queue is empty. */
+void* thread_function (void* arg)
+{
+while (1) {
+struct job* next_job;
+/* Wait on the job queue semaphore. If its value is positive,
+indicating that the queue is not empty, decrement the count by
+1. If the queue is empty, block until a new job is enqueued. */
+sem_wait (&job_queue_count);
+/* Lock the mutex on the job queue. */
+pthread_mutex_lock (&job_queue_mutex);
+/* Because of the semaphore, we know the queue is not empty. Get
+the next available job. */
+next_job = job_queue;
+/* Remove this job from the list. */
+job_queue = job_queue->next;
+/* Unlock the mutex on the job queue because we’re done with the
+queue for now. */
+pthread_mutex_unlock (&job_queue_mutex);
+/* Carry out the work. */
+process_job (next_job);
+/* Clean up. */
+free (next_job);
+}
+return NULL;
+}
+/* Add a new job to the front of the job queue. */
+void enqueue_job (/* Pass job-specific data here... */)
+{
+struct job* new_job;
+/* Allocate a new job object. */
+new_job = (struct job*) malloc (sizeof (struct job));
+/* Set the other fields of the job struct here... */
+/* Lock the mutex on the job queue before accessing it. */
+pthread_mutex_lock (&job_queue_mutex);
+/* Place the new job at the head of the queue. */
+new_job->next = job_queue;
+job_queue = new_job;
+/* Post to the semaphore to indicate that another job is available. If
+threads are blocked, waiting on the semaphore, one will become
+unblocked so it can process the job. */
+sem_post (&job_queue_count);
+/* Unlock the job queue mutex. */
+pthread_mutex_unlock (&job_queue_mutex);
+}
+----------------------------------------------------------
+13. A Simple Condition Variable Implementation
+Code :
+#include <pthread.h>
+int thread_flag;
+pthread_mutex_t thread_flag_mutex;
+void initialize_flag ()
+{
+pthread_mutex_init (&thread_flag_mutex, NULL);
+thread_flag = 0;
+}
+/* Calls do_work repeatedly while the thread flag is set; otherwise
+spins. */
+void* thread_function (void* thread_arg)
+{
+while (1) {
+int flag_is_set;
+/* Protect the flag with a mutex lock. */
+pthread_mutex_lock (&thread_flag_mutex);
+flag_is_set = thread_flag;
+pthread_mutex_unlock (&thread_flag_mutex);
+if (flag_is_set)
+do_work ();
+/* Else don’t do anything. Just loop again. */
+}
+return NULL;
+}
+/* Sets the value of the thread flag to FLAG_VALUE. */
+void set_thread_flag (int flag_value)
+{
+/* Protect the flag with a mutex lock. */
+pthread_mutex_lock (&thread_flag_mutex);
+thread_flag = flag_value;
+pthread_mutex_unlock (&thread_flag_mutex);
+}
+----------------------------------------------------------
+14. Control a Thread Using a Condition Variable
+Code :
+#include <pthread.h>
+int thread_flag;
+pthread_cond_t thread_flag_cv;
+pthread_mutex_t thread_flag_mutex;
+void initialize_flag ()
+{
+/* Initialize the mutex and condition variable. */
+pthread_mutex_init (&thread_flag_mutex, NULL);
+pthread_cond_init (&thread_flag_cv, NULL);
+/* Initialize the flag value. */
+thread_flag = 0;
+}
+/* Calls do_work repeatedly while the thread flag is set; blocks if
+the flag is clear. */
+void* thread_function (void* thread_arg)
+{
+/* Loop infinitely. */
+while (1) {
+/* Lock the mutex before accessing the flag value. */
+pthread_mutex_lock (&thread_flag_mutex);
+while (!thread_flag)
+/* The flag is clear. Wait for a signal on the condition
+variable, indicating that the flag value has changed. When the
+signal arrives and this thread unblocks, loop and check the
+flag again. */
+pthread_cond_wait (&thread_flag_cv, &thread_flag_mutex);
+/* When we’ve gotten here, we know the flag must be set. Unlock
+the mutex. */
+pthread_mutex_unlock (&thread_flag_mutex);
+/* Do some work. */
+do_work ();
+}
+return NULL;
+}
+/* Sets the value of the thread flag to FLAG_VALUE. */
+void set_thread_flag (int flag_value)
+{
+/* Lock the mutex before accessing the flag value. */
+pthread_mutex_lock (&thread_flag_mutex);
+/* Set the flag value, and then signal in case thread_function is
+blocked, waiting for the flag to become set. However,
+thread_function can’t actually check the flag until the mutex is
+unlocked. */
+thread_flag = flag_value;
+pthread_cond_signal (&thread_flag_cv);
+/* Unlock the mutex. */
+pthread_mutex_unlock (&thread_flag_mutex);
+}
+----------------------------------------------------------
+**********************************************************
+
+**********************************************************
+

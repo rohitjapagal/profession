@@ -1,0 +1,12 @@
+1. DHCP packets filter
+bootp
+
+2. ip address filter
+ip.addr eq 192.168.5.10
+
+3. http packets filter
+http
+
+4. mac address filter
+eth.addr eq 68:F7:28:7A:6D:1A
+bootp.hw.mac_addr eq 68:F7:28:7A:6D:1A

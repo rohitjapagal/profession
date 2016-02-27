@@ -1,0 +1,456 @@
+*****************************************************************
+DOCSIS 1.0
+*****************************************************************
+--> DOCSIS 1.0 Feature sets
+* Open Protocol
+ - Non propiertary-multi vendor environment
+* Support for cable modems as plug and play retail devices
+* Designed to be a best effort platform
+ - No support for CBR services
+ - No support for QoS in DOCSIS 1.0 
+* Protocol Flexibility
+ - DOCSIS had extensive MAC and PHY layer parameters and control for 
+   robustness and adaptibility to multiple cable plants
+* Security and Management
+ - Baseline Privacy and Baseline Privacy Plus Management
+ - SNMP management capabilities
+ - Remote software upgrades
+ 
+ --> DOCSIS MAC Layer
+ - CMTS controls upstream bandwidth allocation
+ - A stream of mini-slots
+ - A mix of contention and reservation based transmit opportunities
+ - Class of services support
+ - Security
+ - Service Identifiers (SIDS) 14 bits
+  0x0000 addressed to no CM initialization SID
+  0x3FFF addressed to all CMs
+  Multicast Mac 01:E0:2F:00:00:01
+  
+--> CM and CMTS Interaction 
+ - Scanning and synchronization to downstream 
+ - Obtain upstream parameters
+ - Ranging and automatic adjustments
+ - Establish IP connectivity
+ - Establish time of day
+ - Transfer operational parameters
+ - Registration
+ - Baseline Privacy initialization
+ 
+--> Bandwidth Allocation MAP
+ - 32 bit elements describing the bandwidth into the future. Broadcast to all modems.
+ - Max number 4096 mini-slots
+ - WHO SID [14 bits], may be broadcast or unicast
+ - WHAT - IUC brust type [4 bits] 
+  - Request 
+  - Initial Maintainance
+  - Station Maintainance
+  - Short Data
+  - Long Data
+- WHEN - Timing Offset [14 bits]
+
+--> MAP Information Elements
+ * Request Interval
+  - Used by the cable modem to send requests to transmit data to the CMTS
+ * Initial Maintainance
+  - Used by new cable modems to join the network
+ * Station Maintainance
+  - Used by cable modems to adjust their HFC and timing parameters
+ * Short Data
+  - Used to send data -- the length is defined in the maximum transmit brust parameter
+    in the UCD or config file
+ * Long Data
+  - Used to send long data -- maximum transmit brust is defined in the UCD or config file
+ * Null IE
+  - Used to indicate the end of the MAP
+ 
+--> Provisioning
+ - Dynamic Host Configuration Protocol DHCP - IP Address
+ - Trivial File Transfer Protocol TFTP - Configuration file
+ - Time-of-day - Current Date & Time 
+ - Broadband Provisioning Manager (BPM)
+                          CMTS                                     CM
+                           |                                        |
+                           |                    UCDs                |
+                           |  ------------------------------------> |
+                           |                                        |
+                           |                    MAP                 |
+                           |  ------------------------------------> |
+                           |                                        |
+                           |             Ranging Request            |
+                           |  <------------------------------------ |
+                           |                                        |
+                           |            Ranging Response            |
+                           |  ------------------------------------> |
+                           |                                        |
+                           |                 DHCP                   |
+ Fast Flow BPM <--------------------------------------------------> | 
+                           |                                        |
+                           |                 TOD                    |
+ Fast Flow BPM <--------------------------------------------------> |
+                           |                                        |
+                           |                 TFTP                   |
+ Fast Flow BPM <--------------------------------------------------> |
+                           |                                        |
+                           
+
+--> Dynamic Host Configuration Protocol                           
+
+ Fast Flow BPM            CMTS                                     CM
+                     DHCP Relay Agent
+      |                    |                                        |
+      |                    |                       DHCP Discover    |
+      |  <<<------------------------------------------------------- |
+      |                    |                                        |
+      |      DHCP Offer    |                                        |
+      |  ------------------------------------------------------->>> |
+      |                    |                                        |
+      |                    |                       DHCP Request     |
+      |  <<<------------------------------------------------------- |
+      |                    |                                        |
+      |      DHCP Ack      |                                        |
+      |  ------------------------------------------------------->>> |
+      |                    |                                        |
+
+
+--> Time of Day
+
+        Time of Day Server 
+               |
+               |
+               ----- CMTS ------------ CM
+               
+ - Used for logging purposes
+ - Not mandatory for data only registrations (some modems do require)
+ - Critical for VOIP implementations
+ 
+ --> Provisioning : TFTP 
+                                   Configuration File
+         
+          TFTP Server 
+               |
+               |
+               ----- CMTS ------------ CM
+
+--> Message Integrity Check (MIC)
+ 1. Extract the config file settings
+ 2. Run config file settings through MD5 Hash
+ 3. Compare hash value to received CM MIC
+ 4. If Match send reg req
+ 
+ -----------------------------------------------
+ | Config file settings |  CM MIC  | CMTS MIC  |
+ -----------------------------------------------
+            |              / \         / \
+            |               |           |
+           \ /              |           |
+        MD5 Hash            |           |
+        Function -----------|           |
+           |                            |
+           |                            |
+           |                            |
+          \ /                           |
+      Add a secret key------------------|
+           |
+           |
+           |
+          \ /
+       Fast Flow BPM            CMTS                                     
+           |         TFTP                      TFTP
+           |  <<<--------------------------------------------------------
+           |                                                  Config File
+           |
+           |     Reg/Req + Config file settings
+           |  <<<--------------------------------------------------------              
+           |
+           |    OK + Reg/Resp   
+           |  -------------------------------------------------------->>>              
+           |       
+ 5. Extract the config file settings + CM MIC
+ 6. Run config file settings + CM MIC + SS through MD5 Hash
+ 7. Compare hash value to received CMTS MIC in step 1
+ 8. If Match this confirms this file came from auth prov server          
+ 
+--> Registration
+ 
+ Prov Server  <<<--------------------------->>> Config file Received 
+                                                   CM MIC valid
+
+- Calculate CMTS MIC
+- Check TFTP timestamp
+- TFTP modem address
+- Verify COS/QoS assign SFID
+- Verify modem capabilties
+- Assign permanent SID
+
+            CMTS                                     CM
+             |                                        |
+             |         Send Registration Request      |
+             |  <<<---------------------------------  |    
+             |                                        |
+             |         Send Registration Response     |
+             |  --------------------------------->>>  |    
+             |                                        |
+             |         Authentication Failure         |             
+             |         Class of Service Failure       |
+                       Success
+             
+ --> Baseline Privacy
+  - Provide basic privacy to user data across the RF network
+  - Discourages theft of service
+  - Every modem has an RSA public/private key pairs
+  - RSA key pair is used to securely exchange DES keys with the CMTS
+  - All data packets are DES encrypted 
+  - Does not provide modem authentication
+  - Configured in the TFTP configuration file
+  - Two state machines
+    -- Authorization State
+    -- Service Key State
+ 
+     CMTS                                     CM
+      |                                        |
+      |           Ranging Request              |
+      |  <<<---------------------------------  |    
+      |                                        |
+      |           Ranging Response             |
+      |  --------------------------------->>>  |    
+      |                                        |      
+      |                DHCP                    |
+      |  <<<---------------------------------  |    
+      |                                        |
+      |                TOD                     |      
+      |  <<<---------------------------------  |    
+      |                                        |
+      |               TFTP                     |      
+      |  <<<---------------------------------  |    
+      |                                        |
+      |         Registration Request           |
+      |  <<<---------------------------------  |    
+      |                                        |
+      |         Registration Response          |
+      |  --------------------------------->>>  |    
+      |                                        |
+      |         Authentication Request         |
+      |  <<<---------------------------------  |    
+      |                                        |
+      |         Authentication Reply           |
+      |  --------------------------------->>>  |    
+      |                                        |      
+      |              Key Request               |
+      |  <<<---------------------------------  |    
+      |                                        |
+      |              Key Reply                 |
+      |  --------------------------------->>>  |    
+      |                                        |      
+ 
+ 
+ --> Modem Transmission
+  At this point the cable modem has :
+   - Found the appropriate upstream and downstream channel
+   - Ranged and adjusted the RF path
+   - Established IP connectivity, time of day and downloaded a config file
+   - Registered and provisioned with CMTS
+   - Initialized Baseline privacy
+   
+  To actually send data the CM must use the contention based Grant/Request
+  process to acquire Upstream bandwidth.
+  
+     CMTS                                     CM
+      |                                        |
+      |    Request opportunity (broadcast)     |
+      |  --------------------------------->>>  |    
+      |                                        |
+      |        Request (contention)            |
+      |  <<<---------------------------------  |    
+      |                                        |      
+      |                Grant                   |
+      |  --------------------------------->>>  |    
+      |                                        |
+      |                Data                    |      
+      |  <<<---------------------------------  |    
+      |                                        |
+
+
+--> Transmit Opportunities
+ - How the cable modem asks for bandwidth
+  -- Standalone
+  -- Piggback
+ - Modem calculates the total number of mini-slots needed to transmit
+   data and overhead
+ - One request per SID
+ - Must use the grants given
+ - 0 length grants possible
+ 
+--> DOCSIS 1.X MAC Layer Interactions
+ 
+                       |  First MAP        |     Second MAP          |
+ CMTS       T1          T3   T5  T6              T7   T9         T11
+        create MAP               / \             |               / \ 
+            |                     |              |                | 
+            |                     |              |                |
+            |                     |              |                |
+            |                     |              |                |
+            |                     |              |                |
+           \ /                    |             \ /               |  
+           T2                     T4             T8              T10  
+ CM     Read MAP for            Send Req         Read MAP for    Send data
+          req opp                                data grant
+       Calculate delay                           Calculate delay
+       Calculate collision
+       
+       
+--> DOSCIS 1.1 Introduction
+ - DOCSIS 1.1 is a superset of MAC layer features of DOCSIS 1.0 
+ - Provides the base to support QoS on the HFC network
+ - Features includes :
+  -- Packet Classification
+  -- Additional Upstream Scheduling Algorithms
+  -- Dynamic Service Establishment
+  -- Fragmentation
+  -- Payload Header Suppression
+  -- Two Phase Activation
+  -- BPI + Security
+  -- Pre Equalization
+  
+--> Classifiers
+ Each upstream and downstream packet screened :
+  - IP Parameters - IP Address, protocol, port
+  - LLC Parameters - MAC Address
+  - 802.1P Priority Range
+  - VLAN ID
+  - Service Flow ID
+*****************************************************************
+1. DOCSIS major components
+2. DOCSIS interfaces
+3. DOCSIS operations
+4. DOCSIS protocol stacks
+5. DOCSIS headers
+
+--> DOCSIS Release
+1.0 March 1997
+1.1 April 1999
+2.0 December 2001
+3.0 August 2006
+3.1 October 2013
+
+--> Cable labs projects
+- Video - video content delivery on the cable system, video on demand
+- Metadata - descriptive data related to the video 
+- DPoE(DOCSIS Provisioning of EPON(Ethernet Passive Optical Network))
+- PacketCable - wide range of multimedia services like VoIP and gaming
+- Wireless - provide broadband services
+
+--> DOCSIS major components
+- Headend contains CMTS,Combiner and Splitter
+- Hybrid Fiber Cable Network(HFC)
+- CMTS(Cable Modem Termination System) usually provide L3 routing 
+or L2 switching capablity
+
+*****************************************************************
+List of RFC and Protocols related to DOCSIS
+RFC 792  --> INTERNET CONTROL MESSAGE PROTOCOL
+RFC 793  --> TRANSMISSION CONTROL PROTOCOL
+RFC 826  --> An Ethernet Address Resolution Protocol -- or --
+              Converting Network Protocol Addresses
+RFC 868  --> Time Protocol
+RFC 1157 --> A Simple Network Management Protocol (SNMP)
+RFC 1122 --> Requirements for Internet Hosts -- Communication Layers
+RFC 1323 --> TCP Extensions for High Performance
+RFC 1812 --> Requirements for IP Version 4 Routers
+RFC 1918 --> Address Allocation for Private Internets
+RFC 2131 --> Dynamic Host Configuration Protocol
+RFC 2132 --> DHCP Options and BOOTP Vendor Extensions
+RFC 2460 --> Internet Protocol, Version 6 (IPv6) Specification
+RFC 2710 --> Multicast Listener Discovery (MLD) for IPv6
+RFC 2827 --> Network Ingress Filtering: Defeating Denial of Service 
+             Attacks which employ IP Source Address Spoofing
+RFC 3022 --> Traditional IP Network Address Translator (Traditional NAT)
+RFC 3203 --> DHCP reconfigure extension
+RFC 3315 --> Dynamic Host Configuration Protocol for IPv6 (DHCPv6)
+RFC 3319 --> Dynamic Host Configuration Protocol (DHCPv6) Options
+             for Session Initiation Protocol (SIP) Servers
+RFC 3376 --> Internet Group Management Protocol, Version 3
+RFC 3412 --> Message Processing and Dispatching for the
+             Simple Network Management Protocol (SNMP)
+RFC 3413 --> Simple Network Management Protocol (SNMP) Applications
+RFC 3415 --> View-based Access Control Model (VACM) for the
+             Simple Network Management Protocol (SNMP)
+RFC 3419 --> Textual Conventions for Transport Addresses
+RFC 3584
+RFC 3633
+RFC 3646
+RFC 3736
+RFC 3775
+RFC 3810
+RFC 3828
+RFC 3879
+RFC 4007
+RFC 4022
+RFC 4075
+RFC 4113
+RFC 4191
+RFC 4193
+RFC 4242
+RFC 4291
+RFC 4293
+RFC 4302
+RFC 4303
+RFC 4340
+RFC 4361
+RFC 4443
+RFC 4632
+RFC 4861
+RFC 4862
+RFC 4884
+RFC 4960
+RFC 5095
+RFC 5156
+RFC 5201
+RFC 5382
+RFC 5389
+RFC 5494
+RFC 5942
+RFC 5996
+RFC 6092
+RFC 6106
+RFC 6298
+RFC 6333
+RFC 6334
+RFC 6540
+RFC 6633
+RFC 6644
+RFC 6762
+RFC 6918
+RFC 7083
+RFC 7084
+
+CANN DHCP
+eDOCSIS
+MULPIv3.0
+OSSIv3.0
+TR-064
+TR-069a4
+TR-143 Corrigendum1
+TR-181i2a3
+MR-230     --> TR-069 Deployment Scenarios
+TR-106a5   --> Data Model Template for TR-069-Enabled Devices Amendment 5
+WI-FI MGMT --> Wi-Fi Provisioning Framework Specification
+
+*****************************************************************
+Palestine: Peace Not Apartheid
+The General's Son - Miko Peled
+*****************************************************************
+*****************************************************************
+*****************************************************************
+
+
+Some of the features are 
+ 1. Home
+ 2. Status
+  a. Product 
+  
+***************************************
+1. What is bonded and unbonded channels
+2. What is erouter
+3. Components of docsis
+

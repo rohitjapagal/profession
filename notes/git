@@ -1,0 +1,1515 @@
+**********************************************************************
+git reference command
+**********************************************************************
+
+--> setup and config
+config
+help
+
+--> getting and creating projects
+init
+clone
+
+--> basic snapshotting
+add
+status
+diff
+commit
+reset
+rm
+mv
+
+--> branching and merging
+branch 
+checkout
+merge
+mergetool
+log
+stash
+tag
+
+--> sharing and updating projects
+fetch
+pull
+push
+remote
+submodule
+
+--> inspection and comparision
+show
+log
+diff
+shortlog
+describe
+
+--> patching
+apply
+cherry-pick
+diff
+rebase
+revert
+
+--> debugging
+bisect 
+blame
+grep
+
+--> email
+am
+apply
+format-patch
+send-email
+request-pull
+
+--> external systems
+svn
+fast-import
+
+--> administration
+clean
+gc
+fsck
+reflog
+filter-branch
+instaweb
+archive
+bundle
+
+--> server admin
+daemon
+update-server-info
+
+--> plumbing commands
+cat-file
+commit-tree
+count-objects
+diff-index
+for-each-ref
+hash-object
+ls-files
+merge-base
+read-tree
+rev-list
+rev-parse
+show-ref
+symbolic-ref
+update-index
+update-ref
+verify-pack
+write-tree
+
+**********************************************************************
+reference commands and usage with examples
+**********************************************************************
+--> setup and config
+config
+help
+
+--> getting and creating projects
+- init
+git init [-q | --quiet] [--bare] [--template=<template_directory>]
+  [--separate-git-dir <git dir>]
+  [--shared[=<permissions>]] [directory]
+
+1. Start a new Git repository for an existing code base
+$ cd /path/to/my/codebase
+$ git init      (1)
+$ git add .     (2)
+$ git commit    (3)
+
+- clone
+git clone [--template=<template_directory>]
+  [-l] [-s] [--no-hardlinks] [-q] [-n] [--bare] [--mirror]
+  [-o <name>] [-b <name>] [-u <upload-pack>] [--reference <repository>]
+  [--dissociate] [--separate-git-dir <git dir>]
+  [--depth <depth>] [--[no-]single-branch]
+  [--recursive | --recurse-submodules] [--] <repository>
+  [<directory>]
+
+1. clone from upstream:
+$ git clone git://git.kernel.org/pub/scm/.../linux.git my-linux
+$ cd my-linux
+$ make
+
+2. make a local clone that borrows from the current directory, without checking
+things out:
+$ git clone -l -s -n . ../copy
+$ cd ../copy
+$ git show-branch
+
+3. Clone from upstream while borrowing from an existing local directory:
+$ git clone --reference /git/linux.git \
+	git://git.kernel.org/pub/scm/.../linux.git \
+	my-linux
+$ cd my-linux
+
+4. Create a bare repository to publish your changes to the public:
+$ git clone --bare -l /home/proj/.git /pub/scm/proj.git
+
+
+--> basic snapshotting
+- add
+git add [--verbose | -v] [--dry-run | -n] [--force | -f] [--interactive | -i][--patch | -p]
+  [--edit | -e] [--[no-]all | --[no-]ignore-removal | [--update | -u]]
+  [--intent-to-add | -N] [--refresh] [--ignore-errors] [--ignore-missing]
+  [--] [<pathspec>...]
+
+- status
+
+- diff
+
+- commit
+
+- reset
+
+- rm
+
+- mv
+
+--> branching and merging
+
+- branch 
+
+- checkout
+
+- merge
+
+- mergetool
+
+- log
+
+- stash
+
+- tag
+
+--> sharing and updating projects
+- fetch
+
+- pull
+
+- push
+
+- remote
+
+- submodule
+
+--> inspection and comparision
+- show
+
+- log
+
+- diff
+
+- shortlog
+
+- describe
+
+--> patching
+- apply
+
+- cherry-pick
+
+- diff
+
+- rebase
+
+- revert
+
+--> debugging
+- bisect 
+
+- blame
+
+- grep
+
+
+--> email
+- am
+
+- apply
+
+- format-patch
+
+- send-email
+
+- request-pull
+
+--> external systems
+- svn
+
+- fast-import
+
+--> administration
+- clean
+
+- gc
+
+- fsck
+
+- reflog
+
+- filter-branch
+
+- instaweb
+
+- archive
+
+- bundle
+
+
+--> server admin
+- daemon
+
+- update-server-info
+
+
+--> plumbing commands
+- cat-file
+
+- commit-tree
+
+- count-objects
+
+- diff-index
+
+- for-each-ref
+
+- hash-object
+
+- ls-files
+
+- merge-base
+
+- read-tree
+
+- rev-list
+
+- rev-parse
+
+- show-ref
+
+- symbolic-ref
+
+- update-index
+
+- update-ref
+
+- verify-pack
+
+- write-tree
+
+
+**********************************************************************
+**********************************************************************
+**********************************************************************
+**********************************************************************
+**********************************************************************
+
+**********************************************************************
+INSTALLING GIT
+testing
+
+1. Mac : http://sourceforge.net/projects/git-osx-installer/
+
+2. Windows : http://msysgit.github.io/
+
+3. Linux : apt-get install git-core OR yum install git-core
+
+ABOUT GIT
+
+1. Git is a version control tool that saves changes to groups 
+   of files so you can revert back if needed.
+
+2. There are different types of version control tools
+
+a. Local Version Control saves changes to files in a database
+
+b. Centralized Version Control saves changes to a shared server
+
+c. Distributed Version Control allows for easier sharing of files 
+   then LVC and also eliminates problems that could occur if access 
+   to the server is lost under a CVC system.
+
+d. DVC clients have a complete backup of the files on their computer. 
+   If the server is lost the client just waits to regain contact and 
+   then uploads changes.
+
+3. When you commit changes to files Git stores a reference of what 
+   the files look like at that moment. If a file isn't changed it 
+   isn't stored again.
+
+4. Each client has a complete history of all changes stored locally. 
+   The client can also access all changes made to the files historically 
+   with a simple command. Also those files cannot be changed without 
+   Git knowing and changes are difficult to lose.
+
+5. Files transition between 3 states with Git
+
+a. Modified Files are files that have been recently changed
+
+b. Staged Files have been marked to be saved
+
+c. Committed Files are those that have been saved
+
+6. Git saves all file changes to a directory as a compressed database. 
+
+a. You modify files in Working Directory
+
+b. You notify that want to save changes in your Staging Area
+
+c. After you Commit the file changes are saved in the Git directory
+
+USING GIT
+
+1. git config --global user.name "Derek Banas" 
+
+2. git config --global user.email derekbanas@verizon.net
+
+3. git config --global core.editor "vim" # Set editor as vim
+
+4. git config --global core.editor "edit -w" # Set editor as Text Wrangler Mac
+
+5. git config --list # Show settings
+
+6. git help OR git help [COMMAND] OR git help add
+
+7. ---------------- Track a directory ----------------
+
+a. Go to directory
+
+b. ls -a shows all files
+
+c. git init # Creates the .git directory
+
+8. ---------------- Start tracking files ----------------
+
+a. By type : git add *.java
+
+b. By name : git add AndroidManifest.xml
+
+9. ---------------- Ignore Files ----------------
+
+a. Create a .gitignore file
+
+b. https://github.com/github/gitignore
+
+10. ---------------- git commit -m 'Initial project version' 
+
+a. Commits the changes and sets an abbreviated commit message
+
+11. ---------------- git status ----------------
+
+a. Shows the state of your files meaning if they are tracked, 
+   have been modified and the branch your on.
+
+12. ---------------- Stage A Modified File ----------------
+
+a. Change the file and save
+
+b. git diff # Shows what you changed, but haven't staged
+
+c. git add AndroidManifest.xml # Stage file
+
+d. git diff --cached # Shows what has been staged, but not committed 
+
+13. ---------------- Commit The Changes ----------------
+
+a. commit # Opens the editor we defined above or vi
+
+b. In vi click [ESC] i to enter insert mode
+
+c. Type a heading that briefly explains the changes in 50 characters or less
+
+d. Describes the original problem that is being addressed
+
+e. Describes the specific change being made
+
+f. Describes the result of the change
+
+g. Describes any future improvements
+
+h. Post a closes bug notation Closes-Bug: #1291621
+
+i. Hit [ESC] and type wq to save and exit
+
+j. git commit -a -m 'Changed comment' # Skips staging and commit message
+
+14. ---------------- Remove a File ----------------
+
+a. rm DeleteMe.txt # If you remove a file it shows as "Changed but not updated"
+
+b. git status # If you remove a file it shows as "Changed but not updated"
+
+c. git rm DeleteMe.txt
+
+d. git status # Shows that the file was deleted
+
+e. If you have committed a file to be removed you must add the -f option
+
+f. git rm --cached DeleteMe.txt # Keep file, but remove from staging area
+
+g. git mv DeleteMe.txt Delete.txt # Renames a file
+
+15. ---------------- Log Commit History  ----------------
+
+a. git log # Shows all of the previous commit messages in reverse order
+
+b. git log --pretty=oneline # Shows commits on one line
+
+c. git log --pretty=format:"%h : %an : %ar : %s" 
+
+I. %h - Abbreviated Hash  
+
+II. %an - Authors Name
+
+III. %ar - Date Changed
+
+IV. %s - First Line of Comment
+
+d. git log -p -2 # Shows the last 2 commit changes
+
+e. git log --stat # Prints abbreviated stats
+
+f. git log --since=1.weeks # Show only changes in the last week
+
+g. git log --since="2014-04-12" # Show changes since this date
+
+h. git log --author="Derek Banas" # Changes made by author
+
+i. git log --before="2014-04-13" # Changes made before this date
+
+16. ---------------- Undoing a Commit ----------------
+
+a. git commit --amend # If you want to change your previous commit
+
+b. Normally done if you forgot to stage a file, or to change the commit message
+
+17. ---------------- Unstage a File ---------------- 
+
+a. git reset HEAD AndroidManifest.xml
+
+---------------- GIT PART 2 ---------------- 
+
+1. GitHub allows you to host your code repositories online. 
+I'll set up everything for it in this video. 
+I'll also cover remote depositories in general.
+
+2. Remote repositories are normally read only, 
+or read write only to those who are authorized 
+
+3. You either push or pull updates from these remote repositories.
+
+4. To push your directory to GitHub ---------------- 
+
+a. git init
+
+b. git add . # Stages all new and modified files and directories
+
+c. git commit -m 'Initial Project Version'
+
+d. git remote add origin https://github.com/derekbanas/SimpleFragment.git
+
+e. git push origin master
+
+5. git remote -v # Lists all remotes and their URLs
+
+6. git fetch origin # Gets data from the remote, 
+but it doesn't merge changes with your work
+
+7. git pull https://github.com/derekbanas/SimpleFragment.git
+
+a. Pulls all changes and saves them to your directory
+
+8. How to push changes to GitHub ---------------- 
+
+a. I add .gitignore for Android on my local machine
+
+b. In the terminal type
+
+I. git add .gitignore # Stage .gitignore
+
+II. git commit -m 'Added .gitignore for Android' # Commit
+
+III. git push # Push the changes to GitHub
+
+9. git remote rename origin sf # Renames remote to sf
+
+10. Tagging ---------------- 
+
+a. Tags are used to tag files at important points in history
+
+b. git tag -a v0.1 -m 'version 0.1' # Creates an annotated tag
+
+c. git tag # Shows all the tags
+
+d. git show v0.1 # Shows details about the commit that was tagged
+
+e. git tag v0.4-lw 
+
+I. Creates a lightweight tag on a commit that stores the hash for the commit
+
+f. git tag -a v0.01 c930a8
+
+I. You can tag commits after the event also. When you enter this command 
+an editor opens for you to leave a comment. The final part is the hash 
+for the commit you want to tag.
+
+g. git push sf v0.1 # You can also push tags
+
+I. The tag shows up under releases on GitHub
+
+II. git push sf --tags # You can also push all tags at once
+
+h. You can set aliases to save time
+
+I. git config --global alias.co commit
+
+II. Now you can type git co to commit
+
+i. Clone a GitHub Repository
+
+I. Go to the directory you want to use
+
+II. git clone https://github.com/derekbanas/google-api-nodejs-client.git
+
+---------------- GIT PART 3 ----------------
+
+1. Branching allows you to take a project in your own direction 
+without effecting the main code. You use them to make sure 
+you don't introduce unstable code to the master branch.
+
+2. When you commit a project :
+
+a. Each file is given a hash code
+
+b. A tree object that contains those files and the associated 
+hash codes receives a hash code
+
+c. A commit object stores a reference to the tree and other data 
+like the author, commit comment, a reference to the previous 
+commit and other data.
+
+3. The default branch is called the master. As you make additional 
+commits the current newest version is referred to as the master.
+
+4. If you create a branch you can go in a different direction 
+with the project without effecting the master until you merge. 
+Each branch creates a new pointer to a committed version of 
+files and doesn't make another copy of the files.
+
+5. We can actually create many branches, but be careful while doing 
+this because it can get to be hard to merge multiple branches. 
+A pointer known as HEAD can be pointed at any committed version 
+or to any branch with the checkout command.
+
+6. When you are finished with your branch you can merge back into 
+the master commit and move on. You can also do all of this locally 
+or on a remote.
+
+7. ---------------- Simple Branch Example ----------------
+
+a. git checkout -b fix20 # Create a branch and switch to it
+
+I. Same as :
+	git branch fix20
+	git checkout fix20
+
+b. Change AndroidManifest.xml in vim
+
+c. git commit -a -m 'Added Branch fix20' # Commit the change to the branch, 
+but not to master
+
+d. git checkout master # Switch to master 
+
+e. git push origin fix20 # Push the branch to GitHub
+
+f. git fetch origin # If someone else fetches from the server they 
+get a reference to the branch on the server but not all the files
+
+g. git checkout -b fix20 origin/fix20 # Retrieves the branch fix20
+
+h. git branch # Shows all branches
+
+i. git branch --merged # Shows all merged branches
+
+j. git branch --no-merged # Shows unmerged branches
+
+k. git branch -v # Shows all branches and their last commits
+	# * Points out the branch currently checked out
+
+l. git merge fix20 # Merge the branch version with the master
+   git push # Push the change to GitHub
+
+m. git branch -d fix20 # You can delete merged branches with this
+
+n. git branch -D fix22 # Deletes unmerged branches
+
+o. git push origin :fix20 # Deletes the branch on GitHub
+
+p. git branch -m newBranchName # Renames a branch
+
+8. ---------------- Multiple Branch Example ----------------
+
+a. a. git checkout -b fix21 # Create a branch and switch to it
+
+b. Edit AndroidManifest.xml
+
+c. git commit -a -m 'Added Branch fix21'
+
+d. git checkout master # Switch to master 
+
+e. Look at Manifest to see that nothing changed
+
+f. git checkout -b 'hotfix' # Create a new branch
+
+g. git commit -a -m 'Added Hot Fix' # Commit the Hot Fix
+	
+h. git checkout master # Switch to master
+	
+i. git merge hotfix # Merge the hotfix version with the master
+
+j. git branch -d hotfix # Delete the hotfix branch
+
+k. git checkout fix21 # Switch to fix21 branch
+
+l. git checkout master # Make sure you are in master
+	
+m. git merge fix21 # Merges the branch and master if there are no conflicts
+	
+n. If there is a conflict resolve it
+
+o. git branch -d fix21 # Delete the unneeded branch
+   git branch -D fix21 # To force delete
+	
+p. git mergetool # You can merge with a graphical tool
+
+I. Backup : Contents of the file before calling the merge tool
+
+II. Base : The common ancestor of the files being merged
+
+III. Local : Version being pointed at by HEAD
+
+IV. Remote : The branch being merged into head
+
+9. ---------------- Rebasing Example ----------------
+
+a. Rebasing moves a branch to a new ( master / base ) commit. This is also 
+referred to as a fast forward merge. Just never rebase commits that have 
+been pushed to a public repository
+
+b. git checkout -b fix22
+
+c. Edit AndroidManifest.xml
+
+d. git commit -a -m 'Changed the comment to 10'
+
+e. git checkout -b hotfix
+
+f. Edit another file other then AndroidManifest
+
+g. git commit -a -m 'Edited file....'
+
+h. git checkout master
+
+i. git merge hotfix
+
+j. git branch -d hotfix
+
+k. git checkout fix22
+
+l. git rebase master # Move branch to new master commit
+
+m. git checkout master
+
+n. git merge fix22
+
+10. ---------------- Reverting Vs. Resetting Example ----------------
+
+a. Some times you want to eliminate a previous commit, but you still want 
+to keep the commit for integrity reasons. Revert undoes changes made in that 
+commit and makes a new commit. Reset actually deletes the commit which can cause problems.
+
+b. Do something that will be undone
+
+c. git commit -m 'Made a change that I will undo'
+
+d. git revert HEAD # You are back to where you started, but the commit was made
+
+e. Reset eliminates previous commits and you can never get them back. 
+You really should never use it actually.
+
+f. git reset someFile # Removes a file from the staging area, 
+but leave the working directory unchanged
+
+g. git reset # Reset the staging area to match the most recent commit 
+while leaving the working directory unchanged
+
+h. git reset aCommit # Move back to this previous commit, 
+reseting the staging area, but not the working directory
+
+i. git reset --hard # Reset both the staging area and working 
+directory to match the most recent commit
+
+j. git reset --hard aCommit # Move back to the commit listed and 
+change staging and working directory
+
+11. ---------------- Clean Example ----------------
+
+a. Clean removes untracked files from your directory and is undoable.
+
+b. git clean -n # Shows which files will be removed
+
+c. git clean -f # Remove untracked files
+
+d. gir clean -df # Remove untracked files and untracked directories 
+in the current directory
+
+e. git reset --hard # Undoes changes on all tracked files
+   git clean -df # Removes all untracked files
+   
+---------------- GIT PART 4 ----------------
+
+1. Here I'll demonstrate a workflow option with git called Fork 7 Pull. 
+I'll also answer some questions I've received like how to work with 
+multiple GitHub accounts on the same computer. 
+
+---------------- GENERATING SSH KEYS ----------------
+
+2. SSH keys allow you to identify trusted computers without the 
+need for passwords and here I'll show you how to generate multiple 
+codes for multiple GitHub accounts. 
+
+a. ssh-keygen -t rsa -C "Your Email Address" # Generates the key
+
+3. Then you have to define the name of the file you want to save the key in
+
+4. A public key and a randomart image are generated. The randomart image is 
+provided because it is easier to recognize then a random string of numbers.
+
+5. cd ~/.ssh # Takes us to the location of our keys
+
+6. I'll open the public key with vim
+
+7. Now I'll copy the entire key from ssh-rsa till the end with my email
+
+8. Got to GitHub and sign in
+
+9. Click on account settings
+
+10. Click on SSH
+
+11. Give the key a name, paste in the key and click add key
+
+12. Your public key is then listed
+
+---------------- CREATING MULTIPLE GITHUB ACCOUNTS ----------------
+
+13. Now I'll create another ssh key for a completely new account on GitHub
+	ssh-keygen -t rsa -C "Your Email Address" # Generates the key
+
+14. Give it a name
+
+15. A public key and randomart are generated again
+
+16. cd ~/.ssh # Takes me to the location for the keys
+	ls # Lists everything in the directory
+	
+17. Go to GitHub again using a different GitHub account and click Account Settings
+
+18. vim newthinktank.pub # Get the new key that was generated
+
+19. Copy the key
+
+20. After you click SSH Keys in the sidebar on GitHub, paste the key in, 
+give it a title and click Add Key
+
+21. We used a unique name for our keys so we have to tell ssh about them.
+	ssh-add ~/.ssh/derekbanas
+	ssh-add ~/.ssh/newthinktank
+	
+22. touch ~/.ssh/config # Creates the empty file config
+	vim config # Open config
+	
+23. We are defining which account we want to work with by associating a 
+keyword to our 2 different hosts.
+
+Host github.com
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/derekbanas
+	
+Host github-ntt
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/newthinktank
+	
+24. Change to the directory you want to use on GitHub
+
+25. This is the account on GitHub that holds the original master files
+
+26 - 28. After I edit some files I stage them and commit them
+
+29. git remote add myorigin git@github-ntt:newthinktank/CrazyTipCalc.git
+
+a. Create an alias for our remote directory
+
+b. github-ntt # I identify myself using the newthinktank ssh key
+
+c. newthinktank/CrazyTipCalc.git # The specific files I want on GitHub
+
+30. git push myorigin master
+When you try to push to GitHub you may see this warning. You can verify 
+you are pushing to GitHub by comparing the public keys
+
+31 - 34. You can see GitHubs public keys here
+https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints
+
+35 - 37. Log into GitHub using my derekbanas account and search for the 
+directory I have associated with my newthinktank account
+
+38 - 41. Get the URL from GitHub and I can clone it
+git clone https://github.com/newthinktank/CrazyTipCalc.git  
+
+---------------- FORK & PULL WORKFLOW ----------------
+
+The way the Fork & Pull works is that anyone can Fork a repository and make 
+changes locally. They don't have the ability to push their potentially damaging code. 
+They can however request that the host repository pull their changes if they would 
+like using a Pull Request. ( This is a very common workflow in the open source community )
+
+42. Find a repository you'd like to work on and click Fork in GitHub
+
+43 - 45. git clone https://github.com/derekbanas/CrazyTipCalc.git
+	# Get the URL for the fork on GitHub and clone it on your local computer
+
+46. git remote add upstream https://github.com/derekbanas/CrazyTipCalc.git
+	# Assigns the original remote and not the fork to the keyword upstream
+	
+47. git fetch upstream
+	# Pull in changes made in the original repository with effecting the local files
+
+48 - 53. I can change a file locally, stage and commit it. 
+I can then push it to more Fork on GitHub.
+
+54. git merge upstream/master # Merges files on GitHub with my local files
+
+55. If I think my changes should be merged with the original repository 
+I can make a Pull Request. Click on Compare, review, create a pull request on GitHub.
+
+56. Changes are listed as well as other data associated with your Forked version. 
+Click the button labeled Create Pull Request if you think you're ready.
+
+57 - 58. Leave a detailed reason why the Pull Request should be excepted 
+and click Send Pull Request
+
+59. The owner of the original repository can see how many Pull Requests 
+they have received on the right side of the screen.
+
+60 - 63. They can go through the Pull Requests and decide what to do.  
+
+64 - 65. To merge click Merge Pull Request in GitHub and then leave a 
+detailed explanation why it was done.   
+**********************************************************************
+**********************************************************************
+1. What is Git ?
+--> A version control tool.
+
+2. Three types of version control
+--> Local version control
+--> Centralized version control
+--> Distributed version control
+
+3. Files transition between three states in git
+--> Modified files - Files which are being recently changed.
+--> Staged files   - Files which are marked to be saved.
+--> Commited files - Files which have been saved.
+
+4. Basic commands for git 
+To configure a vim editor for git
+--> $ git config --global core.editor "vim"
+
+To see the changes made in git
+--> $ git config --list
+
+To get help 
+--> $ git help
+
+To get help on specific commands 
+--> git help <command>
+--> $ git help add
+
+To track a directory
+--> go to the directory which you want to track
+--> $ git init
+
+To add a specific file in a directory to track
+--> git add <File Name>
+--> $ git add test.txt
+
+To ignore a list of different file type or a file
+--> create a file named ".gitignore" inside the dir
+--> you can also go to website "https://github.com/github/gitignore" 
+to get the template for each type of projects
+
+To commit a file without opening an editor
+--> git commit -m <'Comments'>
+--> git commit -m 'Initial version of Project'
+
+To get the status of all the git files
+--> $ git status
+
+To see what has changed after modifying the file in the git repository
+--> $ git diff
+
+To stage a file
+--> modify the file which you wanted to stage
+--> git add <file name>
+--> $ git add test.txt
+
+To see the difference after the file has been staged and not commited
+--> $ git diff --cached
+
+To forcefully push when the server is not accepting or created a new dir to sync
+--> $ git push -f origin master
+
+To commit a file
+--> $ git commit
+
+To skip the staging and directly commit without opening the editor 
+during commit
+--> git commit -a -m <'commit message'>
+--> $ git commit -a -m 'Add few more commands'
+
+To remove a file from a git before commiting or in the staging area 
+--> git add <file name>
+--> git rm -f <file name>
+--> $ git add test.txt
+--> $ git rm -f test.txt
+ 
+To keep the file in the folder but delete from the staging area
+--> git add <file name>
+--> git rm --cached <file name>
+--> git add test.txt
+--> git rm --cached test.txt
+
+To commit a file and then rename it
+--> git add <file name>
+--> git commit -m <'comments'>
+--> git mv <source file> <destination file>
+--> $ git add test.txt
+--> $ git commit -m 'Initial project version'
+--> $ git mv test.txt test_new.txt
+
+To see log messages in reverse chronological order
+--> $ git log
+
+To see log messages in one line
+--> $ git log --pretty=oneline
+
+To see log message in formatted
+--> git log --pretty=format:"<short form of hash> <author> 
+                             <date of change> <change message>"
+--> $ git log --pretty=format:"%h : %an : %ar : %s"
+
+To see the last few commits
+--> git log -p -<Number of last commits>
+--> $ git log -p -2
+
+To undo the last commited message
+--> git add <file name>
+--> git commit -m '<comment>'
+--> git commit --amend
+--> $ git add test.txt
+--> $ git commit -m 'Added message 1'
+--> $ git commit --amend
+
+To commit all the folder in a dir
+--> $ git add .
+
+To push the entire dir into remote git server
+--> create a account in git hub and create a repository with a name
+here I have created as "Repository"
+--> $ git add .
+--> $ git commit -m 'Initial version'
+--> $ git remote add origin https://github.com/rangaeeeee/Repository.git
+--> $ git push origin master
+
+To list the remote git
+--> $ git remote -v
+
+To pull data  from a remote repository and do not merge changes with the
+machine
+--> $ git fetch origin
+
+To pull data from a remote repository and merge with the folder in system
+--> $ git pull https://github.com/rangaeeeee/Repository.git
+
+To push a file from the system to a remote respository
+--> git add <file name>
+--> $ git add .gitignore
+--> $ git commit -m 'Added a new file .gitignore'
+--> $ git push https://github.com/rangaeeeee/Repository.git
+
+
+
+Repository
+https://github.com/rangaeeeee/Repository.git
+
+
+
+
+…or create a new repository on the command line
+
+echo "# Repository" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/rangaeeeee/Repository.git
+git push -u origin master
+
+
+
+
+
+…or push an existing repository from the command line
+
+git remote add origin https://github.com/rangaeeeee/Repository.git
+git push -u origin master
+
+
+
+
+
+******************************************************************
+Git Cheat Sheet
+******************************************************************
+Commands
+Getting Started
+
+git init
+
+git clone url
+Configuration
+
+git config --global color.ui true
+git config --global push.default current
+git config --global core.editor vim
+git config --global user.name "John Doe"
+git config --global user.email foo@citrix.com
+git config --global diff.tool meld
+
+Working with Local Branch
+Branching
+
+# See the list of all local branches
+git branch
+
+# Switch to existing local branch
+git checkout branchname
+
+# Checkout current branch into a new branch, named new-branch-name
+git checkout -b new-branch-name
+
+# Merge branch-name into the current branch
+git merge branchname
+
+# Merga branch without fast forwarding. This is what pull requests do.
+# It helps to preserve history of the changes as relavant to that branch
+# It's an advance feature, but try it out with GUI to see the difference
+# between the regular merge and merge --no-ff
+git merge --no--ff branchname
+
+# Soft branch delete, will complain if the branch is not merged
+git branch -d branchname
+
+# Hard branch delete, will not complain about nothing. Like rm -rf in bash
+git branch -D branchname
+
+Updating Current Branch
+
+Standard Flow
+
+# See all commits
+git log
+
+# Pretty commit view, you can customize it as much as you want. 
+# Just google it :)
+git log --pretty=format:"%h %s" --graph
+
+# See what you worked on in the past week
+git log --author='Alex' --after={1.week.ago} --pretty=oneline --abbrev-commit
+
+# See only changes made on this branch (assuming it was branched form master
+# branch)
+git log --no-merges master..
+
+# See status of your current git branch. 
+# Often will have advice on command that you need to run
+git status
+
+# Short view of status. Helpful for seeing things at a glance
+git status -s
+
+# Add modified file to be commited(aka stage the file)
+git add filename
+
+# Add all modifeid files to be commited(aka stage all files)
+git add .
+
+# Add only text files, etc.
+git add '*.txt'
+
+# Tell git not to track file anymore
+git rm filename
+
+# Record changes to git. Default editor will open for a commit message.
+# (Visible via git log)
+# Once files are commited, they are history.
+git commit 
+
+# A short hand for commiting files and writing a commit message via one command
+git commit -m 'Some commit message'
+
+# Changing the history :) If you want to change your previous commit, 
+# you can, if you haven't pushed it yet to a remote repo
+# Simply make new changes, add them via git add, and run the following command. 
+# Past commit will be ammended.
+git commit --amend
+
+Advanced
+
+# Unstage pending changes, the changes will still remain on file system
+git reset
+
+# Unstage pending changes, and reset files to pre-commit state. If 
+git reset --hard HEAD
+
+# Go back to some time in history, on the current branch
+git reset tag
+git reset <commit-hash>
+
+# Save current changes, without having to commit them to repo
+git stash
+
+# And lated return those changes
+git stash pop
+
+# Return file to it's previous version, if it haven't been stage yet.
+# Otherwise use git reset filename or git reset --hard filename
+git checkout filename 
+
+Comparing changes
+
+# See current changes, that have not been stage yet. 
+# Good thing to check before running git add
+git diff
+
+# See current changes, that have not been commited yet (including staged
+# changes)
+git diff HEAD
+
+# Compare current branch to some other branch
+git diff branch-name
+
+# Same as diff, but opens changes via difftool that you have configured
+# -d tells it to open it in a directory mode, instead of having to open
+# each file one at a time.
+git difftool -d
+
+# See only changes made in the current branch (compared to master branch)
+# Helpful when working on a stand alone branch for a while
+git difftool -d master..
+
+# See only the file names that has changed in current branch
+git diff --no-commit-id --name-only --no-merges origin/master...
+
+# Similar to above, but see statistics on what files have changed and how
+git diff --stat #Your diff condition
+
+Working with Remote Branch
+
+# See list of remote repos available. If you did git clone, 
+# you'll have at least one named "origin"
+git remote
+
+# Detailed view of remote repos, with their git urls
+git remote -v
+
+# Add a new remote. I.e. origin if it is not set
+git remote add origin <https://some-git-remote-url>
+
+# Push current branch to remote branch (usually with the same name) 
+# called upstream branch
+git push
+
+# If a remote branch is not set up as an upstream, you can make it so
+# The -u tells Git to remember the parameters
+git push -u origin master 
+
+# Otherwise you can manually specify remote and branch to use every time
+git push origin branchname
+
+# Just like pushing, you can get the latest updates from remote. 
+# By defaul Git will try to pull from "origin" and upstream branch
+git pull
+
+# Or you can tell git to pull a specific branch
+git pull origin branchname
+
+# Git pull, is actually a short hand for two command.
+# Telling git to first fetch changes from a remote branch
+# And then to merge them into current branch
+git fetch && git merge origin/remote-branch-name
+
+# If you want to update history of remote branches, you can fetch and purge
+git fetch -p
+
+# To see the list of remote branches
+# -a stands for all
+git branch -a 
+
+Resources
+Reference
+
+Source Tree - http://www.sourcetreeapp.com/
+tig - sudo apt-get install tig or brew install tig etc
+gitk - sudo apt-get install gitk
+
+Merge/Diff Tools
+
+Meld - sudo apt-get install meld or brew install meld
+Open Diff
+p4v Merge -
+http://git-scm.com/book/en/Customizing-Git-Git-Configuration#External-Merge-and-Diff-Tools
+
+*********************************************************************************
+User Manual Notes
+*********************************************************************************
+
+    1. Getting Started
+        1.1 About Version Control
+        1.2 A Short History of Git
+        1.3 Git Basics
+        1.4 The Command Line
+        1.5 Installing Git
+        1.6 First-Time Git Setup
+        1.7 Getting Help
+        1.8 Summary
+    2. Git Basics
+        2.1 Getting a Git Repository
+        2.2 Recording Changes to the Repository
+        2.3 Viewing the Commit History
+        2.4 Undoing Things
+        2.5 Working with Remotes
+        2.6 Tagging
+        2.7 Git Aliases
+        2.8 Summary
+    3. Git Branching
+        3.1 Branches in a Nutshell
+        3.2 Basic Branching and Merging
+        3.3 Branch Management
+        3.4 Branching Workflows
+        3.5 Remote Branches
+        3.6 Rebasing
+        3.7 Summary
+    4. Git on the Server
+        4.1 The Protocols
+        4.2 Getting Git on a Server
+        4.3 Generating Your SSH Public Key
+        4.4 Setting Up the Server
+        4.5 Git Daemon
+        4.6 Smart HTTP
+        4.7 GitWeb
+        4.8 GitLab
+        4.9 Third Party Hosted Options
+        4.10 Summary
+    5. Distributed Git
+        5.1 Distributed Workflows
+        5.2 Contributing to a Project
+        5.3 Maintaining a Project
+        5.4 Summary
+    6. GitHub
+        6.1 Account Setup and Configuration
+        6.2 Contributing to a Project
+        6.3 Maintaining a Project
+        6.4 Managing an organization
+        6.5 Scripting GitHub
+        6.6 Summary
+    7. Git Tools
+        7.1 Revision Selection
+        7.2 Interactive Staging
+        7.3 Stashing and Cleaning
+        7.4 Signing Your Work
+        7.5 Searching
+        7.6 Rewriting History
+        7.7 Reset Demystified
+        7.8 Advanced Merging
+        7.9 Rerere
+        7.10 Debugging with Git
+        7.11 Submodules
+        7.12 Bundling
+        7.13 Replace
+        7.14 Credential Storage
+        7.15 Summary
+    8. Customizing Git
+        8.1 Git Configuration
+        8.2 Git Attributes
+        8.3 Git Hooks
+        8.4 An Example Git-Enforced Policy
+        8.5 Summary
+    9. Git and Other Systems
+        9.1 Git as a Client
+        9.2 Migrating to Git
+        9.3 Summary
+    10. Git Internals
+        10.1 Plumbing and Porcelain
+        10.2 Git Objects
+        10.3 Git References
+        10.4 Packfiles
+        10.5 The Refspec
+        10.6 Transfer Protocols
+        10.7 Maintenance and Data Recovery
+        10.8 Environment Variables
+        10.9 Summary
+    A1. Git in Other Environments
+        A1.1 Graphical Interfaces
+        A1.2 Git in Visual Studio
+        A1.3 Git in Eclipse
+        A1.4 Git in Bash
+        A1.5 Git in Zsh
+        A1.6 Git in Powershell
+        A1.7 Summary
+    A2. Embedding Git in your Applications
+        A2.1 Command-line Git
+        A2.2 Libgit2
+        A2.3 JGit
+    A3. Git Commands
+        A3.1 Setup and Config
+        A3.2 Getting and Creating Projects
+        A3.3 Basic Snapshotting
+        A3.4 Branching and Merging
+        A3.5 Sharing and Updating Projects
+        A3.6 Inspection and Comparison
+        A3.7 Debugging
+        A3.8 Patching
+        A3.9 Email
+        A3.10 External Systems
+        A3.11 Administration
+        A3.12 Plumbing Commands
+
+
+
+    1. Getting Started
+        1.1 About Version Control
+        --> Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. 
+         a. Local Version Control Systems
+         b. Centralized Version Control Systems
+         c. Distributed Version Control Systems
+        1.2 A Short History of Git
+        1.3 Git Basics
+        1.4 The Command Line
+        1.5 Installing Git
+        1.6 First-Time Git Setup
+        1.7 Getting Help
+        1.8 Summary
+    2. Git Basics
+        2.1 Getting a Git Repository
+        2.2 Recording Changes to the Repository
+        2.3 Viewing the Commit History
+        2.4 Undoing Things
+        2.5 Working with Remotes
+        2.6 Tagging
+        2.7 Git Aliases
+        2.8 Summary
+    3. Git Branching
+        3.1 Branches in a Nutshell
+        3.2 Basic Branching and Merging
+        3.3 Branch Management
+        3.4 Branching Workflows
+        3.5 Remote Branches
+        3.6 Rebasing
+        3.7 Summary
+    4. Git on the Server
+        4.1 The Protocols
+        4.2 Getting Git on a Server
+        4.3 Generating Your SSH Public Key
+        4.4 Setting Up the Server
+        4.5 Git Daemon
+        4.6 Smart HTTP
+        4.7 GitWeb
+        4.8 GitLab
+        4.9 Third Party Hosted Options
+        4.10 Summary
+    5. Distributed Git
+        5.1 Distributed Workflows
+        5.2 Contributing to a Project
+        5.3 Maintaining a Project
+        5.4 Summary
+    6. GitHub
+        6.1 Account Setup and Configuration
+        6.2 Contributing to a Project
+        6.3 Maintaining a Project
+        6.4 Managing an organization
+        6.5 Scripting GitHub
+        6.6 Summary
+    7. Git Tools
+        7.1 Revision Selection
+        7.2 Interactive Staging
+        7.3 Stashing and Cleaning
+        7.4 Signing Your Work
+        7.5 Searching
+        7.6 Rewriting History
+        7.7 Reset Demystified
+        7.8 Advanced Merging
+        7.9 Rerere
+        7.10 Debugging with Git
+        7.11 Submodules
+        7.12 Bundling
+        7.13 Replace
+        7.14 Credential Storage
+        7.15 Summary
+    8. Customizing Git
+        8.1 Git Configuration
+        8.2 Git Attributes
+        8.3 Git Hooks
+        8.4 An Example Git-Enforced Policy
+        8.5 Summary
+    9. Git and Other Systems
+        9.1 Git as a Client
+        9.2 Migrating to Git
+        9.3 Summary
+    10. Git Internals
+        10.1 Plumbing and Porcelain
+        10.2 Git Objects
+        10.3 Git References
+        10.4 Packfiles
+        10.5 The Refspec
+        10.6 Transfer Protocols
+        10.7 Maintenance and Data Recovery
+        10.8 Environment Variables
+        10.9 Summary
+    A1. Git in Other Environments
+        A1.1 Graphical Interfaces
+        A1.2 Git in Visual Studio
+        A1.3 Git in Eclipse
+        A1.4 Git in Bash
+        A1.5 Git in Zsh
+        A1.6 Git in Powershell
+        A1.7 Summary
+    A2. Embedding Git in your Applications
+        A2.1 Command-line Git
+        A2.2 Libgit2
+        A2.3 JGit
+    A3. Git Commands
+        A3.1 Setup and Config
+        A3.2 Getting and Creating Projects
+        A3.3 Basic Snapshotting
+        A3.4 Branching and Merging
+        A3.5 Sharing and Updating Projects
+        A3.6 Inspection and Comparison
+        A3.7 Debugging
+        A3.8 Patching
+        A3.9 Email
+        A3.10 External Systems
+        A3.11 Administration
+        A3.12 Plumbing Commands
