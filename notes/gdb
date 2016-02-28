@@ -91,9 +91,32 @@ P. Altering: Altering execution
   07. Compiling and Injecting Code: Compiling and injecting code in gdb 
   
 Q. GDB Files: gdb files
+  01. Files: Commands to specify files
+  02. File Caching: Information about gdb's file caching
+  03. Separate Debug Files: Debugging information in separate files
+  04. MiniDebugInfo: Debugging information in a special section
+  05. Index Files: Index files speed up GDB
+  06. Symbol Errors: Errors reading symbol files
+  07. Data Files: GDB data files 
+
 R. Targets: Specifying a debugging target
+  01. Active Targets: Active targets
+  02. Target Commands: Commands for managing targets
+  03. Byte Order: Choosing target byte order 
+
 S. Remote Debugging: Debugging remote programs
+  01. Connecting: Connecting to a remote target
+  02. File Transfer: Sending files to a remote system
+  03. Server: Using the gdbserver program
+  04. Remote Configuration: Remote configuration
+  05. Remote Stub: Implementing a remote stub 
+
 T. Configurations: Configuration-specific information
+  01. Native
+  02. Embedded OS
+  03. Embedded Processors
+  04. Architectures 
+
 U. Controlling GDB: Controlling gdb
 V. Extending GDB: Extending gdb
 W. Interpreters: Command Interpreters
