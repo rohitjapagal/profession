@@ -81,6 +81,9 @@ sudo apt-get install valgrind
 
 #
 
+16. ubuntu default screen and text colour of terminal 
+background : 48 10 36
+foreground : 255 255 255
 ************************************************************
 how to compile linux kernel
 ************************************************************

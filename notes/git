@@ -412,7 +412,7 @@ c. git add AndroidManifest.xml # Stage file
 
 d. git diff --cached # Shows what has been staged, but not committed 
 
-13. ---------------- Commit The Changes ----------------
+13. ---------------- Commit The Changes ------------------
 
 a. commit # Opens the editor we defined above or vi
 
