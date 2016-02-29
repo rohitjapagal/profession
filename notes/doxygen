@@ -172,15 +172,41 @@ extern "C" {
  *
  */
  
-  2. class header
+  3. class header
  /**
  * \class    Example class
  * \brief   Example actions available.
  * \details 
  *   Detailed description of class as an example.
- *
- *
+ * 
+ * \public
+ * \protected
+ * \private
  */
 
+ 4. structure header
+ /**
+  * \struct <name>
+  * \brief 
+  * \details
+  * Detailed description
+  *
+  * \var1 
+  * \var1 
+  *
+  */
+
+ 5. union header
+
+ /**
+  * \union <name>
+  * \brief 
+  * \details
+  * Detailed description
+  *
+  * \var1 
+  * \var1 
+  *
+  */
 ****************************************************************************************
 ****************************************************************************************
