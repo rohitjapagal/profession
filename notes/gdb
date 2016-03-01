@@ -149,64 +149,59 @@ X. TUI: gdb Text User Interface
 Y. Emacs: Using gdb under gnu Emacs
   
 Z. GDB/MI: gdb's Machine Interface.
-  01. 
-    GDB/MI General Design
-    GDB/MI Command Syntax
-    GDB/MI Compatibility with CLI
-    GDB/MI Development and Front Ends
-    GDB/MI Output Records
-    GDB/MI Simple Examples
-    GDB/MI Command Description Format
-    GDB/MI Breakpoint Commands
-    GDB/MI Catchpoint Commands
-    GDB/MI Program Context
-    GDB/MI Thread Commands
-    GDB/MI Ada Tasking Commands
-    GDB/MI Program Execution
-    GDB/MI Stack Manipulation
-    GDB/MI Variable Objects
-    GDB/MI Data Manipulation
-    GDB/MI Tracepoint Commands
-    GDB/MI Symbol Query
-    GDB/MI File Commands
-    GDB/MI Target Manipulation
-    GDB/MI File Transfer Commands
-    GDB/MI Ada Exceptions Commands
-    GDB/MI Support Commands
-    GDB/MI Miscellaneous Commands 
+  01. GDB/MI General Design
+  02. GDB/MI Command Syntax
+  03. GDB/MI Compatibility with CLI
+  04. GDB/MI Development and Front Ends
+  05. GDB/MI Output Records
+  06. GDB/MI Simple Examples
+  07. GDB/MI Command Description Format
+  08. GDB/MI Breakpoint Commands
+  09. GDB/MI Catchpoint Commands
+  10. GDB/MI Program Context
+  11. GDB/MI Thread Commands
+  12. GDB/MI Ada Tasking Commands
+  13. GDB/MI Program Execution
+  14. GDB/MI Stack Manipulation
+  15. GDB/MI Variable Objects
+  16. GDB/MI Data Manipulation
+  17. GDB/MI Tracepoint Commands
+  18. GDB/MI Symbol Query
+  19. GDB/MI File Commands
+  20. GDB/MI Target Manipulation
+  21. GDB/MI File Transfer Commands
+  22. GDB/MI Ada Exceptions Commands
+  23. GDB/MI Support Commands
+  24. GDB/MI Miscellaneous Commands 
     
 1A. Annotations: gdb's annotation interface.
-  01. 
-    Annotations Overview: What annotations are; the general syntax.
-    Server Prefix: Issuing a command without affecting user state.
-    Prompting: Annotations marking gdb's need for input.
-    Errors: Annotations for error messages.
-    Invalidation: Some annotations describe things now invalid.
-    Annotations for Running Whether the program is running, how it stopped, etc.
-    Source Annotations: Annotations describing source code. 
+  01. Annotations Overview: What annotations are; the general syntax.
+  02. Server Prefix: Issuing a command without affecting user state.
+  03. Prompting: Annotations marking gdb's need for input.
+  04. Errors: Annotations for error messages.
+  05. Invalidation: Some annotations describe things now invalid.
+  06. Annotations for Running Whether the program is running, how it stopped, etc.
+  07. Source Annotations: Annotations describing source code. 
     
 1B. JIT Interface: Using the JIT debugging interface.
-  01. 
-    Declarations: Relevant C struct declarations
-    Registering Code: Steps to register code
-    Unregistering Code: Steps to unregister code
-    Custom Debug Info: Emit debug information in a custom format 
+  01. Declarations: Relevant C struct declarations
+  02. Registering Code: Steps to register code
+  03. Unregistering Code: Steps to unregister code
+  04. Custom Debug Info: Emit debug information in a custom format 
     
 1C. In-Process Agent: In-Process Agent
   01. In-Process Agent Protocol
   
 1D. GDB Bugs: Reporting bugs in gdb
-  01. 
-    Bug Criteria: Have you found a bug?
-    Bug Reporting: How to report bugs 
+  01. Bug Criteria: Have you found a bug?
+  02. Bug Reporting: How to report bugs 
     
 1E. Command Line Editing: Command Line Editing
-  01. 
-    Introduction and Notation: Notation used in this text.
-    Readline Interaction: The minimum set of commands for editing a line.
-    Readline Init File: Customizing Readline from a user's view.
-    Bindable Readline Commands: A description of most of the Readline commands available for binding
-    Readline vi Mode: A short description of how to make Readline behave like the vi editor. 
+  01. Introduction and Notation: Notation used in this text.
+  02. Readline Interaction: The minimum set of commands for editing a line.
+  03. Readline Init File: Customizing Readline from a user's view.
+  04. Bindable Readline Commands: A description of most of the Readline commands available for binding
+  05. Readline vi Mode: A short description of how to make Readline behave like the vi editor. 
     
 1F. Using History Interactively: Using History Interactively
   01. History Interaction: What it feels like using History as a user. 
@@ -216,13 +211,12 @@ Z. GDB/MI: gdb's Machine Interface.
 1H. Formatting Documentation: How to format and print gdb documentation
   
 1I. Installing GDB: Installing GDB
-  01. 
-    Requirements: Requirements for building gdb
-    Running Configure: Invoking the gdb configure script
-    Separate Objdir: Compiling gdb in another directory
-    Config Names: Specifying names for hosts and targets
-    Configure Options: Summary of options for configure
-    System-wide configuration: Having a system-wide init file 
+  01. Requirements: Requirements for building gdb
+  02. Running Configure: Invoking the gdb configure script
+  03. Separate Objdir: Compiling gdb in another directory
+  04. Config Names: Specifying names for hosts and targets
+  05. Configure Options: Summary of options for configure
+  06. System-wide configuration: Having a system-wide init file 
     
 1J. Maintenance Commands: Maintenance Commands
   
@@ -283,6 +277,467 @@ Z. GDB/MI: gdb's Machine Interface.
 1U. Command and Variable Index: Index of gdb commands, variables, functions, and Python data types 
 
 
+A. Invocation: Getting in and out of gdb
+type ‘gdb’ to start gdb.
+type quit or Ctrl-d to exit. 
+
+  01. Invoking GDB: How to start gdb
+	gdb program
+	gdb program core
+	gdb program 1234
+	gdb --silent
+	gdb -help
+
+  02. Quitting GDB: How to quit gdb
+	quit [expression]
+	q
+
+  03. Shell Commands: How to use shell commands inside gdb
+	shell command-string
+	!command-string
+	make make-args
+
+  04. Logging Output: How to log gdb's output to a file 
+	set logging on
+	set logging off
+	set logging file file
+	set logging overwrite [on|off]
+	set logging redirect [on|off]
+	show logging
+    
+B. Commands: gdb commands
+  01. Command Syntax: How to give commands to gdb
+  02. Completion: Command completion
+	set max-completions limit
+	set max-completions unlimited
+	show max-completions
+
+  03. Help: How to ask gdb for help  
+	help
+	h
+	help <class>
+	help <command>
+	apropos <args>
+	complete <args>
+	info
+	set
+	show
+	show version
+	show copying
+	info copying
+	show warranty
+	info warranty
+	show configuration
+  
+C. Running: Running programs under gdb
+
+  01. Compilation: Compiling for debugging
+
+  02. Starting: Starting your program
+	run
+	r
+	start
+	set exec-wrapper <wrapper>
+	show exec-wrapper
+	unset exec-wrapper
+	set startup-with-shell
+	set startup-with-shell on
+	set startup-with-shell off
+	show set startup-with-shell
+	set auto-connect-native-target
+	set auto-connect-native-target on
+	set auto-connect-native-target off
+	show auto-connect-native-target
+	set disable-randomization
+	set disable-randomization on
+	set disable-randomization off
+	show disable-randomization
+
+  03. Arguments: Your program's arguments
+	set args
+	show args
+
+  04. Environment: Your program's environment
+	path <directory>
+	show paths
+	show environment [varname]
+	set environment <varname> [=value]
+	unset environment <varname>
+
+  05. Working Directory: Your program's working directory
+	cd [directory]
+	pwd
+
+  06. Input/Output: Your program's input and output
+	info terminal
+	run > outfile
+	tty /dev/ttyb
+	set inferior-tty /dev/ttyb
+	show inferior-tty
+
+  07. Attach: Debugging an already-running process
+	attach <process-id>
+	detach
+
+  08. Kill Process: Killing the child process
+	kill
+
+  09. Inferiors and Programs: Debugging multiple inferiors and programs
+	info inferiors
+	add-inferior [ -copies n ] [ -exec executable ]
+	clone-inferior [ -copies n ] [ infno ]
+	remove-inferiors infno...
+	detach inferior infno...
+	kill inferiors infno...
+	set print inferior-events
+	set print inferior-events on
+	set print inferior-events off
+	show print inferior-events
+	maint info program-spaces
+
+  10. Threads: Debugging programs with multiple threads
+	info threads [thread-id-list]
+	maint info sol-threads
+	thread thread-id
+	thread apply [thread-id-list | all [-ascending]] command
+	thread name [name]
+	thread find [regexp]
+	set print thread-events
+	set print thread-events on
+	set print thread-events off
+	show print thread-events
+	set libthread-db-search-path [path]
+	show libthread-db-search-path
+	set debug libthread-db
+	show debug libthread-db
+
+  11. Forks: Debugging forks
+	set follow-fork-mode mode
+	show follow-fork-mode
+	set detach-on-fork mode
+	show detach-on-fork
+	set follow-exec-mode mode
+
+  12. Checkpoint/Restart: Setting a bookmark to return to later 
+	checkpoint
+	info checkpoints
+	restart checkpoint-id
+	delete checkpoint checkpoint-id
+	  
+D. Stopping: Stopping and continuing
+	info program
+
+  01. Breakpoints: Breakpoints, watchpoints, and catchpoints
+  --> Set Breaks: Setting breakpoints
+	break <location>
+	break
+	break ... if <cond>
+	tbreak <args>
+	hbreak <args>
+	thbreak <args>
+	rbreak <regex>
+	rbreak <file:regex>
+	info breakpoints [n...]
+	info break [n...]
+	set breakpoint pending auto
+	set breakpoint pending on
+	set breakpoint pending off
+	show breakpoint pending
+	set breakpoint auto-hw on
+	set breakpoint auto-hw off
+	set breakpoint always-inserted off
+	set breakpoint always-inserted on
+	set breakpoint condition-evaluation host
+	set breakpoint condition-evaluation target
+	set breakpoint condition-evaluation auto
+
+  --> Set Watchpoints: Setting watchpoints
+	watch [-l|-location] <expr> [thread thread-id] [mask maskvalue]
+	rwatch [-l|-location] <expr> [thread thread-id] [mask maskvalue]
+	awatch [-l|-location] <expr> [thread thread-id] [mask maskvalue]
+	info watchpoints [n...]
+	set can-use-hw-watchpoints
+	show can-use-hw-watchpoints
+
+  --> Set Catchpoints: Setting catchpoints
+	catch event
+	tcatch event
+
+  --> Delete Breaks: Deleting breakpoints
+	clear
+	clear <location>
+	clear <function>
+	clear <filename:function>
+	clear <linenum>
+	clear <filename:linenum>
+	delete [breakpoints] [range...]
+
+  --> Disabling: Disabling breakpoints
+	disable [breakpoints] [range...]
+	enable [breakpoints] [range...]
+	enable [breakpoints] once [range...]
+	enable [breakpoints] count [count range...]
+	enable [breakpoints] delete [range...]
+
+  --> Conditions: Break conditions
+	condition [bnum expression]
+	condition [bnum]
+	ignore [bnum count]
+
+  --> Break Commands: Breakpoint command lists
+  --> Dynamic Printf: Dynamic printf
+  --> Save Breakpoints: How to save breakpoints in a file
+  --> Static Probe Points: Listing static probe points
+  --> Error in Breakpoints: ``Cannot insert breakpoints''
+  --> Breakpoint-related Warnings: ``Breakpoint address adjusted...'' 
+
+  02. Continuing and Stepping: Resuming execution
+  03. Skipping Over Functions and Files Skipping over functions and files
+  04. Signals: Signals
+  05. Thread Stops: Stopping and starting multi-thread programs 
+  
+E. Reverse Execution: Running programs backward
+
+F. Process Record and Replay: Recording inferior's execution and replaying it
+
+G. Stack: Examining the stack
+  01. Frames: Stack frames
+  02. Backtrace: Backtraces
+  03. Selection: Selecting a frame
+  04. Frame Info: Information on a frame
+  05. Frame Filter Management: Managing frame filters 
+  
+H. Source: Examining source files
+  01. List: Printing source lines
+  02. Specify Location: How to specify code locations
+  03. Edit: Editing source files
+  04. Search: Searching source files
+  05. Source Path: Specifying source directories
+  06. Machine Code: Source and machine code 
+  
+I. Data: Examining data
+
+J. Optimized Code: Debugging optimized code
+  01. Inline Functions: How gdb presents inlining
+  02. Tail Call Frames: gdb analysis of jumps to functions 
+  
+K. Macros: Preprocessor Macros
+
+L. Tracepoints: Debugging remote targets non-intrusively
+  01. Set Tracepoints
+  02. Analyze Collected Data
+  03. Tracepoint Variables
+  04. Trace Files 
+  
+M. Overlays: Debugging programs that use overlays
+  01. How Overlays Work: A general explanation of overlays.
+  02. Overlay Commands: Managing overlays in gdb.
+  03. Automatic Overlay Debugging: gdb can find out which overlays are mapped by asking the inferior.
+  04. Overlay Sample Program: A sample program using overlays. 
+  
+N. Languages: Using gdb with different languages
+  01. Setting: Switching between source languages
+  02. Show: Displaying the language
+  03. Checks: Type and range checks
+  04. Supported Languages: Supported languages
+  05. Unsupported Languages: Unsupported languages 
+  
+O. Symbols: Examining the symbol table
+
+P. Altering: Altering execution
+  01. Assignment: Assignment to variables
+  02. Jumping: Continuing at a different address
+  03. Signaling: Giving your program a signal
+  04. Returning: Returning from a function
+  05. Calling: Calling your program's functions
+  06. Patching: Patching your program
+  07. Compiling and Injecting Code: Compiling and injecting code in gdb 
+  
+Q. GDB Files: gdb files
+  01. Files: Commands to specify files
+  02. File Caching: Information about gdb's file caching
+  03. Separate Debug Files: Debugging information in separate files
+  04. MiniDebugInfo: Debugging information in a special section
+  05. Index Files: Index files speed up GDB
+  06. Symbol Errors: Errors reading symbol files
+  07. Data Files: GDB data files 
+
+R. Targets: Specifying a debugging target
+  01. Active Targets: Active targets
+  02. Target Commands: Commands for managing targets
+  03. Byte Order: Choosing target byte order 
+
+S. Remote Debugging: Debugging remote programs
+  01. Connecting: Connecting to a remote target
+  02. File Transfer: Sending files to a remote system
+  03. Server: Using the gdbserver program
+  04. Remote Configuration: Remote configuration
+  05. Remote Stub: Implementing a remote stub 
+
+T. Configurations: Configuration-specific information
+  01. Native
+  02. Embedded OS
+  03. Embedded Processors
+  04. Architectures 
+
+U. Controlling GDB: Controlling gdb
+  01. Prompt: Prompt
+  02. Editing: Command editing
+  03. Command History: Command history
+  04. Screen Size: Screen size
+  05. Numbers: Numbers
+  06. ABI: Configuring the current ABI
+  07. Auto-loading: Automatically loading associated files
+  08. Messages/Warnings: Optional warnings and messages
+  09. Debugging Output: Optional messages about internal happenings
+  10. Other Misc Settings: Other Miscellaneous Settings 
+  
+V. Extending GDB: Extending gdb
+  01. Sequences: Canned Sequences of gdb Commands
+  02. Python: Extending gdb using Python
+  03. Guile: Extending gdb using Guile
+  04. Auto-loading extensions: Automatically loading extensions
+  05. Multiple Extension Languages: Working with multiple extension languages
+  06. Aliases: Creating new spellings of existing commands 
+  
+W. Interpreters: Command Interpreters
+  
+X. TUI: gdb Text User Interface
+  01. TUI Overview: TUI overview
+  02. TUI Keys: TUI key bindings
+  03. TUI Single Key Mode: TUI single key mode
+  04. TUI Commands: TUI-specific commands
+  05. TUI Configuration: TUI configuration variables 
+  
+Y. Emacs: Using gdb under gnu Emacs
+  
+Z. GDB/MI: gdb's Machine Interface.
+  01. GDB/MI General Design
+  02. GDB/MI Command Syntax
+  03. GDB/MI Compatibility with CLI
+  04. GDB/MI Development and Front Ends
+  05. GDB/MI Output Records
+  06. GDB/MI Simple Examples
+  07. GDB/MI Command Description Format
+  08. GDB/MI Breakpoint Commands
+  09. GDB/MI Catchpoint Commands
+  10. GDB/MI Program Context
+  11. GDB/MI Thread Commands
+  12. GDB/MI Ada Tasking Commands
+  13. GDB/MI Program Execution
+  14. GDB/MI Stack Manipulation
+  15. GDB/MI Variable Objects
+  16. GDB/MI Data Manipulation
+  17. GDB/MI Tracepoint Commands
+  18. GDB/MI Symbol Query
+  19. GDB/MI File Commands
+  20. GDB/MI Target Manipulation
+  21. GDB/MI File Transfer Commands
+  22. GDB/MI Ada Exceptions Commands
+  23. GDB/MI Support Commands
+  24. GDB/MI Miscellaneous Commands 
+    
+1A. Annotations: gdb's annotation interface.
+  01. Annotations Overview: What annotations are; the general syntax.
+  02. Server Prefix: Issuing a command without affecting user state.
+  03. Prompting: Annotations marking gdb's need for input.
+  04. Errors: Annotations for error messages.
+  05. Invalidation: Some annotations describe things now invalid.
+  06. Annotations for Running Whether the program is running, how it stopped, etc.
+  07. Source Annotations: Annotations describing source code. 
+    
+1B. JIT Interface: Using the JIT debugging interface.
+  01. Declarations: Relevant C struct declarations
+  02. Registering Code: Steps to register code
+  03. Unregistering Code: Steps to unregister code
+  04. Custom Debug Info: Emit debug information in a custom format 
+    
+1C. In-Process Agent: In-Process Agent
+  01. In-Process Agent Protocol
+  
+1D. GDB Bugs: Reporting bugs in gdb
+  01. Bug Criteria: Have you found a bug?
+  02. Bug Reporting: How to report bugs 
+    
+1E. Command Line Editing: Command Line Editing
+  01. Introduction and Notation: Notation used in this text.
+  02. Readline Interaction: The minimum set of commands for editing a line.
+  03. Readline Init File: Customizing Readline from a user's view.
+  04. Bindable Readline Commands: A description of most of the Readline commands available for binding
+  05. Readline vi Mode: A short description of how to make Readline behave like the vi editor. 
+    
+1F. Using History Interactively: Using History Interactively
+  01. History Interaction: What it feels like using History as a user. 
+  
+1G. In Memoriam: In Memoriam
+  
+1H. Formatting Documentation: How to format and print gdb documentation
+  
+1I. Installing GDB: Installing GDB
+  01. Requirements: Requirements for building gdb
+  02. Running Configure: Invoking the gdb configure script
+  03. Separate Objdir: Compiling gdb in another directory
+  04. Config Names: Specifying names for hosts and targets
+  05. Configure Options: Summary of options for configure
+  06. System-wide configuration: Having a system-wide init file 
+    
+1J. Maintenance Commands: Maintenance Commands
+  
+1K. Remote Protocol: GDB Remote Serial Protocol
+  01. Overview
+  02. Packets
+  03. Stop Reply Packets
+  04. General Query Packets
+  05. Architecture-Specific Protocol Details
+  06. Tracepoint Packets
+  07. Host I/O Packets
+  08. Interrupts
+  09. Notification Packets
+  10. Remote Non-Stop
+  11. Packet Acknowledgment
+  12. Examples
+  13. File-I/O Remote Protocol Extension
+  14. Library List Format
+  15. Library List Format for SVR4 Targets
+  16. Memory Map Format
+  17. Thread List Format
+  18. Traceframe Info Format
+  19. Branch Trace Format
+  20. Branch Trace Configuration Format 
+    
+1L. Agent Expressions: The GDB Agent Expression Mechanism
+  01. General Bytecode Design: Overview of the interpreter.
+  02. Bytecode Descriptions: What each one does.
+  03. Using Agent Expressions: How agent expressions fit into the big picture.
+  04. Varying Target Capabilities: How to discover what the target can do.
+  05. Rationale: Why we did it this way. 
+    
+1M. Target Descriptions: How targets can describe themselves to gdb
+  01. Retrieving Descriptions: How descriptions are fetched from a target.
+  02. Target Description Format: The contents of a target description.
+  03. Predefined Target Types: Standard types available for target descriptions.
+  04. Standard Target Features: Features gdb knows about. 
+    
+1N. Operating System Information: Getting additional information from the operating system
+  01. Process list
+  
+1O. Trace File Format: GDB trace file format
+  
+1P. Index Section Format: .gdb_index section format
+
+1Q. Man Pages: Manual pages
+  01. gdb man: The GNU Debugger man page
+  02. gdbserver man: Remote Server for the GNU Debugger man page
+  03. gcore man: Generate a core file of a running program
+  04. gdbinit man: gdbinit scripts 
+    
+1R. Copying: GNU General Public License says how you can copy and share GDB
+ 
+1S. GNU Free Documentation License: The license for this documentation
+
+1T. Concept Index: Index of gdb concepts
+
+1U. Command and Variable Index: Index of gdb commands, variables, functions, and Python data types 
 
 ****************************************************************************
 --> compiling for debugging

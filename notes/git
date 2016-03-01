@@ -1050,7 +1050,14 @@ To push a file from the system to a remote respository
 --> $ git commit -m 'Added a new file .gitignore'
 --> $ git push https://github.com/rangaeeeee/Repository.git
 
-
+to track the local branch on the remote server
+- if the branch is created on another machine and if the branch is push to 
+remote and you want to track the remote branch on different local machine 
+follow below steps
+--> $ git branch -b <local branch>
+--> $ git pull --all
+--> $ git branch -a
+--> $ git checkout --track <remote branch>
 
 Repository
 https://github.com/rangaeeeee/Repository.git
