@@ -1,14 +1,54 @@
+/**
+ * \file   linked-list.cpp
+ * \author Rangarajan R 
+ * \date   March, 2016
+ * \brief  
+ *   simple linked list programs.
+ *
+ * \details 
+ *   linked list programs which contains creation, deletion, insertion, length,
+ *   intersection, loop, length of loop.
+ *
+ * \note
+ *   The notes for this file.
+ *on
+ * \copyright
+ *   No part of this should be published in any form without the 
+ *   author permission
+ */
 #include "../inc/linked-list.h"
 #include<stdio.h>
 #include<stdlib.h>
 
-/* Linked list node structure */
+ /**
+  * \struct node
+  * \brief structure for linked list node
+  * \details
+  * linked list node contains data and the next pointer
+  *
+  * \var data 
+  * This contains the data of each node in linked list 
+  * \var next 
+  * This points to next of current node in linked list
+  */
 struct node {
  int data;
  struct node *next;
 };
 
-/* Allocate a new node */
+
+/**
+ * \fn    newNode
+ * \brief   Allocate a new node.
+ * \details 
+ *   Allocates a new node for linked list and assigns the data passed to the
+ *   created node.
+ *
+ * \param [in] data data to be assigned to created node
+ *
+ * \retval node   returns the created node.
+ *
+ */
 struct node *newNode(int data) {
  struct node *Node;
  
@@ -20,50 +60,132 @@ struct node *newNode(int data) {
  return Node;
 }
 
-/* Insert node at the front of the list */
-void insertNodeFront(struct node **Head, int data) {
- struct node *temp = newNode(data);
- temp->next = (*Head);
- (*Head) = temp;
+/**
+ * \fn    push
+ * \brief   Insert node at the front of the list
+ * \details 
+ * 1. allocate node 
+ * 2. put in the data  
+ * 3. Make next of new node as head 
+ * 4. move the head to point to the new node 
+ *
+ * \param [in] new_data data to be inserted at front node
+ * \param [in] head_ref linked list head
+ *
+ * \retval void.
+ *
+ */
+void push(struct node** head_ref, int new_data) {
+    /* 1. allocate node */
+    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+  
+    /* 2. put in the data  */
+    new_node->data  = new_data;
+  
+    /* 3. Make next of new node as head */
+    new_node->next = (*head_ref);
+  
+    /* 4. move the head to point to the new node */
+    (*head_ref)    = new_node;
 }
 
-/* Insert node at the last of the list */
-void insertNodeLast(struct node *Node,int data) {
- struct node *temp;
- 
- /* Error case */
- if (Node == NULL)
-  return;
- 
- temp = newNode(data);
- 
- /* Move till the last */ 
- while(Node->next != NULL) {
-  Node = Node->next;
- }
- 
- Node->next = temp;
+/**
+ * \fn    insertAfter
+ * \brief   Given a node prev_node, insert a new node after the given
+ *  prev_node
+ * \details 
+ * 1. check if the given prev node is NULL
+ * 2. allocate node 
+ * 3. put in the data  
+ * 4. Make next of new node as next of prev node
+ * 5. move the next of prev node as new node 
+ *
+ * \param [in] new_data data to be inserted after a node
+ * \param [in] prev_node prev node where the new node inserted after
+ *
+ * \retval void.
+ *
+ */
+void insertAfter(struct node* prev_node, int new_data)
+{
+    /*1. check if the given prev_node is NULL */
+    if (prev_node == NULL) 
+    { 
+       printf("the given previous node cannot be NULL");       
+       return;  
+    }  
+          
+    /* 2. allocate new node */
+    struct node* new_node =(struct node*) malloc(sizeof(struct node));
+  
+    /* 3. put in the data  */
+    new_node->data  = new_data;
+  
+    /* 4. Make next of new node as next of prev_node */
+    new_node->next = prev_node->next; 
+  
+    /* 5. move the next of prev_node as new_node */
+    prev_node->next = new_node;
 }
 
-
-/* Insert node at the after a given position of the list */
-void insertNodeAfter(struct node *Node, int data) {
- struct node *temp;
+/**
+ * \fn    insertAfter
+ * \brief   Given a reference (pointer to pointer) to the head
+ *  of a list and an int, appends a new node at the end
+ * \details 
+ * 1. allocate node 
+ * 2. put in the data  
+ * 3. This new node is going to be the last node, so make next 
+ *    of it as NULL
+ * 4. If the Linked List is empty, then make the new node as head
+ * 5. Else traverse till the last node
+ * 6. Change the next of last node 
+ *
+ * \param [in] new_data data to be inserted after a node
+ * \param [in] head_ref head of the linked list
+ *
+ * \retval void.
+ *
+ */
+void append(struct node** head_ref, int new_data)
+{
+    /* 1. allocate node */
+    struct node* new_node = (struct node*) malloc(sizeof(struct node));
  
- if(Node == NULL) 
-  return;
+    struct node *last = *head_ref;  /* used in step 5*/
+  
+    /* 2. put in the data  */
+    new_node->data  = new_data;
  
- temp = newNode(data);
+    /* 3. This new node is going to be the last node, so make next 
+          of it as NULL*/
+    new_node->next = NULL;
  
- while(Node != NULL) {
-  if(Node->data == data) {
-   temp->next = Node->next;
-   Node->next = temp;
-  }
- }
+    /* 4. If the Linked List is empty, then make the new node as head */
+    if (*head_ref == NULL)
+    {
+       *head_ref = new_node;
+       return;
+    }  
+      
+    /* 5. Else traverse till the last node */
+    while (last->next != NULL)
+        last = last->next;
+  
+    /* 6. Change the next of last node */
+    last->next = new_node;
+    return;    
 }
 
-/* Print the linked list */
+/**
+ * \fn    printList
+ * \brief   prints contents of linked list starting from head
+ * \details 
+ * \param [in] head head of the linked list
+ *
+ * \retval void.
+ *
+ */
 void printList(struct node *head) {
  if (head == NULL)
   return;
@@ -114,7 +236,7 @@ int main() {
      scanf("%c",&sub_choice);
       switch(sub_choice){
        case 'a' :
-       
+                
        break;
        
        case 'b' :
