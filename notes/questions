@@ -1,0 +1,118 @@
+**********************************************************************
+                           c
+**********************************************************************
+01. what is const pointer,pointer to const and const pointer to const
+02. memory organisation in c
+03. why macro is needed
+04. why inline functions are needed
+05. macro or inline function which one to use
+06. how to declare a variable
+07. why function pointer is needed when it can be directly called by
+ function name
+08. why volatile is needed
+09. what is use of const volatile
+10. why callback functions 
+11. when shared objects and static library are used
+12. 
+
+
+**********************************************************************
+                          c++
+**********************************************************************
+01. what is data abstraction, inheritance, polymorphism
+02. function overloading and function over-riding
+03. smart pointers
+04. function templates and class templates
+05. abstract class
+06. virtual functions
+07. virtual constructor possible
+08. virtual destrcutor possible
+09. size of derived class when base class private members
+10. 
+
+
+
+**********************************************************************
+                        data structure
+**********************************************************************
+--> arrays
+
+--> linked list 
+01. find a loop 
+02. length of the loop 
+03. starting point of the loop
+04. find the length of linked list
+05. swap two nodes 
+06. merge two sorted linked list 
+07. detect a loop and remove 
+08. reverse a linked list
+
+
+--> queues
+
+--> stacks
+
+--> binary tree
+
+--> binary search tree
+
+--> graphs
+
+
+
+
+**********************************************************************
+                       operating system
+**********************************************************************
+01. what is zombie process
+02. program to demo two process
+03. program to demo two threads
+04. why is signal handler is needed
+05. thread attributes
+06. semaphore and mutex
+07. interprocess communication
+08. program to demo shared memory
+09. program to demo pipes
+10. program to demo message queues
+11. program to demo semaphore and mutex
+12. program to demo memory mapped
+13. program to demo sockets
+14. what is condition variable
+15. boot up sequence in linux 
+16. different run-levels
+17. 
+
+
+**********************************************************************
+                        networking
+**********************************************************************
+
+
+
+**********************************************************************
+                         general
+**********************************************************************
+
+
+
+**********************************************************************
+
+**********************************************************************
+
+
+
+**********************************************************************
+
+**********************************************************************
+
+
+
+**********************************************************************
+
+**********************************************************************
+
+
+
+**********************************************************************
+
+**********************************************************************
