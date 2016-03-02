@@ -86,7 +86,11 @@
 **********************************************************************
                         networking
 **********************************************************************
-test
+1. What is subnet mask? What is the benefit of subnetting?
+2. Write a function which returns the number of devices can be connected if the subnet mask is 255.255.255.224
+3. You have the following Network ID: 131.112.0.0. You need at least 500 hosts per network. How many networks can you create? What subnet mask will you use?
+4. 
+
 
 
 **********************************************************************
