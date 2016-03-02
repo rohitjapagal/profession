@@ -32,6 +32,9 @@ extern "C" {
     #define DEBUG_PRINT(x) do {} while (0)
 #endif
 
+#define SHARED_MEMORY_KEY 6789
+
+
 #endif /* __IPC_SHAREDMEMORY_H__ */
 
 #ifdef __cplusplus
