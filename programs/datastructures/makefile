@@ -1,6 +1,6 @@
 # Makefile to all the design pattern programs
 
-CXXFLAGS = -Wall -g -c 
+CXXFLAGS = -Wall -DDEBUG -g -c 
 SRC = src
 INC = inc
 CXX = g++
