@@ -1,3 +1,14 @@
+--> if u get this error
+rajendiran@rajendiran-X550LC:~/git/profession$ git push -u origin home-test 
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+
+rajendiran@rajendiran-X550LC:~/git/profession$ git remote add origin https://github.com/rangaeeeee/profession.git
+rajendiran@rajendiran-X550LC:~/git/profession$ git push -u origin home-test 
+Username for 'https://github.com': rangaeeeee
+Password for 'https://rangaeeeee@github.com': 
+
 **********************************************************************
 git reference command
 **********************************************************************
