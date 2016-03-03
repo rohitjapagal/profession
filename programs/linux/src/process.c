@@ -118,6 +118,7 @@ int main(int argc, char *argv[]) {
   else
   printf("The child socket exited abnormally \n");
   
-  printf("End of Main Process \n");
+ printf("End of Main Process \n");
+ 
  return 0;
 }

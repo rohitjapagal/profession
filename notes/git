@@ -9,6 +9,9 @@ rajendiran@rajendiran-X550LC:~/git/profession$ git push -u origin home-test
 Username for 'https://github.com': rangaeeeee
 Password for 'https://rangaeeeee@github.com': 
 
+--> to rename a branch
+$ git branch -m <old name> <new name>
+
 **********************************************************************
 git reference command
 **********************************************************************

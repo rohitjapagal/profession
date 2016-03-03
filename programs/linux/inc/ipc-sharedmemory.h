@@ -25,6 +25,7 @@ extern "C" {
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #ifdef DEBUG
     #define DEBUG_PRINT(x) printf x

@@ -4,6 +4,12 @@
 #include<pthread.h>
 #include<string.h>
 
+#include <sys/shm.h>
+#include <sys/stat.h>
+
+/* custom header file include */
+#include "../inc/ipc-sharedmemory.h"
+
 /*Thread data structure*/
 struct threadData {
  char name[20];
@@ -71,6 +77,31 @@ int main() {
  pthread_t thread_id1, thread_id2, thread_id3;
  struct threadData thread_arg1, thread_arg2, thread_arg3;
  struct threadData *pthread_arg1, *pthread_arg2, *pthread_arg3;
+
+ int segment_id;
+ char* shared_memory;
+ struct shmid_ds shmbuffer;
+ int segment_size;
+ const int shared_segment_size = getpagesize();
+
+ /* Allocate a shared memory segment. */
+ segment_id = shmget (SHARED_MEMORY_KEY, shared_segment_size,IPC_CREAT | S_IRUSR | S_IWUSR);
+ printf("main segment id : %d \n",segment_id);
+ /* Attach the shared memory segment. */
+ shared_memory = (char*) shmat (segment_id, 0, 0);
+ printf ("shared memory attached at address %p\n", shared_memory);
+ /* Determine the segment's size. */
+ shmctl (segment_id, IPC_STAT, &shmbuffer);
+ segment_size = shmbuffer.shm_segsz;
+ printf ("segment size: %d\n", segment_size);
+
+ printf("Process 1 reading shared mem data : %s\n",shared_memory);
+ 
+ /* Write a string to the shared memory segment. */
+ sprintf (shared_memory, "This is written in process 1");
+ /* Detach the shared memory segment. */
+ shmdt (shared_memory);
+
   
  printf("Start of Process 01 \n");
  printf("The process id of parent Process 01 is %d\n",(int)getppid());
