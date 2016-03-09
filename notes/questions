@@ -13,7 +13,12 @@
 09. what is use of const volatile
 10. why callback functions 
 11. when shared objects and static library are used
-12. 
+12. wild pointer, dangling pointer, weak pointer and strong pointer
+13. declare pointer to an array and array of pointers
+14. can static variables be included in header file
+15. when static variables are stored in data but how the compiler differentiates
+when same static variable name is declared in many function with same name
+16. 
 
 
 **********************************************************************
@@ -97,21 +102,50 @@ mask will you use?
 
 
 **********************************************************************
-                         general
+                         general programs
 **********************************************************************
+01. reverse a given sentence word by word
+02. user defined sizeof function
+03. user defined atoi function
+04. user defined function convert a string to double precision atof 
+05. user defined string copy function
 
 
-
-**********************************************************************
-
-**********************************************************************
-
-
-
-**********************************************************************
 
 **********************************************************************
+                               ims
+**********************************************************************
+01. call flows
+02. mandatory header for sip
+03. different types of rtp reports
+04. rtp,udp,tcp,http,rtcp,dhcp and tls packet structure
+05. architecture of ims
 
+
+
+**********************************************************************
+                             kernel
+**********************************************************************
+01. segmentation in hardware and linux
+02. paging in hardware and linux
+03. process, light weight process and thread
+04. process switch
+05. interrupt and exception
+06. softirqs and tasklets
+07. kernel synchronization
+08. kernel primitives
+09. clock and timer circuits
+10. linux time keeping architecture
+11. scheduling policy and scheduling algorithms
+12. run queue balancing in multi process architecture
+13. page frame management
+14. memory area management
+15. non continguous memory area management
+16. page fault and how it is handled
+17. page cache
+18. page frame reclaiming
+19. reverse mapping
+20. 
 
 
 **********************************************************************
