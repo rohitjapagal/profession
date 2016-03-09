@@ -12,8 +12,8 @@ cout<< "A : " << data << endl;
 class B : public A
 {
 public:
-void display(int data1 = 20){
-cout<< "B : "<< data1 << endl;
+void display(int data = 20){
+cout<< "B : "<< data << endl;
 }
 };
 
