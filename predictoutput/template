@@ -1,5 +1,5 @@
 /**
- * \file   file.cpp
+ * \file   file.c
  * \author Rangarajan R 
  * \date   March, 2016
  * \brief  
@@ -12,6 +12,6 @@
  *   The notes for this file.
  *
  * \copyright
- *   No part of this should be published in any form without the author permission
+ *   
  */
 
