@@ -17,9 +17,11 @@
  *   author permission
  */
 #include "../inc/linked-list.h"
-#include<stdio.h>
-#include<stdlib.h>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
+using namespace std;
  /**
   * \struct node
   * \brief structure for linked list node
@@ -177,6 +179,117 @@ void append(struct node** head_ref, int new_data)
     return;    
 }
 
+
+/**
+ * \fn    deleteList
+ * \brief   delete the given linked list
+ * \details 
+ * \param [in] head head of the linked list
+ *
+ * \retval void 
+ *
+ */
+void deleteList(struct node *head)
+{
+  struct node *temp = head;
+  
+  if(head == NULL)
+    return;
+
+  while(temp != NULL){
+
+    head = head->next;
+    free(temp);
+    temp = head;
+
+  }
+}
+/**
+ * \fn    lengthLoop
+ * \brief   gives the length of the loop in linked list
+ * \details 
+ * \param [in] head head of the linked list
+ *
+ * \retval -1   - linked list is null
+ *          0   - no loop
+ *          +ve - length of loop 
+ *
+ */
+int lengthLoop(struct node *head) {
+
+  struct node *slow = head;
+  struct node *fast = head;
+  int len = -1;
+  
+  if(head == NULL){
+    /* linked list is empty */
+    return len;
+  }
+
+  len = 0;
+
+  while(fast !=NULL){
+    
+    slow = slow->next;
+    fast = fast->next->next;
+    
+    if(slow == fast) {
+      len = 2;
+      do{
+	
+	slow = slow->next;
+	fast = fast->next->next;
+	len++;
+
+      }while(slow == fast);
+
+      /* loop detected*/
+      return len;
+    }
+
+  }
+
+  /* no loop so length is zero */ 
+  return len;
+
+}
+/**
+ * \fn    detectLoop
+ * \brief   to detect loop in the linked list
+ * \details 
+ * \param [in] head head of the linked list
+ *
+ * \retval -1 - linked list is null
+ *          0 - no loop detected
+ *          1 - loop detected
+ *
+ */
+int detectLoop(struct node *head) {
+
+   struct node *fast = head;
+   struct node *slow = head;
+
+   if(head == NULL){
+     /* linked list is empty */
+     return -1;
+   }
+
+   while(fast !=NULL){
+
+     slow = slow->next;
+     fast = fast->next->next;
+
+     if(slow == fast) {
+       /* loop detected*/
+       return 1;
+     }
+
+   }
+
+   /* loop not detected*/
+   return 0;
+ }
+
 /**
  * \fn    printList
  * \brief   prints contents of linked list starting from head
@@ -199,8 +312,17 @@ void printList(struct node *head) {
 }
 int main() {
  int choice;
- struct node *head = NULL;
+ int ret = -1;
  char sub_choice;
+
+ struct node *head = newNode(50);
+ head->next = newNode(20);
+ head->next->next = newNode(15);
+ head->next->next->next = newNode(4);
+ head->next->next->next->next = newNode(10);
+
+ /* Create a loop for testing */
+ //head->next->next->next->next->next = head->next->next;
  
  do {
   printf("\n\n\n *************** Enter your choice *****************\n\n\n");
@@ -220,11 +342,15 @@ int main() {
   printf("13. Union and Intersection of two lists. \n");
   printf("14. Rotate a list. \n");
   printf("15. Flattening a list. \n");
+  printf("16. Length of the loop. \n");
+  printf("17. position of start of loop. \n");
   scanf("%d",&choice);
 
   switch(choice) {
    /* Exit */
    case 0 :
+     /* to free the memory deleting list before exit*/
+     deleteList(head);
     break;
 
    /* Insert a node */
@@ -267,6 +393,7 @@ int main() {
    
    /* Delete a list */
    case 5 :
+    deleteList(head);
     break;
    
    /* Reverse a list */
@@ -275,6 +402,19 @@ int main() {
    
    /* Detect a loop in the list */
    case 7 :
+    ret = detectLoop(head);
+    if (ret == 1)
+    {
+      DEBUG_PRINT(("loop is detected in linked list"));      
+    }
+    else if(ret == 0)
+    {
+      DEBUG_PRINT(("loop is not detected in linked list"));      
+    }
+    else
+    {
+      DEBUG_PRINT(("linked list is empty"));      
+    }
     break;
    
    /* Print the list */
@@ -310,6 +450,10 @@ int main() {
    case 15 :
     break;
 
+   /* length of the loop */
+   case 16 :
+    DEBUG_PRINT(("length of the loop : %d\n",lengthLoop(head)));
+    break;
    /* */
    default :
     break;

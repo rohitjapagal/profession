@@ -25,12 +25,16 @@ extern "C" {
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #ifdef DEBUG
     #define DEBUG_PRINT(x) printf x
 #else
     #define DEBUG_PRINT(x) do {} while (0)
 #endif
+
+#define SHARED_MEMORY_KEY 6789
+
 
 #endif /* __IPC_SHAREDMEMORY_H__ */
 

@@ -1,0 +1,732 @@
+**********************************************************************
+                    C++
+**********************************************************************
+--> References in C++
+1. When a variable is declared as reference, it becomes an alternative name for 
+an existing variable. A variable can be declared as reference by putting ‘&’ in 
+the declaration. 
+
+#include<iostream>
+using namespace std;
+ 
+int main()
+{
+  int x = 10;
+ 
+  // ref is a reference to x.
+  int& ref = x;
+ 
+  // Value of x is now changed to 20
+  ref = 20;
+  cout << "x = " << x << endl ;
+ 
+  // Value of x is now changed to 30
+  x = 30;
+  cout << "ref = " << ref << endl ;
+ 
+  return 0;
+}
+
+2. swap two variables.
+#include<iostream>
+using namespace std;
+ 
+void swap (int& first, int& second)
+{
+    int temp = first;
+    first = second;
+    second = temp;
+}
+ 
+int main()
+{
+    int a = 2, b = 3;
+    swap( a, b );
+    cout << a << " " << b;
+    return 0;
+}
+
+--> Templates in C++
+1. Function Templates
+
+#include <iostream>
+using namespace std;
+ 
+// One function works for all data types.  This would work
+// even for user defined types if operator '>' is overloaded
+template <typename T>
+T myMax(T x, T y)
+{
+   return (x > y)? x: y;
+}
+ 
+int main()
+{
+  cout << myMax<int>(3, 7) << endl;  // Call myMax for int
+  cout << myMax<double>(3.0, 7.0) << endl; // call myMax for double
+  cout << myMax<char>('g', 'e') << endl;   // call myMax for char
+ 
+  return 0;
+}
+
+2. Class Templates
+
+#include <iostream>
+using namespace std;
+ 
+template <typename T>
+class Array {
+private:
+    T *ptr;
+    int size;
+public:
+    Array(T arr[], int s);
+    void print();
+};
+ 
+template <typename T>
+Array<T>::Array(T arr[], int s) {
+    ptr = new T[s];
+    size = s;
+    for(int i = 0; i < size; i++)
+        ptr[i] = arr[i];
+}
+ 
+template <typename T>
+void Array<T>::print() {
+    for (int i = 0; i < size; i++)
+        cout<<" "<<*(ptr + i);
+    cout<<endl;
+}
+ 
+int main() {
+    int arr[5] = {1, 2, 3, 4, 5};
+    Array<int> a(arr, 5);
+    a.print();
+    return 0;
+}
+
+3. default value for template arguments
+
+#include<iostream>
+using namespace std;
+ 
+template<class T, class U = char>
+class A  {
+public:
+    T x;
+    U y;
+    A() {   cout<<"Constructor Called"<<endl;   }
+};
+ 
+int main()  {
+   A<char> a;  // This will call A<char, char>   
+   return 0;
+}
+
+4. Function templates and static variables:
+Each instantiation of function template has its own copy of local 
+static variables.
+
+#include <iostream>
+ 
+using namespace std;
+ 
+template <typename T>
+void fun(const T& x)
+{
+  static int i = 10;
+  cout << ++i;
+  return;
+}
+ 
+int main()
+{    
+  fun<int>(1);  // prints 11
+  cout << endl;
+  fun<int>(2);  // prints 12
+  cout << endl;
+  fun<double>(1.1); // prints 11
+  cout << endl;
+  getchar();
+  return 0;
+}
+
+5. Class templates and static variables:
+The rule for class templates is same as function templates
+
+#include <iostream>
+ 
+using namespace std;
+ 
+template <class T> class Test
+{  
+private:
+  T val; 
+public:
+  static int count;
+  Test()
+  {
+    count++;
+  }
+  // some other stuff in class
+};
+ 
+template<class T>
+int Test<T>::count = 0;
+ 
+int main()
+{
+  Test<int> a;  // value of count for Test<int> is 1 now
+  Test<int> b;  // value of count for Test<int> is 2 now
+  Test<double> c;  // value of count for Test<double> is 1 now
+  cout << Test<int>::count   << endl;  // prints 2  
+  cout << Test<double>::count << endl; //prints 1
+    
+  getchar();
+  return 0;
+}
+
+--> Smart Pointers in C++
+
+1. simple smartPtr class.
+
+#include<iostream>
+using namespace std;
+ 
+class SmartPtr
+{
+   int *ptr;  // Actual pointer
+public:
+   // Constructor: Refer http://www.geeksforgeeks.org/g-fact-93/
+   // for use of explicit keyword 
+   explicit SmartPtr(int *p = NULL) { ptr = p; } 
+ 
+   // Destructor
+   ~SmartPtr() { delete(ptr); }  
+ 
+   // Overloading dereferencing operator
+   int &operator *() {  return *ptr; }
+};
+ 
+int main()
+{
+    SmartPtr ptr(new int());
+    *ptr = 20;
+    cout << *ptr;
+ 
+    // We don't need to call delete ptr: when the object 
+    // ptr goes out of scope, destructor for it is automatically
+    // called and destructor does delete ptr.
+ 
+    return 0;
+}
+
+2. use templates to write a generic smart pointer class.
+
+#include<iostream>
+using namespace std;
+ 
+// A generic smart pointer class
+template <class T>
+class SmartPtr
+{
+   T *ptr;  // Actual pointer
+public:
+   // Constructor
+   explicit SmartPtr(T *p = NULL) { ptr = p; }
+ 
+   // Destructor
+   ~SmartPtr() { delete(ptr); }
+ 
+   // Overloading dereferncing operator
+   T & operator * () {  return *ptr; }
+ 
+   // Overloding arrow operator so that members of T can be accessed
+   // like a pointer (useful if T represents a class or struct or 
+   // union type)
+   T * operator -> () { return ptr; }
+};
+ 
+int main()
+{
+    SmartPtr<int> ptr(new int());
+    *ptr = 20;
+    cout << *ptr;
+    return 0;
+}
+
+--> Operator Overloading in C++
+
+Example 1 :
+
+#include<iostream>
+using namespace std;
+ 
+class Complex {
+private:
+    int real, imag;
+public:
+    Complex(int r = 0, int i =0)  {real = r;   imag = i;}
+     
+    // This is automatically called when '+' is used with
+    // between two Complex objects
+    Complex operator + (Complex const &obj) {
+         Complex res;
+         res.real = real + obj.real;
+         res.imag = imag + obj.imag;
+         return res;
+    }
+    void print() { cout << real << " + i" << imag << endl; }
+};
+ 
+int main()
+{
+    Complex c1(10, 5), c2(2, 4);
+    Complex c3 = c1 + c2; // An example call to "operator+"
+    c3.print();
+}
+
+Example 2 : 
+
+#include<iostream>
+using namespace std;
+ 
+class Complex {
+private:
+    int real, imag;
+public:
+    Complex(int r = 0, int i =0)  {real = r;   imag = i;}
+    void print() { cout << real << " + i" << imag << endl; }
+ 
+// The global operator function is made friend of this class so
+// that it can access private members
+friend Complex operator + (Complex const &, Complex const &);
+};
+ 
+ 
+Complex operator + (Complex const &c1, Complex const &c2)
+{
+     return Complex(c1.real + c2.real, c1.imag + c2.imag);
+}
+ 
+ 
+int main()
+{
+    Complex c1(10, 5), c2(2, 4);
+    Complex c3 = c1 + c2; // An example call to "operator+"
+    c3.print();
+    return 0;
+}
+
+--> Pure Virtual Functions and Abstract Classes in C++
+1) A class is abstract if it has at least one pure virtual function.
+2) We can have pointers and references of abstract class type.
+3) If we do not override the pure virtual function in derived class, 
+then derived class also becomes abstract class.
+4) An abstract class can have constructors.
+
+#include<iostream>
+using namespace std;
+ 
+class Base
+{
+   int x;
+public:
+    virtual void fun() = 0;
+    int getX() { return x; }
+};
+ 
+// This class ingerits from Base and implements fun()
+class Derived: public Base
+{
+    int y;
+public:
+    void fun() { cout << "fun() called"; }
+};
+ 
+int main(void)
+{
+    Derived d;
+    d.fun();
+    return 0;
+}
+
+--> Pure virtual destructor in C++
+if class contains pure virtual destructor it is must to provide a function body 
+for the pure virtual destructor. 
+
+#include <iostream>
+class Base
+{
+public:
+    virtual ~Base()=0; // Pure virtual destructor
+};
+Base::~Base()
+{
+    std::cout << "Pure virtual destructor is called";
+}
+ 
+class Derived : public Base
+{
+public:
+    ~Derived()
+    {
+        std::cout << "~Derived() is executed\n";
+    }
+};
+ 
+int main()
+{
+    Base *b = new Derived();
+    delete b;
+    return 0;
+}
+
+--> Friend class and function in C++
+
+1. friend Class
+
+#include <iostream>
+class A {
+private:
+    int a;
+public:
+    A() { a=0; }
+    friend class B;     // Friend Class
+};
+ 
+class B {
+private:
+    int b;
+public:
+    void showA(A& x) {
+        // Since B is friend of A, it can access
+        // private members of A
+        std::cout << "A::a=" << x.a;
+    }
+};
+ 
+int main() {
+   A a;
+   B b;
+   b.showA(a);
+   return 0;
+}
+
+2. friend function of another class
+#include <iostream>
+ 
+class B;
+ 
+class A
+{
+public:
+    void showB(B& );
+};
+ 
+class B
+{
+private:
+    int b;
+public:
+    B()  {  b = 0; }
+    friend void A::showB(B& x); // Friend function
+};
+ 
+void A::showB(B &x)
+{
+    // Since show() is friend of B, it can
+    // access private members of B
+    std::cout << "B::b = " << x.b;
+}
+ 
+int main()
+{
+    A a;
+    B x;
+    a.showB(x);
+    return 0;
+}
+
+3. global friend
+#include <iostream>
+ 
+class A
+{
+    int a;
+public:
+    A() {a = 0;}
+    friend void showA(A&); // global friend function
+};
+ 
+void showA(A& x) {
+    // Since showA() is a friend, it can access
+    // private members of A
+    std::cout << "A::a=" << x.a;
+}
+ 
+int main()
+{
+    A a;
+    showA(a);
+    return 0;
+}
+
+--> Exception Handling in C++
+1. simple example
+#include <iostream>
+using namespace std;
+ 
+int main()
+{
+   int x = -1;
+ 
+   // Some code
+   cout << "Before try \n";
+   try {
+      cout << "Inside try \n";
+      if (x < 0)
+      {
+         throw x;
+         cout << "After throw (Never executed) \n";
+      }
+   }
+   catch (int x ) {
+      cout << "Exception Caught \n";
+   }
+ 
+   cout << "After catch (Will be executed) \n";
+   return 0;
+}
+
+2. There is a special catch block called ‘catch all’ catch(…) 
+
+#include <iostream>
+using namespace std;
+ 
+int main()
+{
+    try  {
+       throw 10;
+    }
+    catch (char *excp)  {
+        cout << "Caught " << excp;
+    }
+    catch (...)  {
+        cout << "Default Exception\n";
+    }
+    return 0;
+}
+
+3. Implicit type conversion doesn’t happen for primitive types.
+#include <iostream>
+using namespace std;
+ 
+int main()
+{
+    try  {
+       throw 'a';
+    }
+    catch (int x)  {
+        cout << "Caught " << x;
+    }
+    catch (...)  {
+        cout << "Default Exception\n";
+    }
+    return 0;
+}
+
+4. If an exception is thrown and not caught anywhere, the program terminates 
+   abnormally. 
+
+#include <iostream>
+using namespace std;
+ 
+int main()
+{
+    try  {
+       throw 'a';
+    }
+    catch (int x)  {
+        cout << "Caught ";
+    }
+    return 0;
+}
+
+5. A derived class exception should be caught before a base class exception. 
+#include<iostream>
+using namespace std;
+ 
+class Base {};
+class Derived: public Base {};
+int main()
+{
+   Derived d;
+   // some other stuff
+   try {
+       // Some monitored code
+       throw d;
+   }
+   catch(Derived d) { 
+        cout<<"Caught Derived Exception";
+   }
+   catch(Base b) { 
+        cout<<"Caught Base Exception";
+   }
+   getchar();
+   return 0;
+}
+
+6. in C++, all exceptions are unchecked. Compiler doesn’t check whether an 
+exception is caught or not
+
+#include <iostream>
+using namespace std;
+ 
+// This function signature is fine by the compiler, but not recommended.
+// Ideally, the function should specify all uncaught exceptions and function
+// signature should be "void fun(int *ptr, int x) throw (int *, int)"
+void fun(int *ptr, int x)
+{
+    if (ptr == NULL)
+        throw ptr;
+    if (x == 0)
+        throw x;
+    /* Some functionality */
+}
+ 
+int main()
+{
+    try {
+       fun(NULL, 0);
+    }
+    catch(...) {
+        cout << "Caught exception from fun()";
+    }
+    return 0;
+}
+
+7.  try-catch blocks can be nested. Also, an exception can be re-thrown 
+using “throw; ”
+
+#include <iostream>
+using namespace std;
+ 
+int main()
+{
+    try {
+        try  {
+            throw 20;
+        }
+        catch (int n) {
+             cout << "Handle Partially ";
+             throw;   //Re-throwing an exception
+        }
+    }
+    catch (int n) {
+        cout << "Handle remaining ";
+    }
+    return 0;
+}
+
+8. When an exception is thrown, all objects created inside the enclosing try 
+block are destructed before the control is transferred to catch block.
+
+#include <iostream>
+using namespace std;
+ 
+class Test {
+public:
+   Test() { cout << "Constructor of Test " << endl; }
+  ~Test() { cout << "Destructor of Test "  << endl; }
+};
+ 
+int main() {
+  try {
+    Test t1;
+    throw 10;
+  } catch(int i) {
+    cout << "Caught " << i << endl;
+  }
+}
+
+**********************************************************************
+                            C
+**********************************************************************
+--> Pointers
+Read it backwards (as driven by Clockwise/Spiral Rule)...
+    int* - pointer to int
+    int const * - pointer to const int
+    int * const - const pointer to int
+    int const * const - const pointer to const int
+
+Now the first const can be on either side of the type so:
+    const int * == int const *
+    const int * const == int const * const
+
+If you want to go really crazy you can do things like this:
+    int ** - pointer to pointer to int
+    int ** const - a const pointer to a pointer to an int
+    int * const * - a pointer to a const pointer to an int
+    int const ** - a pointer to a pointer to a const int
+    int * const * const - a const pointer to a const pointer to an int
+
+--> Function Pointer in C
+#include <stdio.h>
+// A normal function with an int parameter
+// and void return type
+void fun(int a)
+{
+    printf("Value of a is %d\n", a);
+}
+ 
+int main()
+{
+    // fun_ptr is a pointer to function fun() 
+    void (*fun_ptr)(int) = &fun;
+ 
+    /* The above line is equivalent of following two
+       void (*fun_ptr)(int);
+       fun_ptr = &fun; 
+    */
+ 
+    // Invoking fun() using fun_ptr
+    (*fun_ptr)(10);
+ 
+    return 0;
+}
+
+--> set, clear and toggle a single bit in C/C++?
+Setting a bit
+Use the bitwise OR operator (|) to set a bit.
+
+number |= 1 << x;
+That will set bit x.
+
+Clearing a bit
+Use the bitwise AND operator (&) to clear a bit.
+
+number &= ~(1 << x);
+That will clear bit x. You must invert the bit string with the bitwise NOT 
+operator (~), then AND it.
+
+Toggling a bit
+The XOR operator (^) can be used to toggle a bit.
+
+number ^= 1 << x;
+That will toggle bit x.
+
+Checking a bit
+You didn't ask for this but I might as well add it.
+
+To check a bit, shift the number x to the right, then bitwise AND it:
+
+bit = (number >> x) & 1;
+That will put the value of bit x into the variable bit.
+
+Changing the nth bit to x
+Setting the nth bit to either 1 or 0 can be achieved with the following:
+
+number ^= (-x ^ number) & (1 << n);
+Bit n will be set if x is 1, and cleared if x is 0.
