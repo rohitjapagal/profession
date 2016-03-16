@@ -33,7 +33,8 @@ when same static variable name is declared in many function with same name
 07. virtual constructor possible
 08. virtual destrcutor possible
 09. size of derived class when base class private members
-10. 
+10. singleton class? write a pgm for a printer using singleton concept
+11. multi-threading
 
 
 
